@@ -5,11 +5,12 @@ import {next} from "lodash/seq.js";
 import store from "@/store/index.js";
 
 // 如果刷新，from.name为undefined
-
+// 开启或关闭token验证
+const isTokenVerify = false
 //code： 1-no_token 2-token_invalid
 
 router.beforeEach((to, from, next) => {
-    if(to.matched.some(record => record.meta.requiresAuth)){  // 需要验证的界面
+    if(to.matched.some(record => record.meta.requiresAuth) && isTokenVerify){  // 需要验证的界面
         const ticket = takeAccessToken()
         if(!ticket){ // 无token 重定向到登录页面
             store.commit('redirect/setRedirectCode','1')

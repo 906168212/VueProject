@@ -52,7 +52,73 @@ const routes = [
         path: '/game',
         name: 'game',
         component: ()=> import('@/views/GameView.vue'),
-        children: [],
+        children: [
+            {
+                path: '',
+                name:'game_index',
+                component:()=>import('@/views/game/game_main_index.vue'),
+                meta:{
+                    requiresAuth: true,
+                    data:{
+                        name:'game_index'
+                    }
+                }
+            },
+            {
+                path: 'pc',
+                name:'game_pc',
+                component:()=>import('@/views/game/game_main_common.vue'),
+                meta:{
+                    requiresAuth: true,
+                    data:{
+                        name:'game_pc'
+                    }
+                }
+            },
+            {
+                path: 'simulator',
+                name:'game_simulator',
+                component:()=>import('@/views/game/game_main_common.vue'),
+                meta:{
+                    requiresAuth: true,
+                    data:{
+                        name:'game_simulator'
+                    }
+                }
+            },
+            {
+                path: 'best',
+                name:'game_best',
+                component:()=>import('@/views/game/game_main_common.vue'),
+                meta:{
+                    requiresAuth: true,
+                    data:{
+                        name:'game_best'
+                    }
+                }
+            },
+            {
+                path: 'phone',
+                name:'game_phone',
+                component:()=>import('@/views/game/game_main_common.vue'),
+                meta:{
+                    requiresAuth: true,
+                    data:{
+                        name:'game_phone'
+                    }
+                }
+            },{
+                path: 'plug',
+                name:'game_plug',
+                component:()=>import('@/views/game/game_main_common.vue'),
+                meta:{
+                    requiresAuth: true,
+                    data:{
+                        name:'game_plug'
+                    }
+                }
+            }
+        ],
         meta:{requiresAuth: true}
     }
 ]

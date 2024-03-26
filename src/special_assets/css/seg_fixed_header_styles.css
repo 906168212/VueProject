@@ -14,3 +14,25 @@
     margin-right: 25px;
     color: var(--text1);
 }
+
+.fixed_popover_right{
+    line-height: 34px;
+}
+
+.fixed_popover_right a{
+    margin-right: 25px;
+    font-size: 15px;
+    display: inline-block;
+    color: var(--text2);
+    cursor: pointer;
+    line-height: 30px;
+}
+.fixed_popover_right a:last-child{
+    margin-right: 0;
+}
+
+.fixed_popover_right .selected_active{
+    color: var(--normal_blue);
+    border-bottom: 3px solid var(--normal_blue);
+}
+
