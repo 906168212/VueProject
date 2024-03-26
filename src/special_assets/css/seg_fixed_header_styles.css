@@ -1,0 +1,16 @@
+.fixed_popover{
+    height: var(--halihapi_header_default_height);
+    padding: 0 var(--layout-padding);
+    width: 100%;
+    max-width: calc(1980px + 2* var(--layout-padding));
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+.fixed_popover_left{
+    height: 34px;
+    font-size: 22px;
+    margin-right: 25px;
+    color: var(--text1);
+}

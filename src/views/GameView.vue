@@ -7,6 +7,7 @@ import Overlay from "@/components/Overlay.vue";
 import Index_header from "@/views/index/index_header.vue";
 import Footer from "@/components/Footer.vue";
 import Header_picture_banner from "@/components/header/header_picture_banner.vue";
+import Seg_fixed_header from "@/components/seg_fixed_header.vue";
 
 onMounted(()=>{
   window.addEventListener('scroll',handleScroll)
@@ -24,6 +25,7 @@ onUnmounted(()=>{
         <header_picture_banner/>
       </template>
     </index_header>
+    <seg_fixed_header :fixed-name="'游戏'"/>
     <Footer/>
   </div>
   <Overlay/>
