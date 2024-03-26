@@ -1,0 +1,161 @@
+@media (max-width: 1279.9px) {
+    .header-wrap_index_bd .v-popover-wrap .header_wrap_bd__test,
+    .header-wrap_index_bd .right-entry-item .v-popover-wrap .header-upload-entry .header-upload-entry__text{
+        display: none;
+    }
+    .header-wrap_index_bd .v-popover-wrap .bd_icon_box{
+        margin: 0 5px;
+        min-width: 25px;
+    }
+    .header-wrap_index_bd .header-upload-entry{
+        width: 34px;
+        height: 34px;
+        margin-left: 0;
+    }
+    .header-wrap_index_bd .header-upload-entry .header-upload-entry__icon{
+        margin: 0;
+    }
+}
+
+@media (max-width: 1219.9px) {
+    .index_columns_content .diy_pagination{
+        grid-gap: 5px;
+    }
+}
+@media (min-width: 1220px) {
+    .index_columns_content .diy_pagination{
+        grid-gap: 10px;
+    }
+}
+
+
+@media (min-width: 1100px) and (max-width: 1366.9px){
+    .header-wrap_index_bd .v-popover-wrap .bd_icon_box{
+        margin: 0 5px;
+        min-width: 25px;
+    }
+    .header-wrap_index_bd .header-upload-entry{
+        margin-left: 8px;
+    }
+    .header-wrap_index .index_hd_title,
+    .header-wrap_index .index_hd_title .mini-header__logo,
+    .header-wrap_index .header-wrap_index_hd .header_hd_item,
+    .header-wrap_index .header-wrap_index_hd .header_hd_default_title{
+        margin-right: 10px;
+    }
+    .header_channel_fixed_right{
+        font-size: 13px;
+        grid-gap: 14px 8px;
+        grid-column: span 12;
+        grid-template-columns: repeat(12,1fr);
+        grid-template-rows: repeat(2,1fr);
+    }
+    .index_columns_content{
+        --column_hd_two_width: 30%;
+    }
+    .header_picture_banner_inner{
+        padding: 0 56px;
+    }
+}
+
+@media (min-width: 2200px) {
+    .header-wrap_index .header-wrap_index_hd .header_hd_item,
+    .header-wrap_index .header-wrap_index_hd .header_hd_default_title{
+        margin-right: 20px;
+    }
+    .header_picture_banner_inner{
+        max-width: 2078px;
+    }
+}
+
+@media (min-width: 1367px) and (max-width: 1700.9px){
+    .header-wrap_index .header-wrap_index_hd .header_hd_item,
+    .header-wrap_index .header-wrap_index_hd .header_hd_default_title{
+        margin-right: 15px;
+    }
+    .header_channel_fixed_right{
+        grid-gap: 14px 10px;
+    }
+    .index_columns_content{
+        --column_hd_two_width: 33%;
+    }
+    .header_picture_banner_inner{
+        padding: 0 64px;
+    }
+}
+
+@media (min-width: 1701px) and (max-width: 2199.9px){
+    .header-wrap_index .header-wrap_index_hd .header_hd_item,
+    .header-wrap_index .header-wrap_index_hd .header_hd_default_title{
+        margin-right: 20px;
+    }
+    .header_picture_banner_inner{
+        padding: 0 96px;
+        max-width: 2270px;
+    }
+}
+
+@media (min-width: 1701px) {
+    .index_columns_content{
+        --column_hd_two_width: 33%;
+    }
+}
+
+@media (max-width: 1099.9px) {
+    .header-wrap_index .index_hd_title .mini-header__logo,
+    .header-wrap_index .header-wrap_index_hd .header_hd_item,
+    .header-wrap_index .header-wrap_index_hd .header_hd_default_title{
+        margin-right: 10px;
+    }
+    .header_channel_fixed_right{
+        font-size: 13px;
+        grid-gap: 14px 8px;
+        grid-column: span 12;
+        grid-template-columns: repeat(12,1fr);
+        grid-template-rows: repeat(2,1fr);
+    }
+    .index_columns_content{
+        --column_hd_two_width: 30%;
+    }
+    .header_picture_banner_inner{
+        padding: 0 56px;
+    }
+}
+
+@media (min-width: 1560px) {
+    :root{
+        --layout-padding: 140px;
+    }
+}
+
+@media (max-width: 1559.9px) {
+    :root{
+        --layout-padding: 60px;
+    }
+}
+
+@media (max-width: 1399.9px) {
+    .recommended-container_floor-aside>.index-container>.feed-card:nth-of-type(n + 6){
+        margin-top: 40px;
+    }
+    .recommended-container_floor-aside>.index-container>.feed-card:nth-of-type(n + 10) {
+        display: none
+    }
+    .recommended-container_floor-aside>.index-container{
+        grid-column: span 4;
+        grid-template-columns: repeat(4,1fr);
+    }
+}
+
+@media (min-width: 1400px){
+    .recommended-container_floor-aside>.index-container>.feed-card:nth-of-type(n + 8){
+        margin-top: 40px;
+    }
+    .recommended-container_floor-aside>.index-container>.feed-card:nth-of-type(n + 10) {
+        display: block;
+    }
+    .recommended-container_floor-aside>.index-container{
+        grid-column: span 5;
+        grid-template-columns: repeat(5,1fr);
+    }
+}

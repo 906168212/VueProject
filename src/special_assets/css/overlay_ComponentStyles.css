@@ -1,0 +1,19 @@
+#white-overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 999999; /* 确保在 Vue App 下方显示 */
+}
+
+.overlay-leave-from{
+    opacity: 1;
+}
+.overlay-leave-active{
+    transition: opacity .3s;
+}
+.overlay-leave-to{
+    opacity: 0;
+}

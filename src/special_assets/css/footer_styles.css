@@ -1,0 +1,19 @@
+.footer{
+    margin: 0 auto;
+    width: 100%;
+    padding: 20px 0;
+    line-height: 1.5;
+    max-width: 2560px;
+    font-size: 12px;
+    color: #504949;
+    text-align: center; /* 文字居中 */
+    position: relative;
+    background: none;
+}
+
+.footer__text-copryright{
+    padding: 0 2px 0 4px;
+}
+.footer__text-date{
+    padding: 0 4px 0 2px;
+}

@@ -1,0 +1,52 @@
+.form_wrap.login{
+    margin-top: 200px;
+}
+
+.password_popover{
+    margin-bottom: 10px;
+}
+
+.remember_and_forget_popover{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 25px;
+}
+
+.remember_and_forget_popover .popover_left{
+    display: flex;
+    align-items: center;
+}
+
+.remember_and_forget_popover .popover_right{
+    flex: 1 auto;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 5px;
+}
+.remember_and_forget_popover .popover_right a{
+    cursor: pointer;
+    transition: color .3s;
+}
+.remember_and_forget_popover .popover_right a:hover{
+    color: var(--normal_blue);
+}
+.form_btn{
+    background-color: var(--color_pink);
+}
+.form_btn:hover{
+    background-color: var(--color_pink_hold);
+}
+
+.usernameError-enter-from,.usernameError-leave-to,
+.passwordError-enter-from,.passwordError-leave-to,
+.responseError-enter-from,.responseError-leave-to{
+    opacity: 0;
+}
+.usernameError-enter-active,.usernameError-leave-active,
+.passwordError-enter-active,.passwordError-leave-active,
+.responseError-enter-active,.responseError-leave-active{
+    transition: opacity .2s;
+}
+
+

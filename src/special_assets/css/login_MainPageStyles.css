@@ -1,0 +1,14 @@
+#loginPage{
+    position: relative;
+    background: url("@/assets/bg/bg-register.jpg") 50% 50%;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    max-width: 2560px;
+    margin: 0 auto;
+    max-height: 1200px;
+    min-height: 720px;
+}
+
+

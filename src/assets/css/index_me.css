@@ -1,0 +1,182 @@
+:root{
+    --color_pink:#fb7299;
+    --color_pink_hold: #fa7fa2;
+    --color_white:#FFFFFF;
+    --bg_light_blue:#9dd9ec;
+    --bg_white:#FFFFFF;
+}
+
+.form_wrap{
+    position: relative;
+    display: flex;
+    /*flex: 1 auto;*/
+    justify-content: center;
+}
+.form_wrap_container{
+    width: 400px;
+    padding: 20px 40px 20px 40px;
+    border-radius: 8px;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+.large_logo_entry{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form_entry{
+    width: 100%;
+    font-size: 14px;
+}
+
+.input_popover{
+    margin-top: 16px;
+    position: relative;
+    z-index: 3;
+}
+.input_popover:first-child{
+    margin-top: 0;
+}
+
+.form_entry .input_popover input,.form_entry .input_popover button{
+    padding: 8px;
+    width: 100%;
+    line-height: 1.3;
+    background-color: rgba(255, 255, 255, .6);
+    border: 1px solid transparent;          /*transparent 用于隐藏border，但预留了位置*/
+    border-radius: 6px;
+    -webkit-backdrop-filter: blur(40px);
+    backdrop-filter: blur(40px);
+    transition: .3s;
+    font-size: inherit;
+}
+
+.form_entry .input_popover input:focus{
+    color: var(--text1);
+    border-color: var(--normal_blue);
+}
+.form_entry .input_popover input:not(.error):hover:not(:focus){
+    border-color: var(--line_thick);
+}
+.form_entry .input_popover input.error{
+    border-color: var(--line_error);
+    color: var(--text-error);
+}
+
+.form_entry .error-tips{
+    color: var(--text-error);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.form_entry .error-tips:before{
+    content: "";
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    background-image: url(@/assets/image/icon-error.png);
+    background-position: 50% 50%;
+    background-size: cover;
+    margin-right: 3px;
+}
+
+.form_entry .error-tips-wrap{
+    padding-top: 4px;
+    height: 18px;
+    position: relative;
+    line-height: 1;
+    transition: .2s cubic-bezier(.55,0,.1,1);
+}
+
+.form_btn{
+    margin-top: 32px;
+    padding: 11px 0;
+    width: 100%;
+    font-size: 14px;
+    line-height: 1.5;
+    cursor: pointer;
+    color: var(--text-white);
+    background-color: var(--normal_blue);
+    border-radius: 6px;
+    letter-spacing: 4px;
+    transition: background-color .3s;
+}
+
+.password_popover .eye{
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    width: 16px;
+    height: 16px;
+    background: url("@/assets/image/icon-eye-visible.png") 50% 50%;
+    background-size: cover;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.password_popover .eye.close{
+    background: url("@/assets/image/icon-eye-invisible.png") 50% 50%;
+    background-size: cover;
+}
+
+.diy_checkbox{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+input[type="checkbox"]{
+    display: none;
+}
+
+.diy_check_box_style{
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    position: relative;
+    border: 1px solid var(--text2);
+    border-radius: 50%;
+    margin-left: 5px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked +label {
+    border: none;
+    background-color: var(--color_pink); /* 设置选中时的背景颜色 */
+}
+input[type="checkbox"]:checked +label  .check_icon{
+    display: block;
+}
+
+.check_icon{
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    display: none;
+    user-select:none;
+}
+
+.input_flag_wrap{
+    position: absolute;
+    right: 0;
+    z-index: 1;
+}
+
+.input_ok{
+    width: 16px;
+    height: 16px;
+    margin: 12px;
+    background-position: 50% 50%;
+    background-image: url(../image/icon-tick.png);
+    background-size: cover;
+}
+
+.password_popover .input_ok{
+    margin-right: 40px!important;
+}
