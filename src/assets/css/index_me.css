@@ -1,4 +1,5 @@
 :root{
+    --halihapi_header_default_height:64px;
     --color_pink:#fb7299;
     --color_pink_hold: #fa7fa2;
     --color_white:#FFFFFF;
@@ -179,4 +180,10 @@ input[type="checkbox"]:checked +label  .check_icon{
 
 .password_popover .input_ok{
     margin-right: 40px!important;
+}
+
+.channel_layout{
+    margin: 0 auto;
+    padding: 0 var(--layout-padding);
+    max-width: calc(1980px + 2 * var(--layout-padding));
 }

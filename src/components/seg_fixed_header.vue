@@ -1,24 +1,17 @@
 <script setup>
-import {computed, ref} from "vue";
+import {currentGamePage, game_class} from "../special_assets/js/seg_fixed_header.js";
 import store from "@/store/index.js";
-
-const prop = defineProps({
+const props = defineProps({
   fixedName:{
     type: String,
     required:true
   }
 })
 const emit = defineEmits(['selectedId'])
-const game_class = [
-  {id:1,name:'首页',href:''},{id:2,name:'PC游戏',href:''},{id:3,name:'模拟器游戏',href:''},
-  {id:4,name:'至高之神',href:''},{id:5,name:'手机游戏',href:''},{id:6,name:'游戏插件',href:''}
-]
-const currentGamePage = computed(()=>store.state.game.gamePage)
 const handleLinkClick=(linkId)=>{
   store.commit('game/setGamePage',linkId)
   emit('selectedId',currentGamePage.value)
 }
-
 </script>
 
 <template>

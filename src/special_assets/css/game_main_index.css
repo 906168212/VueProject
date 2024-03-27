@@ -1,0 +1,33 @@
+.main_part{
+    position: relative;
+    width: 100%;
+}
+.game_carousel_popover{
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+.v-img{
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    background-color: var(--bg-thick);
+    border-radius: 6px;
+    transition: .5s;
+}
+
+.v-img img{
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.game_carousel_swiper{
+    transition: .5s;
+}
+
+
