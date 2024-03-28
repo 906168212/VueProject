@@ -6,6 +6,9 @@
     --swiper-pagination-color: var(--normal_blue);
     --swiper-navigation-color: var(--color_white);
     --swiper-navigation-size: 12px;
+    --header_height:34px;
+    --header_mb:15px;
+    --header_fz:22px;
 }
 .game_carousel_popover{
     position: relative;
@@ -111,7 +114,26 @@
     grid-column: span 4;
     min-height: 400px;
 }
-
+.game_header{
+    height: var(--header_height);
+    margin-bottom: var(--header_mb);
+}
+.game_header_test{
+    font-size: var(--header_fz);
+    line-height: 34px;
+    color: var(--text1);
+}
+.game_card_left_body{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    grid-template-rows: repeat(2,1fr);
+    grid-gap: 20px 0;
+}
+.game_card_right_body{
+    display: grid;
+    grid-template-rows: repeat(2,1fr);
+    grid-gap: 20px 10px;
+}
 
 @keyframes skeleton_loading {
     0% {

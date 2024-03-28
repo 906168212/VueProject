@@ -103,10 +103,7 @@
 }
 
 .header_channel_fixed_right{
-    grid-gap: 14px 10px;
-    grid-column: span 14;
-    grid-template-columns: repeat(14,1fr);
-    grid-template-rows: repeat(1,1fr);
+    /*grid-template-rows: repeat(2,1fr);*/
 }
 
 .header_channel_fixed_arrow{

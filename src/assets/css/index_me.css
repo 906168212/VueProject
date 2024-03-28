@@ -5,6 +5,12 @@
     --color_white:#FFFFFF;
     --bg_light_blue:#9dd9ec;
     --bg_white:#FFFFFF;
+    --bg_regular:#F1F2F3;
+    --bg_thin: #F6F7F8;
+    --bg_black:#000000;
+    --text1: #18191C;
+    --text2: #61666D;
+    --text3: #9499A0;
 }
 
 .form_wrap{
@@ -187,3 +193,192 @@ input[type="checkbox"]:checked +label  .check_icon{
     padding: 0 var(--layout-padding);
     max-width: calc(1980px + 2 * var(--layout-padding));
 }
+
+
+/*image common*/
+.v-image{
+    position: relative;
+    display: inline-block;
+    line-height: 1;
+    width: 100%;
+    height: 100%;
+    vertical-align: middle;
+    background-color: var(--bg_regular);
+}
+.v-image img{
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: inherit;
+}
+/*card styles*/
+
+.feed_card_popover{
+    position: relative;
+    --cover_radio:56.25%;
+    --border_raduis:6px;
+    --info_mt:8px;
+    --title_line_height:22px;
+    --subtitle_line_height:17px;
+    --title_pr:16px;
+    --title_fs:15px;
+    --subtitle_fs:13px;
+    --subtitle_mt:4px;
+    --subtitle_icon_mr:2px;
+    --subtitle_date_ml:4px;
+}
+
+
+
+.shim_card{
+    width: 100%;
+    height: 0;
+    padding-top: var(--cover_radio);
+}
+.card_skeleton{
+    pointer-events: none;
+    user-select: none;
+}
+.card_skeleton.hide{
+    visibility: hidden;
+}
+.card_skeleton__cover{
+    padding-top: var(--cover_radio);
+    border-radius: var(--border_raduis);
+    background-color: var(--bg_regular);
+}
+.card_skeleton__info{
+    margin-top: var(--info_mt);
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.card_skeleton__info_inner{
+    min-width: 0;
+    flex: 1;
+}
+.card_skeleton__info_test{
+    margin-bottom: 4px;
+    width: 94%;
+    height: calc(var(--title_line_height) - var(--subtitle_mt));
+    border-radius: 4px;
+    background-color: var(--bg_regular);
+}
+.card_skeleton__info_test.short{
+    width: 72%;
+}
+.card_skeleton__info_light{
+    margin-top: 8px;
+    width: 50%;
+    height: var(--subtitle_line_height);
+    border-radius: 4px;
+    background-color: var(--bg_regular);
+}
+.card_wrap{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    background-color: var(--bg_white);
+}
+
+.card_image_link{
+    position: relative;
+    cursor: pointer;
+}
+
+.card_image_popover{
+    padding-top: var(--cover_radio);
+}
+
+.card_picture_entry{
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--border_raduis);
+    object-fit: cover;
+}
+.card_info_entry{
+    margin-top: var(--info_mt);
+    min-height: calc(var(--title_line_height) * 2 + var(--subtitle_line_height) + var(--subtitle_mt));
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.card_info_inner{
+    min-width: 0;
+    flex: 1;
+    position: relative;
+}
+
+.card_info_title{
+    padding-right: var(--title_pr);
+    font-size: var(--title_fs);
+    color: var(--text1);
+    line-height: var(--title_line_height);
+    height: calc(2 * var(--title_line_height));
+    display: -webkit-box;
+    overflow: hidden;       /*多的隐藏掉*/
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical; /*多的会用省略号代替，与-webkit-box联用*/
+    word-break: break-word!important;
+    line-break: anywhere;
+    -webkit-line-clamp: 2;
+}
+
+.card_info__button{
+    margin-top: var(--subtitle_mt);
+    color: var(--text3);
+    font-size: var(--subtitle_fs);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.card_info__author{
+    cursor: pointer;
+    transition: color .2s linear;
+    display: inline-flex;
+    display: -webkit-inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    line-height: var(--subtitle_line_height);
+}
+
+.card_info__author_icon{
+    margin-right: var(--subtitle_icon_mr);
+    height: calc(var(--subtitle_line_height) - 1px) ;
+    width:  calc(var(--subtitle_line_height) - 1px) ;
+}
+
+.card_info__author_name{
+    flex: 1;
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word!important;
+    line-break: anywhere;
+    -webkit-line-clamp: 1;
+    line-height: inherit;
+}
+
+.card_info__date{
+    margin-left: var(--subtitle_date_ml);
+    line-height: inherit;
+}
+
+.card_info_title a{
+    transition: color .2s linear;
+    cursor: pointer;
+}
+
+.card_info_title a:hover,.card_info__author:hover{
+    color: var(--normal_blue);
+}
+

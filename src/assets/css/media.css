@@ -38,7 +38,10 @@
     .header_picture_banner_inner{
         max-width: 2078px;
     }
-
+    .header_channel_fixed_right{
+        grid-gap: 14px 10px;
+        grid-template-columns: repeat(14,1fr);
+    }
     .swiper_slide_size{
         width: 918px!important;
         height: 270px!important;
@@ -53,7 +56,10 @@
         padding: 0 96px;
         max-width: 2270px;
     }
-
+    .header_channel_fixed_right{
+        grid-gap: 14px 10px;
+        grid-template-columns: repeat(14,1fr);
+    }
     .swiper_slide_size{
         width: 918px!important;
         height: 270px!important;
@@ -66,6 +72,7 @@
     }
     .header_channel_fixed_right{
         grid-gap: 14px 10px;
+        grid-template-columns: repeat(14,1fr);
     }
     .index_columns_content{
         --column_hd_two_width: 33%;
@@ -96,9 +103,7 @@
     .header_channel_fixed_right{
         font-size: 13px;
         grid-gap: 14px 8px;
-        grid-column: span 12;
-        grid-template-columns: repeat(12,1fr);
-        grid-template-rows: repeat(2,1fr);
+        grid-template-columns: repeat(11,1fr);
     }
     .index_columns_content{
         --column_hd_two_width: 30%;
@@ -122,9 +127,7 @@
     .header_channel_fixed_right{
         font-size: 13px;
         grid-gap: 14px 8px;
-        grid-column: span 12;
-        grid-template-columns: repeat(12,1fr);
-        grid-template-rows: repeat(2,1fr);
+        grid-template-columns: repeat(11,1fr);
     }
     .index_columns_content{
         --column_hd_two_width: 30%;
@@ -161,10 +164,10 @@
 }
 
 @media (max-width: 1399.9px) {
-    .recommended-container_floor-aside>.index-container>.feed-card:nth-of-type(n + 6){
+    .recommended-container_floor-aside>.index-container>.feed_card_popover:nth-of-type(n + 6){
         margin-top: 40px;
     }
-    .recommended-container_floor-aside>.index-container>.feed-card:nth-of-type(n + 10) {
+    .recommended-container_floor-aside>.index-container>.feed_card_popover:nth-of-type(n + 10) {
         display: none
     }
     .recommended-container_floor-aside>.index-container{
@@ -174,10 +177,10 @@
 }
 
 @media (min-width: 1400px){
-    .recommended-container_floor-aside>.index-container>.feed-card:nth-of-type(n + 8){
+    .recommended-container_floor-aside>.index-container>.feed_card_popover:nth-of-type(n + 8){
         margin-top: 40px;
     }
-    .recommended-container_floor-aside>.index-container>.feed-card:nth-of-type(n + 10) {
+    .recommended-container_floor-aside>.index-container>.feed_card_popover:nth-of-type(n + 10) {
         display: block;
     }
     .recommended-container_floor-aside>.index-container{
