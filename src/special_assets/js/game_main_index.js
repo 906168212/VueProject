@@ -4,11 +4,11 @@ import SwiperCore, {Autoplay, EffectCoverflow, Navigation, Pagination, Scrollbar
 SwiperCore.use([Autoplay,Pagination,Navigation,Scrollbar,EffectCoverflow])
 
 export const swiperImage = ref([
-    {src:'https://picsum.photos/918/270?1',hasLoaded:false},
-    {src:'https://picsum.photos/918/270?2',hasLoaded:false},
-    {src:'https://picsum.photos/918/270?3',hasLoaded:false},
-    {src:'https://picsum.photos/918/270?4',hasLoaded:false},
-    {src:'https://picsum.photos/918/270?5',hasLoaded:false}
+    {src:'https://picsum.photos/918/270?1',alt:'第一个',hasLoaded:false},
+    {src:'https://picsum.photos/918/270?2',alt:'第二个',hasLoaded:false},
+    {src:'https://picsum.photos/918/270?3',alt:'第三个',hasLoaded:false},
+    {src:'https://picsum.photos/918/270?4',alt:'第四个',hasLoaded:false},
+    {src:'https://picsum.photos/918/270?5',alt:'第五个',hasLoaded:false}
 ])
 
 export const swiper_game={

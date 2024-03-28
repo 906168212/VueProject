@@ -21,9 +21,11 @@ const props = defineProps({
           <a class="img_inner">
             <picture class="v-img" :class="{image_loading:!swiperImage[index].hasLoaded}">
               <source :srcset="slide.src" type="image/avif">
-              <img :src="slide.src" alt="" @load="handleLoaded(index)"/>
+              <img :src="slide.src" :alt="slide.alt" @load="handleLoaded(index)"/>
             </picture>
-            <div class="v_img_mask"></div>
+            <div class="v_img_mask">
+              <p class="v_img_alt_test">{{slide.alt}}</p>
+            </div>
           </a>
         </swiper-slide>
         <div class="swiper_button_popover">
@@ -34,6 +36,14 @@ const props = defineProps({
         </div>
       </swiper>
       <div class="swiper-pagination"></div>
+    </div>
+    <div class="game_gird_popover">
+      <div class="game_featured_entry">
+
+      </div>
+      <div class="game_relate_update_entry">
+
+      </div>
     </div>
   </div>
 </template>
