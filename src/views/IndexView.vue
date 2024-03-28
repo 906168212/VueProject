@@ -8,6 +8,7 @@ import Overlay from "@/components/Overlay.vue";
 import {Nav} from "@/api/navApi.js";
 import {handleScroll} from "@/utils/utils.js";
 import Header_video_banner from "@/components/header/header_video_banner.vue";
+import router from "@/router/index.js";
 
 
 

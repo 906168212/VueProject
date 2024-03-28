@@ -4,37 +4,45 @@ import SwiperCore, {Autoplay, EffectCoverflow, Navigation, Pagination, Scrollbar
 SwiperCore.use([Autoplay,Pagination,Navigation,Scrollbar,EffectCoverflow])
 
 export const swiperImage = ref([
-    {src:'./src/assets/image/game_carousel_1.avif'},
-    {src:'./src/assets/image/game_carousel_2.avif'},
-    {src:'./src/assets/image/game_carousel_3.avif'},
-    {src:'./src/assets/image/game_carousel_4.avif'},
-    {src:'./src/assets/image/game_carousel_5.avif'},
+    {src:'https://picsum.photos/918/270?1',hasLoaded:false},
+    {src:'https://picsum.photos/918/270?2',hasLoaded:false},
+    {src:'https://picsum.photos/918/270?3',hasLoaded:false},
+    {src:'https://picsum.photos/918/270?4',hasLoaded:false},
+    {src:'https://picsum.photos/918/270?5',hasLoaded:false}
 ])
 
 export const swiper_game={
     loop:true,
     autoplay:{
-        delay:2000,
+        delay:3000,
         disableOnInteraction:false,
         pauseOnMouseEnter:true
     },
+    pagination:{
+        el:'.swiper-pagination',
+        bulletElement: 'li',
+        clickable:true
+    },
+    navigation:{
+        prevEl:'.swiper-button-prev',
+        nextEl:'.swiper-button-next'
+    },
     effect:'coverflow',
+    roundLengths:true,
     slidesPerView: 'auto',  // 用于控制显示图片的宽
     loopedSlides: 5,
     centeredSlides: true,
     coverflowEffect: {
         rotate: 0,
-        stretch: 120,
+        stretch: 80,
         depth: 150,
         modifier: 1,
         slideShadows : true
     },
 }
-const swiperValue = ref(null)
-export const getSwiper = (swiper)=>{
-    swiperValue.value = swiper
+
+export const handleLoaded=(index)=>{
+    console.log(swiperImage.value[index])
+    swiperImage.value[index].hasLoaded = true
 }
 
-export const handleImageLoad=()=>{
-    swiperValue.value.update()
-}

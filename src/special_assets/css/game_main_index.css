@@ -1,33 +1,96 @@
+
 .main_part{
     position: relative;
     width: 100%;
+    --arrow-box-size: 40px;
+    --swiper-pagination-color: var(--normal_blue);
+    --swiper-navigation-color: var(--color_white);
+    --swiper-navigation-size: 12px;
 }
 .game_carousel_popover{
-    overflow: hidden;
+    position: relative;
     display: flex;
     align-items: center;
+    transition: .5s;
 }
 .v-img{
-    position: relative;
+    position: absolute;
     display: inline-block;
-    line-height: 1;
     width: 100%;
     height: 100%;
-    vertical-align: middle;
-    background-color: var(--bg-thick);
-    border-radius: 6px;
     transition: .5s;
+    background-color: var(--bg-thick);
+    border-radius: 8px!important;
 }
 
 .v-img img{
     width: 100%;
     height: 100%;
-    border-radius: 6px;
     object-fit: cover;
-}
-
-.game_carousel_swiper{
     transition: .5s;
+    border-radius: inherit;
 }
 
+.swiper_button_popover{
+    position: absolute;
+    height: var(--arrow-box-size);
+    width: 100%;
+    top: 50%;
+    margin-top: calc( 0px - var(--arrow-box-size)/2);
+}
+
+.swiper_button_inner{
+    height: 100%;
+    position: relative;
+}
+
+.swiper-button-style{
+    width: var(--arrow-box-size);
+    height: var(--arrow-box-size);
+    background: rgba(255,255,255,.2);
+    border-radius: 8px;
+    margin-top: 0;
+    top: 0;
+}
+
+.swiper-button-prev{
+    left: 24px;
+}
+.swiper-button-next{
+    right: 24px;
+}
+.swiper-button-style:hover{
+    background-color: rgba(255,255,255,.3);
+}
+
+.image_loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.image_loading::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(-45deg,var(--graph_bg_regular) 25%,var(--bg1) 45%,var(--graph_bg_regular) 65%);
+    background-size: 400% 100%;
+    animation: skeleton_loading 1.2s ease-in-out infinite;
+}
+
+.img_inner{
+
+}
+
+
+@keyframes skeleton_loading {
+    0% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
 

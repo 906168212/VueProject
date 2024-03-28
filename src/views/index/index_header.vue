@@ -8,6 +8,8 @@ import {
   scrollChannelStatus, search, searchClean, transitionType, user
 } from "@/special_assets/js/index/index_header";
 import {onUnmounted} from "vue";
+import router from "@/router/index.js";
+import {from} from "node-vibrant";
 
 onUnmounted(()=>{
   resetData()

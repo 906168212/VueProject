@@ -51,6 +51,7 @@
     width: 100%;
     height: 100%;
     transition: .5s;
+    background-color: var(--bg-thick);
   }
   .v-img img{
     width: 100%;

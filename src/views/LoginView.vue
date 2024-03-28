@@ -4,6 +4,8 @@
   import Header_for_login_and_register from "@/components/header_for_login_and_register.vue";
   import Login_form from "@/views/login/login_form.vue";
   import Overlay from "@/components/Overlay.vue";
+
+
 </script>
 
 <template>
