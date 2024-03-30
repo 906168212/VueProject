@@ -399,7 +399,7 @@ input[type="checkbox"]:checked +label  .check_icon{
     --author_mt:4px;
     --author_fs:13px;
     --author_icon_mr:2px;
-    --author_date_ml:4px;
+    --author_date_ml:8px;
     --title_pr:16px;
     --title_fs:20px;
     --title_line_height:27px;
@@ -602,6 +602,6 @@ input[type="checkbox"]:checked +label  .check_icon{
     right: 0;
     margin-right: calc(var(--mr) + 10px );
 }
-.big_card__data_icon.visitor{
+.big_card__data_icon.visitor,.big_card__data_icon.review{
     margin-top: 2px;
 }

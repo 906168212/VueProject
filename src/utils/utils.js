@@ -1,6 +1,7 @@
 //返回时间
 import router from "@/router/index.js";
 import store from "@/store/index.js";
+import errorImage from "@/assets/image/errorImage.webp"
 
 export function backLogin(backTime,push){
     // 设置定时器，每秒更新一次冷却时间
@@ -61,6 +62,9 @@ export const handleScroll=()=>{
 }
 
 
-
-
+export function onImageError(article){
+    article.pic = errorImage
+    article.alt = '诶哟，网络异常，加载出错咯！'
+    article.desc = '诶哟，网络异常，加载出错咯！'
+}
 
