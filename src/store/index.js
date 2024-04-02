@@ -11,7 +11,9 @@ const store = createStore({
         game:gameModule
         //其他模块
     },
-    plugins: [createPersistedState()]
+    plugins: [createPersistedState({
+        paths:["game"]
+    })]
 });
 
 export default store;

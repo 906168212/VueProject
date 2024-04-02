@@ -10,6 +10,7 @@ import Seg_fixed_header from "@/components/seg_fixed_header.vue";
 import router from "@/router/index.js";
 import {useRouter} from "vue-router";
 import store from "@/store/index.js";
+import SvgIcon from "@/components/svgIcon/index.vue";
 
 onMounted(()=>{
   window.addEventListener('scroll',handleScroll)
@@ -55,8 +56,5 @@ onMounted(()=>{
 <style  scoped>
 #game{
   position: relative;
-  background: var(--background-white);
-  max-width: 2560px;
-  margin: 0 auto;
 }
 </style>

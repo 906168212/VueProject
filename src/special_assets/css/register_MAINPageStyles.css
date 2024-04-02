@@ -1,15 +1,10 @@
 #RegisterPage{
-    margin: 0 auto;
-    height: 100%;
-    position: relative;
-    max-width: 2560px;
+    height: 100vh;
+    min-height: 720px;
     background: url("@/assets/bg/bg-register.jpg") 50% 50%;
     background-size: cover;
-    z-index: 0;
-    max-height: 1200px;
     display: flex;
     flex-direction: column;
-    min-width: 720px;
 }
 
 

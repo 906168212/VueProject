@@ -6,9 +6,6 @@
     --swiper-pagination-color: var(--normal_blue);
     --swiper-navigation-color: var(--color_white);
     --swiper-navigation-size: 12px;
-    --header_height:34px;
-    --header_mb:15px;
-    --header_fz:22px;
 }
 .game_carousel_popover{
     position: relative;
@@ -102,37 +99,11 @@
     font-weight: 500;
 }
 
-.game_gird_popover{
-    position: relative;
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(5,1fr);
-    grid-gap: 20px 10px;
-    margin-bottom: 56px;
-}
-.game_featured_entry{
-    grid-column: span 4;
-}
-.game_header{
-    height: var(--header_height);
-    margin-bottom: var(--header_mb);
-}
-.game_header_test{
-    font-size: var(--header_fz);
-    line-height: var(--header_height);
-    color: var(--text1);
-}
-.game_card_left_body{
-    height: calc(100% - var(--header_height) - var(--header_mb));
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    grid-template-rows: repeat(2,1fr);
-    grid-gap: 20px 10px;
-}
-.game_card_right_body{
-    display: grid;
-    grid-template-rows: repeat(2,1fr);
-    grid-gap: 20px 0;
+.primary_btn .roll_btn{
+    height: auto;
+    padding: 8px 12px;
+    line-height: 16px;
+    font-size: 13px;
 }
 
 @keyframes skeleton_loading {

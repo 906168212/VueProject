@@ -1,7 +1,6 @@
 // 全局前置守卫
 import router from "@/router/index.js";
 import {deleteAccessToken, takeAccessToken} from "@/utils/utils.js";
-import {next} from "lodash/seq.js";
 import store from "@/store/index.js";
 
 // 如果刷新，from.name为undefined

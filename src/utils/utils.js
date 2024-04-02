@@ -1,7 +1,10 @@
 //返回时间
 import router from "@/router/index.js";
 import store from "@/store/index.js";
-import errorImage from "@/assets/image/errorImage.webp"
+import errorImage_webp from "@/assets/image/errorImage.webp"
+import errorImage_avif from "@/assets/image/errorImage.avif"
+import errorImage from "@/assets/image/errorImage.png"
+import {cardInfo} from "@/api/dataInfo.js";
 
 export function backLogin(backTime,push){
     // 设置定时器，每秒更新一次冷却时间
@@ -63,8 +66,14 @@ export const handleScroll=()=>{
 
 
 export function onImageError(article){
+    article.pic_avif = errorImage_avif
+    article.pic_webp = errorImage_webp
     article.pic = errorImage
-    article.alt = '诶哟，网络异常，加载出错咯！'
-    article.desc = '诶哟，网络异常，加载出错咯！'
+    article.alt = '网络异常，加载出错咯'
+    article.desc = '网络异常，加载出错咯'
+}
+
+export const createCardInfo =(length)=>{
+    return Array.from({ length: length }, () => new cardInfo())
 }
 
