@@ -5,7 +5,7 @@ export class cardInfo {
     alt = ''
     desc=''
     pic_avif = ''
-    pic_webp = ''
+    pic_webp = `https://picsum.photos/672/378.webp?${Math.random()}`
     pic = ''
     visitor = 0
     review = 0

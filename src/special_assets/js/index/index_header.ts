@@ -25,7 +25,6 @@ class Animation {
 }
 
 class User {
-    svgPath = 'src/assets/svg/'
     current_level = 1
     current_vip = 0
     current_level_name = '新手上路'
@@ -50,6 +49,7 @@ export const search = reactive(new Search())
 export const mouse = reactive(new Mouse())
 export const animation = reactive(new Animation())
 export const user=reactive(new User())
+export const header_left = ['在线视频','暂定','网站公告','漫画','番剧']
 
 export const links = [
     {id: 1, name: '动漫',href:''},{id: 2, name: '漫画',href:''},{id: 3, name: '游戏',href:'/game'},{id: 4, name: '吃瓜',href:''},
@@ -124,14 +124,6 @@ export const handleHeaderSearchFocus=()=>{
 }
 export const handleHeaderSearchBlur=()=>{
     headerSearchFocus.value = false
-}
-
-export const getUserLevelSvg =(level)=>{
-    if(level>6) level = 6
-    return user.svgPath+'user_level_'+level+'.svg'
-}
-export const getUserVipSvg = (vip)=>{
-    return user.svgPath+'vip_'+vip+'.svg'
 }
 
 export const searchClean=()=>{

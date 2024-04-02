@@ -2,6 +2,7 @@
 
 import {onImageError} from "@/utils/utils.js";
 import SvgIcon from "@/components/svgIcon/index.vue";
+import {onUnmounted, ref} from "vue";
 
   defineProps({
     article:{
@@ -9,41 +10,44 @@ import SvgIcon from "@/components/svgIcon/index.vue";
       required:true
     }
   })
-
+const loadStatus = ref(false)
+onUnmounted(()=>{
+  loadStatus.value = false
+})
 </script>
 
 <template>
   <div class="big_card_popover">
-    <div class="big_card_skeleton">
-      <div class="big_card_skeleton__cover">
+    <div class="big_card_skeleton" :class="{hide:loadStatus}">
+      <div class="big_card_skeleton__cover" :class="{image_loading:!loadStatus}">
         <div class="big_card_skeleton__cover_inner"></div>
       </div>
       <div class="big_card_skeleton__right">
         <div class="big_card_skeleton__right_inner">
-          <p class="big_card_skeleton__title"></p>
-          <p class="big_card_skeleton__title short"></p>
+          <p class="big_card_skeleton__title" :class="{image_loading:!loadStatus}"></p>
+          <p class="big_card_skeleton__title short" :class="{image_loading:!loadStatus}"></p>
         </div>
-        <div class="big_card_skeleton__article_where"></div>
+        <div class="big_card_skeleton__article_where" :class="{image_loading:!loadStatus}"></div>
         <div class="big_card_skeleton__data_box">
-          <div class="big_card_skeleton__data"></div>
+          <div class="big_card_skeleton__data" :class="{image_loading:!loadStatus}"></div>
         </div>
       </div>
       <div class="big_card_skeleton__bottom">
         <div class="big_card_skeleton__bottom_inner">
-          <p class="big_card_skeleton___desc"></p>
-          <p class="big_card_skeleton___desc short"></p>
-          <p class="big_card_skeleton__light"></p>
+          <p class="big_card_skeleton___desc" :class="{image_loading:!loadStatus}"></p>
+          <p class="big_card_skeleton___desc short" :class="{image_loading:!loadStatus}"></p>
+          <p class="big_card_skeleton__light" :class="{image_loading:!loadStatus}"></p>
         </div>
       </div>
     </div>
-    <div class="big_card">
+    <div class="big_card" :class="{hide:!loadStatus}">
       <div class="big_card_wrap">
         <a class="big_card_image_link">
           <div class="big_card_image_popover">
             <picture class="v-image big_card_image_entry">
               <source :srcset="article.pic_avif" type="image/avif">
               <source :srcset="article.pic_webp" type="image/webp">
-              <img :src="article.pic" :alt="article.alt" @error="onImageError(article)">
+              <img :src="article.pic" :alt="article.alt" @load="loadStatus=true" @error="loadStatus=true;onImageError(article)">
             </picture>
           </div>
         </a>

@@ -4,7 +4,8 @@ import BigCard from "@/components/bigCard.vue";
 import Card from "@/components/card.vue";
 import {onImageError} from "@/utils/utils.js";
 import SvgIcon from "@/components/svgIcon/index.vue";
-import {ref} from "vue";
+import {onUnmounted, ref} from "vue";
+import Image_banner from "@/components/image_banner.vue";
 
 
 const props = defineProps({
@@ -28,9 +29,17 @@ const props = defineProps({
   }
 })
 const rotateDeg = ref(0)
+const imageLoadError = ref(false)
+const resetData=()=>{
+  rotateDeg.value = 0;
+  imageLoadError.value = false
+}
 const rotate = ()=>{
   rotateDeg.value += 360
 }
+onUnmounted(()=>{
+  resetData()
+})
 </script>
 
 <template>
@@ -93,9 +102,7 @@ const rotate = ()=>{
     </aside>
 
   </div>
-  <div class="image_banner_popover" v-if="showImage">
-    <img :src="`https://picsum.photos/2320/192.webp?${Math.random()}`" alt="" loading="lazy" >
-  </div>
+  <image_banner :show-image="showImage"/>
 </template>
 
 <style scoped>

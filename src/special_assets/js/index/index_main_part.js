@@ -7,6 +7,7 @@ import transformTest6 from '@/assets/image/transform_test_6.avif';
 import colorthief from 'colorthief';
 import SwiperCore, {Autoplay, Navigation, Pagination, Scrollbar} from "swiper";
 import {onMounted, reactive, ref} from "vue";
+import {createCardInfo} from "@/utils/utils.js";
 
 SwiperCore.use([Autoplay,Pagination,Navigation,Scrollbar])
 
@@ -30,13 +31,15 @@ export const noticeSwiper=[
     '账号、充值&帮助说明',
     '其他相关说明'
 ]
+const Article = createCardInfo(11)
+export const indexArticle = reactive(Article)
 export const currentSlideIndex = ref(0);
 export const updateCaption = (event) => {
     if(event.activeIndex-1>=9) currentSlideIndex.value = 0;
     else currentSlideIndex.value=event.activeIndex-1;
 }
 
-export const swiper_recommended =reactive({
+export const swiper_recommended ={
     loop:true,
     autoplay:{
         autoplay:true,
@@ -54,7 +57,7 @@ export const swiper_recommended =reactive({
         nextEl:'.swiper-button-next',
         prevEl: '.swiper-button-prev'
     }
-})
+}
 
 export const swiper_notice =reactive({
     loop:true,
@@ -110,4 +113,10 @@ export const getColorPalette = async ()=>{
         imageColors.push(`rgb(${palette[0]}, ${palette[1]}, ${palette[2]})`);
     }
     pictureChiefColor.value = imageColors
+}
+
+export const restData = ()=>{
+    currentSlideIndex.value = 0
+    pictureChiefColor.value = ['rgb(123,123,123)']
+    Object.assign(indexArticle,Article)
 }
