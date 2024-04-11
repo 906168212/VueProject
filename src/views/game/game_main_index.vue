@@ -8,6 +8,8 @@ import {
 } from "@/special_assets/js/game_main_index.js";
 import {onMounted, onUnmounted} from "vue";
 import GridPopover from "@/components/gridPopover.vue";
+import {getArticle} from "@/api/articleApi.js";
+import {pt, rid} from "@/utils/utils.js";
 const props = defineProps({
   data:{
     type:Object,
@@ -18,6 +20,7 @@ onUnmounted(()=>{
   resetData()
 })
 onMounted(()=>{
+
 })
 
 </script>
@@ -49,12 +52,13 @@ onMounted(()=>{
       </swiper>
       <div class="swiper-pagination"></div>
     </div>
-    <grid-popover category="文章精选" :update="updateArticle" :article="goodArticle" right="update" :show-image="true"></grid-popover>
-    <grid-popover category="PC游戏" :article="pcArticle" :list="pcList"></grid-popover>
-    <grid-popover category="模拟器游戏" :article="simulatorArticle" :list="simulatorList" :show-image="true"></grid-popover>
-    <grid-popover category="至高之神" :article="bestArticle" :list="bestList"></grid-popover>
-    <grid-popover category="手机游戏" :article="phoneArticle" :list="phoneList" :show-image="true"></grid-popover>
-    <grid-popover category="游戏插件" :article="pluginArticle" :list="pluginList"></grid-popover>
+    <div></div>
+    <grid-popover  category="文章精选" right="update" :show-image="true" :pt="pt.game"></grid-popover>
+    <grid-popover :category="rid.game.pc.name" :rid="rid.game.pc.value"></grid-popover>
+    <grid-popover :category="rid.game.simulator.name" :rid="rid.game.simulator.value" :show-image="true"></grid-popover>
+    <grid-popover :category="rid.game.best.name" :rid="rid.game.best.value"></grid-popover>
+    <grid-popover :category="rid.game.phone.name" :rid="rid.game.phone.value" :show-image="true"></grid-popover>
+    <grid-popover :category="rid.game.plugin.name" :rid="rid.game.plugin.value"></grid-popover>
   </div>
 </template>
 

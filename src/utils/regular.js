@@ -56,3 +56,24 @@ export function HasRepeatingChars(char){
 export function emailType(char){
     return  /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,7}$/.test(char)
 }
+
+// 时间显示规则
+export const timeRegular=(time)=>{
+    const currentDate = new Date()
+    const currentYear = currentDate.getFullYear()
+    if(typeof time === "number"){
+        const articleDate = new Date(time)
+        const articleYear = articleDate.getFullYear()
+        const articleMouth = articleDate.getMonth()+1 //date月份从0开始
+        const articleDay = articleDate.getDate()
+        if(articleYear === currentYear) return `${articleMouth}-${articleDay}`
+        else return `${articleYear}-${articleMouth}-${articleDay}`
+    }
+}
+
+// 数量显示规则
+export const numberRegular=(num)=>{
+    if(num>=10000 && num < 10000000) return (num / 10000).toFixed(1) + '万';
+    else if(num>= 10000000) return (num / 10000000).toFixed(1)+'千万';
+    else return num.toString();
+}

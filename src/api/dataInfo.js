@@ -1,11 +1,11 @@
 export class cardInfo {
-    mid = ''
+    aid = ''
     author = '默认作者'
     category='none'
     alt = ''
     desc=''
     pic_avif = ''
-    pic_webp = `https://picsum.photos/672/378.webp?${Math.random()}`
+    pic_webp = ''
     pic = ''
     visitor = 0
     review = 0

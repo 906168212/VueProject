@@ -28,3 +28,9 @@ export const tokenAxios = (mapping,token) =>{
         headers:{'Authorization': 'Bearer ' + token}
     })
 }
+
+export const simpleAxios = (mapping)=>{
+    return axios.create({
+        baseURL:'http://localhost:8081/api/'+mapping
+    })
+}

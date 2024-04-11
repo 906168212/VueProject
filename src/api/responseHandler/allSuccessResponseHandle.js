@@ -1,11 +1,12 @@
 import {cleanError} from "@/api/responseHandler/commonResponseHandle.js";
-import {backLogin, deleteAccessToken, startCoolDown, storeAccessToken} from "@/utils/utils.js";
+import {backLogin, deleteAccessToken, startCoolDown, storeAccessToken, toCardInfo} from "@/utils/utils.js";
 import * as Constants from "@/utils/constants.js";
 import {askSuccessData, changeToOption} from "@/special_assets/js/resetPassword_askAccount.js";
 import {changeToReset} from "@/special_assets/js/resetPassword_email.js";
 import {qrCodeSrc} from "@/special_assets/js/resetPassword_dataAssist.js";
 import router from "@/router/index.js";
 import {mouse, user} from "@/special_assets/js/index/index_header.ts";
+import {timeRegular} from "@/utils/regular.js";
 
 
 // 登录-成功
@@ -60,6 +61,38 @@ export const handleUserStatSuccessResponse = (responseBody) =>{
         throw new Error(responseBody.message) // 抛到最外层处理
     }
 }
+
+//文章信息 4-左侧区域
+export const handleArticleDisplaySuccessResponse=(responseData,status,article)=>{
+    if(responseData.code === 200){
+        toCardInfo(responseData.data,article)
+        status.left = true;
+    }else {
+        throw new Error(responseData.message) // 抛到最外层处理
+    }
+}
+// 文章信息 右侧区域
+export const handleRightRegionSuccessResponse=(responseData,status,article)=>{
+    if(responseData.code === 200) {
+        toCardInfo(responseData.data,article)
+        status.right = true;
+    }else {
+        throw new Error(responseData.message)
+    }
+}
+
+// export const handleRankingRegionSuccessResponse=(responseData,status,article)=>{
+//     if (responseData.code === 200){
+//         toCardInfo(responseData.data,article)
+//         status.right = true;
+//     }else {
+//         throw new Error(responseData.message)
+//     }
+// }
+
+
+
+
 // 邮箱-成功
 export const handleAskCodeSuccessResponse = (responseData,response,showError,coolDown) =>{
     if(responseData.code === 200){

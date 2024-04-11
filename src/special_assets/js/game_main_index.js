@@ -17,7 +17,7 @@ const SwiperImage = [
 const createArticle = createCardInfo(4)
 const createUpdate = createCardInfo(2)
 
-const createList = Array.from({ length: 10 }, () => new cardInfo())
+const createList = createCardInfo(10)
 export const goodArticle = reactive(createArticle)
 export const updateArticle = reactive(createUpdate)
 export const pcArticle = reactive(createArticle)

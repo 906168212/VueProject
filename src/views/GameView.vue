@@ -11,6 +11,7 @@ import router from "@/router/index.js";
 import {useRouter} from "vue-router";
 import store from "@/store/index.js";
 import SvgIcon from "@/components/svgIcon/index.vue";
+import {getArticle} from "@/api/articleApi.js";
 
 onMounted(()=>{
   window.addEventListener('scroll',handleScroll)

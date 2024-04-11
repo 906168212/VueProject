@@ -52,6 +52,9 @@
     .rank_list{
         --rank_list_count:10;
     }
+    .big_card__data_margin{
+        margin-right: 40px;
+    }
 
 }
 @media (min-width: 1701px) and (max-width: 2199.9px){
@@ -79,6 +82,9 @@
     }
     .rank_list .rank_list_item:nth-of-type(1n+10){
         display: none!important;
+    }
+    .big_card__data_margin{
+        margin-right: 30px;
     }
 }
 @media (min-width: 1367px) and (max-width: 1700.9px){
@@ -109,6 +115,12 @@
     }
     .rank_list .rank_list_item:nth-of-type(1n+9){
         display: none!important;
+    }
+    .big_card__data_margin{
+        margin-right: 15px;
+    }
+    .big_card__data_margin.final_data{
+        margin-right: 10px;
     }
 }
 @media (min-width: 1100px) and (max-width: 1366.9px){
@@ -152,7 +164,6 @@
     .rank_list .rank_list_item:nth-of-type(1n+10){
         display: none!important;
     }
-
 }
 @media (max-width: 1099.9px) {
     .header-wrap_index .index_hd_title .mini-header__logo,
@@ -186,6 +197,12 @@
     }
     .rank_list .rank_list_item:nth-of-type(1n+10){
         display: none!important;
+    }
+    .big_card__data_margin{
+        margin-right: 5px;
+    }
+    .big_card__data_margin.final_data{
+        margin-right: 0;
     }
 }
 
@@ -243,5 +260,23 @@
 @media (max-width: 1366.9px) {
     .game_carousel_popover{
         height: 258px;
+    }
+}
+
+@media (max-width: 1366.9px) and (min-width: 1200px){
+    .big_card__data_margin{
+        margin-right: 10px;
+    }
+    .big_card__data_margin.final_data{
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 1199.9px) and (min-width: 1100px) {
+    .big_card__data_margin{
+        margin-right: 5px;
+    }
+    .big_card__data_margin.final_data{
+        margin-right: 0;
     }
 }

@@ -1,26 +1,47 @@
 <script setup>
-import {goodArticle, updateArticle} from "@/special_assets/js/game_main_index.js";
-import {onImageError} from "@/utils/utils.js";
-import BigCard from "@/components/bigCard.vue";
 import GridPopover from "@/components/gridPopover.vue";
-import {reactive} from "vue";
-import {cardInfo} from "@/api/dataInfo.js";
 
-const testData = reactive([new cardInfo(),new cardInfo(),new cardInfo(),new cardInfo(),new cardInfo(),new cardInfo(),new cardInfo(),new cardInfo(),new cardInfo(),new cardInfo()])
+
+
+//可视窗口数据懒加载测试
+/*
+*  测试目标：
+*    1、学习useIntersectionObserver的使用，能够实现可视区域dom元素的获取
+* */
+
+// 闭包节流
+const throttle=(fn, wait) =>{
+  let timer = '';
+  return function(...args) {
+    if (timer) return;
+    timer = setTimeout(() => {
+      timer = null;
+      fn.apply(this, args);
+    }, wait);
+  };
+}
+
+
 </script>
 
 <template>
-  <grid-popover :list="testData" category="PC游戏" :article="goodArticle" :update="updateArticle"/>
-  <grid-popover :list="testData" category="PC游戏" :article="goodArticle" :update="updateArticle"/>
+  <grid-popover category="文章精选" article=""></grid-popover>
 </template>
 
 <style scoped>
-.testMe{
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  grid-template-rows: repeat(3,1fr);
-  grid-gap: 20px 10px;
-  padding: 100px 200px;
-  position: relative;
+
+.test_observe{
+  width: 100%;
+  padding: 100px 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.test_img{
+  display: flex;
+  min-height: 300px;
+  justify-content: center;
+  margin-bottom: 30px;
+  background-color: var(--bg_regular);
 }
 </style>
