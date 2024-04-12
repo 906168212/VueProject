@@ -125,6 +125,12 @@ const routes = [
         path:'/test',
         name:'test',
         component:()=>import('@/views/testVue.vue')
+    },
+    {
+        path:'/contribute',
+        name:'contribute',
+        component:() => import('@/views/ContributeView.vue'),
+        meta:{requiresAuth: true}
     }
 ]
 

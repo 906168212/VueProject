@@ -10,7 +10,6 @@ class Search {
 class Mouse {
     avatar = ref<null | boolean>(null)
     otherService = false
-    contribute = false
     headerChannel = false
     message = false
     moveLength = -36
@@ -20,7 +19,6 @@ class Mouse {
 class Animation {
     avatar = false
     otherService = false
-    contribute = false
     message = false
 }
 

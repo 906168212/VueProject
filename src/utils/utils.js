@@ -4,8 +4,12 @@ import store from "@/store/index.js";
 import errorImage_webp from "@/assets/image/errorImage.webp"
 import errorImage_avif from "@/assets/image/errorImage.avif"
 import errorImage from "@/assets/image/errorImage.png"
+import defaultUser_avif from "@/assets/image/default_user.avif"
+import defaultUser_webp from "@/assets/image/default_user.webp"
+import defaultUser from "@/assets/image/default_user.png"
 import {cardInfo} from "@/api/dataInfo.js";
 import {numberRegular, timeRegular} from "@/utils/regular.js";
+import {getUserStat} from "@/api/indexApi.js";
 
 export function backLogin(backTime,push){
     // 设置定时器，每秒更新一次冷却时间
@@ -72,6 +76,10 @@ export function onImageError(article){
     article.pic = errorImage
     article.alt = '网络异常，加载出错咯'
     article.desc = '网络异常，加载出错咯'
+}
+
+export function onAvatarError(event){
+    event.target.src = defaultUser_avif
 }
 
 export const createCardInfo =(length)=>{
@@ -141,5 +149,28 @@ export const toCardInfo =(data,article)=>{
             card.pubDate = timeRegular(item.pubDate)
         }
     })
+}
+
+export const mouseEnter_animation=(animation,action,timer,mouse)=>{
+    timer.value = setTimeout(()=>{
+        if(!animation[action]) mouse[action]  = true
+        if(action === 'avatar') getUserStat()
+    },200)
+}
+
+export const mouseLeave_animation=(animation,action,timer,mouse)=>{
+    clearTimeout(timer.value)
+    if(!animation[action]) {
+        // 如果动画没有在进行中，立即设置 mouse[action] 为 false
+        mouse[action] = false
+    }
+}
+
+// 动画自锁
+export const animationStart=(animation,action)=>{
+    animation[action] = true
+}
+export const animationEnd=(animation,action)=>{
+    animation[action] = false
 }
 

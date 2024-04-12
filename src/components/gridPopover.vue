@@ -45,6 +45,7 @@ const resetData=()=>{
   imageLoadError.value = false
   Object.assign(article,createCardInfo(4))
   Object.assign(update,createCardInfo(2))
+  Object.assign(ranking,createCardInfo(10))
   Object.assign(status,new Status())
 }
 const rotate = ()=>{

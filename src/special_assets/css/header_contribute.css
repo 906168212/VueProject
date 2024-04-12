@@ -1,0 +1,208 @@
+.header_wrap{
+    --pd_l:24px;
+    --user_avatar_size: 38px;
+    height: 64px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 var(--pd_l);
+}
+
+.header_left_popover{
+    color: var(--normal_blue);
+}
+
+.header_left_popover,.header_right_popover{
+    display: flex;
+    align-items: center;
+    line-height: 64px;
+}
+
+.header_left_logo_entry,.header_left_index_entry{
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+.header_left_index_entry{
+    color: var(--text2);
+    transition: color .2s linear;
+}
+
+.header_left_index_entry:hover{
+    color: var(--normal_blue);
+}
+
+.header_left_popover .halihapi_logo{
+    width: 96px;
+    height: 64px;
+    margin-right: 10px;
+}
+
+.header_left_popover .header_left_index_logo{
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.header_left_popover .header_left_logo_test{
+    font-size: 22px;
+    font-weight: 800;
+}
+
+.header_right_popover{
+    margin-left: auto;
+    height: 50px;
+}
+
+.header_user_avatar_entry{
+    position: relative;
+    height: 50px;
+    width: 50px;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.mini_avatar_small_inner{
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: var(--user_avatar_size);
+    height: var(--user_avatar_size);
+    border-radius: 50%;
+    background-color: var(--bg_regular);
+}
+
+.mini-avatar__small .mini_avatar_small_inner{
+    animation: fadeIn .6s both;
+}
+.mini-avatar__large .mini_avatar_small_inner{
+    animation: fadeOut .3s both;
+}
+
+.header-entry-avatar{
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    z-index: 2;
+    display: block;
+    border-radius: 50%;
+    transform-origin: top left;
+}
+
+.mini-avatar__small .header-entry-avatar{
+    animation: avatarFadeSmall .35s both;
+}
+.mini-avatar__large .header-entry-avatar{
+    animation: avatarFadeLarge .35s both;
+}
+.mini-avatar__init .header-entry-avatar{
+    display: none;
+}
+
+.user_large_avatar{
+    width: 82px;
+    height: 82px;
+    transform: translate(0px, 0px);
+    box-sizing: content-box;
+    border: 2px solid #fff;
+    display: block;
+    position: relative;
+    border-radius: 50%;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.avatar_large_face{
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    border: none;
+    display: block;
+    -o-object-fit: cover;
+    object-fit: cover;
+    image-rendering: -webkit-optimize-contrast;
+    transform: translateZ(0);
+    will-change: transform;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+
+.header_user_create_time_entry{
+    height: 38px;
+    line-height: 38px;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    border: 1px solid var(--normal_blue);
+    border-radius: 15px;
+    padding: 5px 16px 5px 16px;
+    color: var(--normal_blue);
+    background-color: rgba(0,174,236,.1);
+}
+
+@keyframes avatarFadeSmall {
+    0% {
+        transform: scale(1) translate(-36px,10px);
+    }
+    60% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(.4) translateY(-2px) translate(3px);
+    }
+}
+
+.avatarInfo-enter-from,.avatarInfo-leave-to,
+.other_service_animation-enter-from,.other_service_animation-leave-to{
+    opacity: 0;
+}
+.avatarInfo-enter-to,.avatarInfo-leave-from,
+.other_service_animation-enter-to,.other_service_animation-leave-from{
+    opacity: 1;
+}
+.avatarInfo-enter-active,.avatarInfo-leave-active,
+.other_service_animation-enter-active, .other_service_animation-leave-active{
+    transition: opacity .3s;
+}
+
+
+@keyframes avatarFadeLarge {
+    0%{
+        opacity: 0;
+        transform: scale(.4) translateY(-2px) translate(3px);
+    }
+    30%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 1;
+        transform: scale(1) translate(-36px,10px);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}

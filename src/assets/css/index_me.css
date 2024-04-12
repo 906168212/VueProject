@@ -208,6 +208,12 @@ input[type="checkbox"]:checked +label  .check_icon{
 
 
 /*image common*/
+.v-avatar-image{
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+}
 .v-image{
     position: relative;
     display: inline-block;
@@ -217,11 +223,23 @@ input[type="checkbox"]:checked +label  .check_icon{
     vertical-align: middle;
     background-color: var(--bg_regular);
 }
-.v-image img{
+.v-image img,.v-avatar-image img{
     display: block;
     width: 100%;
     height: 100%;
     object-fit: inherit;
+}
+
+.v-avatar-image img{
+    border: 2px solid #fff;
+    border-radius: 50%;
+    image-rendering: -webkit-optimize-contrast;
+}
+
+.v-img>img{
+    border: 2px solid #fff;
+    border-radius: 50%;
+    image-rendering: -webkit-optimize-contrast;
 }
 /*card styles*/
 
