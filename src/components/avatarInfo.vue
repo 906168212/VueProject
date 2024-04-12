@@ -21,13 +21,30 @@ const props = defineProps({
   }
 })
 
+class AvatarInfo{
+  nickname = '用户000000'
+  current_level_name = '新手上路'
+  vip_status = 0
+  current_level = 1
+  current_vip = 0
+  point_num = 0
+  future_coin_num = 0
+  motion_num = 0
+  concerned_num = 0
+  fan_num = 0
+}
+
+const avatarInfo = reactive(new AvatarInfo())
+
+// export const avatarInfo =
+
 const timer = ref(null)
 
 const pointForOneFixed=computed(()=>{
-  return props.user.point_num.toFixed(1);
+  return avatarInfo.point_num.toFixed(1);
 })
 const futureCoinForOneFixed=computed(()=>{
-  return props.user.future_coin_num.toFixed(1);
+  return avatarInfo.future_coin_num.toFixed(1);
 })
 const otherServiceEnterAnimation=()=>{
   mouseEnter_animation(props.animation,'otherService',timer,props.mouse)
@@ -38,6 +55,7 @@ const otherServiceLeaveAnimation=()=>{
 
 onUnmounted(()=>{
   timer.value = null
+  Object.assign(avatarInfo,new AvatarInfo())
 })
 
 </script>
@@ -47,14 +65,14 @@ onUnmounted(()=>{
     <div class="header_userInfo_entry">
       <div class="avatar-panel-popover">
         <a class="large_avatar"></a>
-        <a class="header_nickname" :class="{nickname_vip_color:user.vip_status}">{{user.nickName}}</a>
+        <a class="header_nickname" :class="{nickname_vip_color:avatarInfo.vip_status}">{{avatarInfo.nickName}}</a>
         <div class="vip_normal_item">
-          <a class="user_level_name">{{user.current_level_name}}</a>
+          <a class="user_level_name">{{avatarInfo.current_level_name}}</a>
           <a class="user_level_content">
-            <svg-icon :icon-name="`user_level_${user.current_level}`" class-name="user_level_svg"></svg-icon>
+            <svg-icon :icon-name="`user_level_${avatarInfo.current_level}`" class-name="user_level_svg"></svg-icon>
           </a>
           <a class="user_vip_content">
-            <svg-icon :icon-name="`vip_${user.current_vip}`" class-name="user_vip_svg"></svg-icon>
+            <svg-icon :icon-name="`vip_${avatarInfo.current_vip}`" class-name="user_vip_svg"></svg-icon>
           </a>
         </div>
         <div class="coins-item">
@@ -75,15 +93,15 @@ onUnmounted(()=>{
         </div>
         <div class="counts-item">
           <a class="single-count-item">
-            <span class="count-sum change_blue">{{user.motion_num}}</span>
+            <span class="count-sum change_blue">{{avatarInfo.motion_num}}</span>
             <span class="count-test change_blue">动态</span>
           </a>
           <a class="single-count-item">
-            <span class="count-sum change_blue">{{user.concerned_num}}</span>
+            <span class="count-sum change_blue">{{avatarInfo.concerned_num}}</span>
             <span class="count-test change_blue">关注</span>
           </a>
           <a class="single-count-item">
-            <span class="count-sum">{{user.fan_num}}</span>
+            <span class="count-sum">{{avatarInfo.fan_num}}</span>
             <span class="count-test">粉丝</span>
           </a>
         </div>
