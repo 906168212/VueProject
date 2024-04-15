@@ -26,18 +26,6 @@ export class Nav{
     number = 0
 }
 
-export class AvatarInfo{
-    nickname = '用户_0000000'
-    current_level_name = '新手上路'
-    current_level = 1
-    current_vip = 0
-    vip_status = 0
-    point_num = 0.0
-    future_coin_num = 0.0
-    motion_num = 0
-    concerned_num = 0
-    fan_num = 0
-}
 
 class Links {
     constructor(id, name, href,sent,temp) {

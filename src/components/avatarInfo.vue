@@ -3,14 +3,9 @@
 import {computed, onUnmounted, reactive, ref} from "vue";
 import SvgIcon from "@/components/svgIcon/index.vue";
 import {animationEnd, animationStart, mouseEnter_animation, mouseLeave_animation} from "@/utils/utils.js";
-import {AvatarInfo, Nav} from "@/api/dataInfo.js";
+import { Nav} from "@/api/dataInfo.js";
 
 const props = defineProps({
-  user:{
-    type:Object,
-    required:true,
-    default: reactive(new AvatarInfo())
-  },
   animation:{
     type:Object,
     required:true

@@ -38,6 +38,7 @@ const props = defineProps({
         <div class="info_title">{{article.alt}}</div>
         <div class="info_middle">
           <div class="middle_date">{{article.pubDate}}</div>
+
         </div>
       </div>
     </div>
