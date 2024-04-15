@@ -128,8 +128,47 @@ const routes = [
     },
     {
         path:'/contribute',
+        redirect: '/contribute/send',
         name:'contribute',
         component:() => import('@/views/ContributeView.vue'),
+        children: [
+            {
+                path:'send',
+                name:'contribute-send',
+                component:() => import('@/views/contribute/contribute_send.vue'),
+                meta:{requiresAuth: true}
+            },
+            {
+                path:'index',
+                name:'contribute-index',
+                component:() => import('@/views/contribute/contribute_index.vue'),
+                meta:{requiresAuth: true}
+            },
+            {
+                path: 'manage',
+                redirect:'/contribute/manage/sent',
+                name:'contribute-manage',
+                meta:{requiresAuth: true},
+            },
+            {
+                path: 'manage/sent',
+                name:'contribute-manage-sent',
+                component:() => import('@/views/contribute/contribute_article_manage.vue'),
+                meta:{requiresAuth: true}
+            },
+            {
+                path: 'manage/sketch',
+                name:'contribute-manage-sketch',
+                component:() => import('@/views/contribute/contribute_sketch.vue'),
+                meta:{requiresAuth: true}
+            },
+            {
+                path: 'convention',
+                name:'contribute-convention',
+                component:() => import('@/views/contribute/contribute_convention.vue'),
+                meta:{requiresAuth: true}
+            }
+        ],
         meta:{requiresAuth: true}
     }
 ]

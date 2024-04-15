@@ -257,7 +257,7 @@ const props = defineProps({
           <div class="v-popover-wrap">
             <a href="/contribute">
               <div class="header-upload-entry">
-                <svg-icon icon-name="contribute" class-name="header-upload-entry__icon"></svg-icon>
+                <svg-icon icon-name="contribute_send" class-name="header-upload-entry__icon"></svg-icon>
                 <span class="header-upload-entry__text">投稿</span>
               </div>
             </a>

@@ -15,17 +15,56 @@ export class cardInfo {
 }
 
 
-export class userInfo{
+export class Nav{
     current_level = 1
     current_vip = 0
     current_level_name = '新手上路'
     vip_status = 0
     point_num = 0.0
     future_coin_num = 0.0
-    motion_num = 0
-    concerned_num = 0
-    fan_num = 0
     nickName = '用户_0000000'
     number = 0
 }
+
+export class AvatarInfo{
+    nickname = '用户_0000000'
+    current_level_name = '新手上路'
+    current_level = 1
+    current_vip = 0
+    vip_status = 0
+    point_num = 0.0
+    future_coin_num = 0.0
+    motion_num = 0
+    concerned_num = 0
+    fan_num = 0
+}
+
+class Links {
+    constructor(id, name, href,sent,temp) {
+        this.id = id;
+        this.name = name;
+        this.href = href;
+        this.sent = sent;
+        this.temp = temp;
+    }
+}
+
+export const links = [
+    new Links(0,'动漫','/animation',0,0),
+    new Links(1,'漫画','/comic',0,0),
+    new Links(2,'游戏','/game',0,0),
+    new Links(3,'吃瓜','/melon',0,0),
+    new Links(4,'热点','/hot',0,0),
+    new Links(5,'资讯','/news',0,0),
+    new Links(6,'影视','/movie',0,0),
+    new Links(7,'美食','/food',0,0),
+    new Links(8,'旅游','/travel',0,0),
+    new Links(9,'知识','/knowledge',0,0),
+    new Links(10,'单机游戏','/dan',0,0),
+    new Links(11,'生活','/life',0,0),
+    new Links(12,'工具','/tool',0,0),
+    new Links(13,'ASMR','/asmr',0,0),
+    new Links(14,'网址大全','/website',0,0),
+    new Links(15,'精品','/goods',0,0)
+]
 

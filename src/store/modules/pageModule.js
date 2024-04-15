@@ -1,9 +1,13 @@
 const state = {
-    gamePage: 1
+    gamePage: 1,
+    contributePage:0
 }
 const mutations = {
     setGamePage(state,value){
         state.gamePage = value
+    },
+    setContributePage(state,value){
+        state.contributePage = value
     }
 }
 const actions = {

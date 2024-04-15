@@ -35,7 +35,7 @@ const handleGamePageChange=(selectedId)=>{
   data.name = IdWithPageName[selectedId]
   router.push({name:IdWithPageName[selectedId]})
 }
-const currentPageId = computed(()=>store.state.game.gamePage)
+const currentPageId = computed(()=>store.state.page.gamePage)
 onMounted(()=>{
   data.name = IdWithPageName[currentPageId.value]
 })
@@ -57,5 +57,8 @@ onMounted(()=>{
 <style  scoped>
 #game{
   position: relative;
+  margin: 0 auto;
+  max-width: 2560px;
+  background-color: var(--bg_white);
 }
 </style>

@@ -5,6 +5,9 @@
     background-size: cover;
     display: flex;
     flex-direction: column;
+    margin: 0 auto;
+    max-width: 2560px;
+    background-color: var(--bg_white);
 }
 
 

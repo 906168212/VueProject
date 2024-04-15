@@ -2,11 +2,11 @@ import {tokenAxios} from "@/utils/commonAxiosCreate.js";
 import {takeAccessToken} from "@/utils/utils.js";
 import {handleUserNavSuccessResponse} from "@/api/responseHandler/allSuccessResponseHandle.js";
 
-const getNav = async ()=>{
+export const getNav = async (Nav)=>{
     try {
         const token = takeAccessToken().token; // 获取最新的 access_token
         const responseBody = await tokenAxios('user',token).get('/nav')
-        return handleUserNavSuccessResponse(responseBody.data)
+        return handleUserNavSuccessResponse(responseBody.data,Nav)
     }catch (error){
         log.error(error.message)
     }

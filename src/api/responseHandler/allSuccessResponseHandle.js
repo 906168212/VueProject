@@ -36,16 +36,16 @@ export const handleLogoutSuccessResponse = (responseData)=>{
 }
 
 // 用户信息巡查
-export const handleUserNavSuccessResponse = (responseBody)=>{
+export const handleUserNavSuccessResponse = (responseBody,Nav)=>{
     if(responseBody.code === 200){
-        user.nickName = responseBody.data.username
-        user.point_num = responseBody.data.wallet.point_coin
-        user.future_coin_num = responseBody.data.wallet.future_coin
-        user.number = responseBody.data.user_number
-        user.current_level = responseBody.data.user_level.currentLevel
-        user.current_level_name = responseBody.data.user_level.currentLevelName
-        user.current_vip = responseBody.data.vip.type
-        user.vip_status = responseBody.data.vip.status
+        Nav.nickName = responseBody.data.username
+        Nav.point_num = responseBody.data.wallet.point_coin
+        Nav.future_coin_num = responseBody.data.wallet.future_coin
+        Nav.number = responseBody.data.user_number
+        Nav.current_level = responseBody.data.user_level.currentLevel
+        Nav.current_level_name = responseBody.data.user_level.currentLevelName
+        Nav.current_vip = responseBody.data.vip.type
+        Nav.vip_status = responseBody.data.vip.status
     }else {
         throw new Error(responseBody.message) // 抛到最外层处理
     }

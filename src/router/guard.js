@@ -36,5 +36,5 @@ router.afterEach((to, from) => {
     if(code === '1') log.error('没有权限访问，请先登录')
     else if(code === '2') log.error('身份过期，请重新登录')
     store.commit('redirect/clearRedirectCode')
-    if(to.path==='/game') store.commit("game/setGamePage",1)
+    if(to.path==='/game') store.commit("page/setGamePage",1)
 });

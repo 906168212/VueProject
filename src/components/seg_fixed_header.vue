@@ -9,7 +9,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['selectedId'])
 const handleLinkClick=(linkId)=>{
-  store.commit('game/setGamePage',linkId)
+  store.commit('page/setGamePage',linkId)
   emit('selectedId',currentGamePage.value)
 }
 </script>
