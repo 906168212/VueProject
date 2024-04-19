@@ -3,6 +3,8 @@ import {onMounted, onUnmounted, ref} from "vue";
   import store from "@/store/index.js";
   import { QuillEditor } from '@vueup/vue-quill'
   import '@vueup/vue-quill/dist/vue-quill.snow.css';
+  import 'vue-cropper/dist/index.css'
+  import { VueCropper }  from "vue-cropper";
 
   const coverInput = ref(null)
   const coverUrl = ref(null)
@@ -12,7 +14,11 @@ import {onMounted, onUnmounted, ref} from "vue";
 
   const handleCoverUpload = (event)=>{
     const inputCover = event.target
-    if (inputCover.files && inputCover.files[0]) {
+    const imageFile = inputCover.files[0]
+    const isImage = (file)=>{
+      return /^image\//i.test(file.type);
+    }
+    if (isImage(imageFile)) {
       const img = inputCover.files[0]
       const reader = new FileReader()
       reader.onload = (e)=>{
@@ -20,7 +26,10 @@ import {onMounted, onUnmounted, ref} from "vue";
         console.log(coverUrl.value)
       }
       reader.readAsDataURL(img)
+    }else {
+      log.error('禁止上传非图片类型文件！')
     }
+
   }
 
   onMounted(()=>{
@@ -46,12 +55,12 @@ import {onMounted, onUnmounted, ref} from "vue";
             <svg-icon icon-name="title" class-name="title_svg"></svg-icon>
             <span class="article_put_title_wrap_test">封面</span>
           </div>
-          <div class="article_put_cover_style">
-            <div class="article_put_cover_svg_wrap" @click="triggerFileUpload" :style="{background:`url('${coverUrl}') no-repeat`}">
-              <svg-icon class-name="contribute_send_large_svg" icon-name="contribute_send"></svg-icon>
-            </div>
-            <input id="cover_upload" ref="coverInput" type="file" accept="image/*" @change="handleCoverUpload">
-          </div>
+<!--          <div class="article_put_cover_style">-->
+<!--            <div class="article_put_cover_svg_wrap" @click="triggerFileUpload" :style="{background:`url('${coverUrl}') no-repeat`}">-->
+<!--              <svg-icon v-if="!coverUrl" class-name="contribute_send_large_svg" icon-name="contribute_send"></svg-icon>-->
+<!--            </div>-->
+<!--            <input id="cover_upload" ref="coverInput" type="file" accept="image/*" @change="handleCoverUpload">-->
+<!--          </div>-->
         </div>
         <div class="article_put_title_wrap">
           <div class="article_put_title">
@@ -180,6 +189,7 @@ import {onMounted, onUnmounted, ref} from "vue";
   justify-content: center;
   z-index: 9999;
   background-size: cover;
+  border-radius: 6px;
 }
 .contribute_send_large_svg{
   width: 60px;

@@ -1,47 +1,45 @@
 <script setup>
-import GridPopover from "@/components/gridPopover.vue";
-
-
-
-//可视窗口数据懒加载测试
-/*
-*  测试目标：
-*    1、学习useIntersectionObserver的使用，能够实现可视区域dom元素的获取
-* */
-
-// 闭包节流
-const throttle=(fn, wait) =>{
-  let timer = '';
-  return function(...args) {
-    if (timer) return;
-    timer = setTimeout(() => {
-      timer = null;
-      fn.apply(this, args);
-    }, wait);
-  };
-}
-
 
 </script>
 
 <template>
-  <grid-popover category="文章精选" article=""></grid-popover>
+  <div id="test">
+    <div class="test_popover">
+      <div class="upload_image_cut_popover">
+        <div class="upload_image_cut_header">
+          <svg-icon ></svg-icon>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-
-.test_observe{
-  width: 100%;
-  padding: 100px 50px;
+#test{
+  position: relative;
+  height: 100%;
+  margin: 0 auto;
+  max-width: 2560px;
+  background-color: var(--bg-thick);
+}
+.test_popover{
+  padding: 50px 50px;
   display: flex;
-  flex-direction: column;
+  align-content: center;
   justify-content: center;
 }
-.test_img{
-  display: flex;
-  min-height: 300px;
-  justify-content: center;
-  margin-bottom: 30px;
-  background-color: var(--bg_regular);
+.upload_image_cut_popover{
+  background: var(--bg_white);
+  width: 600px;
+  height: 350px;
+  position: relative;
+}
+.upload_image_cut_header{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 48px;
+  width: 100%;
+  border-bottom: 1px solid var(--line_regular);
 }
 </style>
