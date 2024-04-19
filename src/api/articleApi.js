@@ -1,9 +1,20 @@
-import {simpleAxios} from "@/utils/commonAxiosCreate.js";
+import {simpleAxios, tokenAxios} from "@/utils/commonAxiosCreate.js";
 import {
-    handleArticleDisplaySuccessResponse, handleRightRegionSuccessResponse
+    handleArticleDisplaySuccessResponse,
+    handleGetAllArticleSuccessResponse,
+    handleRightRegionSuccessResponse
 } from "@/api/responseHandler/allSuccessResponseHandle.js";
+import {takeAccessToken} from "@/utils/utils.js";
 
-
+export const getAllUserArticle = async ()=>{
+    try {
+        const token = takeAccessToken().token; // 获取最新的 access_token
+        const responseBody = await tokenAxios('article',token).get('/all')
+        return handleGetAllArticleSuccessResponse(responseBody.data)
+    }catch (error){
+        log.error(error.message)
+    }
+}
 
 export const getArticle = async (status,article,rid)=>{
     try {

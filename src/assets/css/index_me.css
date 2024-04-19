@@ -11,6 +11,7 @@
     --text1: #18191C;
     --text2: #61666D;
     --text3: #9499A0;
+    --text4: #d3d6dc;
     --text_black:#000000;
     --line_light: #F1F2F3;
     --line_regular: #E3E5E7;
@@ -926,4 +927,33 @@ input[type="checkbox"]:checked +label  .check_icon{
     100% {
         background-position: 0 50%;
     }
+}
+
+/* platform styles */
+.platform_popover{
+    --entry_m:72px;
+    --entry_mt:16px;
+    background-color: var(--bg_regular);
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+.platform_entry{
+    margin-left: var(--entry_m);
+    margin-right: var(--entry_m);
+    background: #fff;
+    margin-top: var(--entry_mt)!important;
+    display: flow-root;
+    padding-bottom: 20px;
+}
+@media (min-width: 1600px) {
+    .platform_entry.max_entry{
+        width: 1283px;
+        margin: 0 auto;
+    }
+}
+
+.platform_entry_main_wrap{
+    margin-top: 12px;
 }

@@ -1,6 +1,6 @@
 //无输入
 
-import {computed, toRefs} from "vue";
+import {computed} from "vue";
 
 export function InputNone(char){
     return  char.length === 0;
@@ -57,8 +57,8 @@ export function emailType(char){
     return  /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,7}$/.test(char)
 }
 
-// 时间显示规则
-export const timeRegular=(time)=>{
+// 时间显示规则-简略
+export const simpleTimeRegular=(time)=>{
     const currentDate = new Date()
     const currentYear = currentDate.getFullYear()
     if(typeof time === "number"){
@@ -69,6 +69,18 @@ export const timeRegular=(time)=>{
         if(articleYear === currentYear) return `${articleMouth}-${articleDay}`
         else return `${articleYear}-${articleMouth}-${articleDay}`
     }
+}
+
+// 时间显示规则-详细
+export const fullTimeRegular=(time)=>{
+    const date = new Date(time);
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2);
+    return `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`;
 }
 
 // 数量显示规则

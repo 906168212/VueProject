@@ -7,13 +7,21 @@
     --title_h:24px;
     --title_fs:16px;
     --middle_h:56px;
+    --middle_compile_h:32px;
+    --middle_compile_mr:12px;
+    --middle_compile_plr:12px;
+    --middle_more_plr:8px;
     --date_h:20px;
+    --svg_mr:7px;
     --stat_h:19px;
+    --stat_fs:12px;
+    --stat_mr:25px;
 }
 .article_log_card_popover{
     position: relative;
     height: var(--popover_h);
     padding: var(--popover_ptm) 0;
+    border-bottom: 1px solid var(--line_regular);
 }
 .article_log_card_skeleton{
     pointer-events: none;
@@ -22,7 +30,7 @@
     align-items: center;
     height: 100%;
 }
-.article_log_card_skeleton.hide{
+.article_log_card_skeleton.hide,.article_log_card_entry.hide{
     visibility: hidden;
 }
 .article_log_card_skeleton_cover,.article_log_card_cover{
@@ -53,11 +61,49 @@
     height: var(--middle_h);
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 .info_middle .middle_date{
     height: var(--date_h);
     line-height: var(--date_h);
-    color: var(--text3);
+    color: var(--text2);
+}
+.info_middle .middle_right{
+    display: flex;
+}
+.middle_right .middle_compile,.middle_right .middle_more{
+    min-width: calc(var(--middle_compile_plr) * 2);
+    height: var(--middle_compile_h);
+    line-height: var(--middle_compile_h);
+    padding: 0 var(--middle_compile_plr);
+    border: 1px solid var(--line_regular);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: .2s;
+}
+.middle_right .middle_more{
+    padding: 0;
+    width: 32px;
+    justify-content: center;
+}
+.middle_right .middle_compile{
+    margin-right: var(--middle_compile_mr);
+}
+.middle_right .middle_compile:hover,.middle_right .middle_more:hover{
+    color: var(--normal_blue);
+    border-color: var(--normal_blue);
+}
+.middle_compile .compiler_svg{
+    width: 16px;
+    height: 16px;
+    margin-right: var(--svg_mr);
+}
+.middle_more .more_svg{
+    width: 16px;
+    height: 16px;
+    transform: rotate(90deg);
 }
 .skeleton_info_middle .middle_date{
     height: var(--date_h);
@@ -70,6 +116,24 @@
     border-radius: 4px;
     background-color: var(--bg_regular);
     width: 50%;
+}
+.article_log_card_info .info_stat{
+    height: var(--stat_h);
+    line-height: var(--stat_h);
+    font-size: var(--stat_fs);
+    color: var(--text3);
+    display: flex;
+}
+.info_stat .info_stat_item{
+    margin-right: var(--stat_mr);
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.info_stat_item .stat_svg{
+    width: 16px;
+    height: 16px;
+    margin-right: var(--svg_mr);
 }
 .article_log_card_entry{
     position: absolute;

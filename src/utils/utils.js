@@ -1,4 +1,3 @@
-//返回时间
 import router from "@/router/index.js";
 import store from "@/store/index.js";
 import errorImage_webp from "@/assets/image/errorImage.webp"
@@ -8,7 +7,7 @@ import defaultUser_avif from "@/assets/image/default_user.avif"
 import defaultUser_webp from "@/assets/image/default_user.webp"
 import defaultUser from "@/assets/image/default_user.png"
 import {cardInfo} from "@/api/dataInfo.js";
-import {numberRegular, timeRegular} from "@/utils/regular.js";
+import {fullTimeRegular, numberRegular, simpleTimeRegular} from "@/utils/regular.js";
 import {getUserStat} from "@/api/indexApi.js";
 
 export function backLogin(backTime,push){
@@ -74,8 +73,7 @@ export function onImageError(article){
     article.pic_avif = errorImage_avif
     article.pic_webp = errorImage_webp
     article.pic = errorImage
-    article.alt = '网络异常，加载出错咯'
-    article.desc = '网络异常，加载出错咯'
+
 }
 
 export function onAvatarError(event){
@@ -130,7 +128,7 @@ export const pt = {
 }
 
 
-export const toCardInfo =(data,article)=>{
+export const toCardInfo =(data,article,type)=>{
     data.forEach((item,index)=>{
         const card = article[index]
         if(card){ // 确保存在对应的 cardInfo 对象
@@ -146,9 +144,35 @@ export const toCardInfo =(data,article)=>{
             card.review = numberRegular(item.stat.review)
             card.like = numberRegular(item.stat.like)
             card.collect = numberRegular(item.stat.collect)
-            card.pubDate = timeRegular(item.pubDate)
+            if(type === 'simple') card.pubDate = simpleTimeRegular(item.pubDate)
+            if(type === 'full') card.pubDate = fullTimeRegular(item.pubDate)
         }
     })
+    return article
+}
+
+export const toUserCardInfo =(data,article,type)=> {
+    const author = data.user.nickname
+    data.article.forEach((item,index)=>{
+        const card = article[index]
+        if(card){ // 确保存在对应的 cardInfo 对象
+            card.aid = item.aid
+            card.author = author
+            card.category = item.category
+            card.alt = item.title
+            card.desc= item.desc
+            card.pic_avif = item.picAvif
+            card.pic_webp = item.picWebp
+            card.pic = item.pic
+            card.visitor = numberRegular(item.stat.visitor)
+            card.review = numberRegular(item.stat.review)
+            card.like = numberRegular(item.stat.like)
+            card.collect = numberRegular(item.stat.collect)
+            if(type === 'simple') card.pubDate = simpleTimeRegular(item.pubDate)
+            if(type === 'full') card.pubDate = fullTimeRegular(item.pubDate)
+        }
+    })
+    return article
 }
 
 export const mouseEnter_animation=(animation,action,timer,mouse)=>{
