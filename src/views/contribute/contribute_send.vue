@@ -3,15 +3,12 @@ import {onMounted, onUnmounted, ref} from "vue";
   import store from "@/store/index.js";
   import { QuillEditor } from '@vueup/vue-quill'
   import '@vueup/vue-quill/dist/vue-quill.snow.css';
-  import 'vue-cropper/dist/index.css'
-  import { VueCropper }  from "vue-cropper";
+import ImageCut from "@/components/imageCut.vue";
 
   const coverInput = ref(null)
   const coverUrl = ref(null)
-  const triggerFileUpload = ()=>{
-    coverInput.value.click()
-  }
-
+  const dialog = ref(false)
+  const coverData = ref(null)
   const handleCoverUpload = (event)=>{
     const inputCover = event.target
     const imageFile = inputCover.files[0]
@@ -31,12 +28,22 @@ import {onMounted, onUnmounted, ref} from "vue";
     }
 
   }
-
+  const openCoverDialog = ()=>{
+    dialog.value = true
+  }
+  const closeCoverDialog=(payload)=>{
+    dialog.value = payload
+  }
+  const getCoverData=(payload)=>{
+    coverData.value = payload
+  }
   onMounted(()=>{
     store.commit('page/setContributePage',0)
   })
   onUnmounted(()=>{
     coverInput.value = null
+    dialog.value = false
+    coverData.value = null
   })
 </script>
 
@@ -55,12 +62,12 @@ import {onMounted, onUnmounted, ref} from "vue";
             <svg-icon icon-name="title" class-name="title_svg"></svg-icon>
             <span class="article_put_title_wrap_test">封面</span>
           </div>
-<!--          <div class="article_put_cover_style">-->
-<!--            <div class="article_put_cover_svg_wrap" @click="triggerFileUpload" :style="{background:`url('${coverUrl}') no-repeat`}">-->
-<!--              <svg-icon v-if="!coverUrl" class-name="contribute_send_large_svg" icon-name="contribute_send"></svg-icon>-->
-<!--            </div>-->
-<!--            <input id="cover_upload" ref="coverInput" type="file" accept="image/*" @change="handleCoverUpload">-->
-<!--          </div>-->
+          <div class="article_put_cover_style" @click="openCoverDialog">
+            <div class="article_put_cover_svg_wrap" >
+              <svg-icon  class-name="contribute_send_large_svg" icon-name="contribute_send"></svg-icon>
+            </div>
+            <img v-if="coverData" :src="coverData" alt="">
+          </div>
         </div>
         <div class="article_put_title_wrap">
           <div class="article_put_title">
@@ -78,6 +85,11 @@ import {onMounted, onUnmounted, ref} from "vue";
         </div>
         <QuillEditor theme="snow"/>
       </div>
+    </div>
+    <div class="image_cut_entry">
+      <transition name="dialog">
+        <image-cut class="dialog_box" :dialog="dialog" v-if="dialog" @closeDialog="closeCoverDialog" @getBackCoverData="getCoverData"></image-cut>
+      </transition>
     </div>
   </div>
 </template>
@@ -173,28 +185,49 @@ import {onMounted, onUnmounted, ref} from "vue";
   position: relative;
   cursor: pointer;
 }
-.article_put_cover_wrap #cover_upload{
-  opacity: 0;
-  display: none;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-}
 .article_put_cover_svg_wrap{
-  position: absolute;
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-  background-size: cover;
-  border-radius: 6px;
+  border-radius: 8px;
 }
 .contribute_send_large_svg{
   width: 60px;
   height: 60px;
   color: var(--normal_blue);
   margin-bottom: 10px;
+}
+.article_put_cover_style img{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 8px;
+}
+.dialog-enter-from,.dialog-leave-to{
+  transform: scale(0);
+  opacity: 0;
+}
+.dialog-enter-active,.dialog-leave-active{
+  transition: all .2s ease-in-out;
+}
+.dialog-enter-to,.dialog-leave-from{
+  transform: scale(1);
+}
+.image_cut_entry{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.dialog_box{
+  margin-top: 100px;
+  border: 2px solid var(--normal_blue);
+  border-radius: 8px;
 }
 </style>

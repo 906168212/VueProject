@@ -937,6 +937,7 @@ input[type="checkbox"]:checked +label  .check_icon{
     height: 100%;
     width: 100%;
     overflow: auto;
+    position: relative;
 }
 
 .platform_entry{
