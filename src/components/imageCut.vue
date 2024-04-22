@@ -236,7 +236,7 @@ onUnmounted(()=>{
   width: 320px;
   height: 180px;
   overflow: hidden;
-  border: 1px solid var(--line_regular);
+  border: 1px dashed var(--normal_blue);
   border-radius: 6px;
 }
 .upload_image_cut_button{
