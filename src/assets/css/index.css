@@ -120,14 +120,14 @@ body span, body svg {
     color: inherit;
 }
 
-h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, cite, code, del, dfn, em, img, q, s, samp, small, strike, strong, sub, sup, tt, var, dd, dl, dt, li, ol, ul, fieldset, form, label, legend, button, table, caption, tbody, tfoot, thead, tr, th, td,input {
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, cite, code, del, dfn, em, img, q, s, samp, small, strike, sub, sup, tt, var, dd, dl, dt, li, ol, ul, fieldset, form, label, legend, button, table, caption, tbody, tfoot, thead, tr, th, td,input {
     margin: 0;
     padding: 0;
     border: 0;
     font-family: inherit;
     /*font-size: 100%;*/
-    font-weight: 400;
-    font-style: normal;
+    /*font-weight: 400;*/
+    /*font-style: normal;*/
     /*line-height: 1.25;*/
 }
 

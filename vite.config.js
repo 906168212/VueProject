@@ -13,7 +13,7 @@ export default defineConfig({
     createSvgIconsPlugin({
       iconDirs: [resolve(process.cwd(),'src/assets/svg')],
       symbolId: '[name]'
-    })
+    }),
   ],
   resolve: {
     alias: {

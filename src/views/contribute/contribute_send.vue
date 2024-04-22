@@ -1,50 +1,63 @@
 <script setup>
-import {onMounted, onUnmounted, ref} from "vue";
-  import store from "@/store/index.js";
-  import { QuillEditor } from '@vueup/vue-quill'
-  import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import {computed, onMounted, onUnmounted, reactive, ref} from "vue";
+import store from "@/store/index.js";
+import {QuillEditor} from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import BlotFormatter from 'quill-blot-formatter'
+import ImageUploader from 'quill-image-uploader';
 import ImageCut from "@/components/imageCut.vue";
+class Content {
+  title = ''
+  desc = ''
+  quillContent = ''
+}
 
-  const coverInput = ref(null)
-  const coverUrl = ref(null)
-  const dialog = ref(false)
-  const coverData = ref(null)
-  const handleCoverUpload = (event)=>{
-    const inputCover = event.target
-    const imageFile = inputCover.files[0]
-    const isImage = (file)=>{
-      return /^image\//i.test(file.type);
+const TITLE_MAX_INPUT = 40
+const DESC_MAX_INPUT = 150
+const content = reactive(new Content())
+const dialog = ref(false)
+const coverData = ref(null)
+const modules = [
+  {
+    name: 'blotFormatter',
+    module: BlotFormatter,
+    options:{}
+  },
+  {
+    name: 'imageUploader',
+    module: ImageUploader,
+    options: {
+      // upload:
     }
-    if (isImage(imageFile)) {
-      const img = inputCover.files[0]
-      const reader = new FileReader()
-      reader.onload = (e)=>{
-        coverUrl.value = e.target.result;
-        console.log(coverUrl.value)
-      }
-      reader.readAsDataURL(img)
-    }else {
-      log.error('禁止上传非图片类型文件！')
-    }
+  }
+]
 
-  }
-  const openCoverDialog = ()=>{
-    dialog.value = true
-  }
-  const closeCoverDialog=(payload)=>{
-    dialog.value = payload
-  }
-  const getCoverData=(payload)=>{
-    coverData.value = payload
-  }
-  onMounted(()=>{
-    store.commit('page/setContributePage',0)
-  })
-  onUnmounted(()=>{
-    coverInput.value = null
-    dialog.value = false
-    coverData.value = null
-  })
+const myQuillOptions = reactive({
+  theme:'snow',
+  placeholder:"请输入具体内容"
+})
+
+
+const openCoverDialog = ()=>{
+  dialog.value = true
+}
+const closeCoverDialog=(payload)=>{
+  dialog.value = payload
+}
+const getCoverData=(payload)=>{
+  coverData.value = payload
+}
+const titleNum = computed(()=> content.title.length)
+const descNum = computed(()=>content.desc.length)
+const quillNum = computed(()=>content.quillContent.length)
+onMounted(()=>{
+  store.commit('page/setContributePage',0)
+})
+onUnmounted(()=>{
+  dialog.value = false
+  coverData.value = null
+  Object.assign(content,new Content())
+})
 </script>
 
 <template>
@@ -60,7 +73,7 @@ import ImageCut from "@/components/imageCut.vue";
         <div class="article_put_cover_wrap">
           <div class="article_put_cover">
             <svg-icon icon-name="title" class-name="title_svg"></svg-icon>
-            <span class="article_put_title_wrap_test">封面</span>
+            <span class="article_put_test">封面</span>
           </div>
           <div class="article_put_cover_style" @click="openCoverDialog">
             <div class="article_put_cover_svg_wrap" >
@@ -72,18 +85,33 @@ import ImageCut from "@/components/imageCut.vue";
         <div class="article_put_title_wrap">
           <div class="article_put_title">
             <svg-icon icon-name="title" class-name="title_svg"></svg-icon>
-            <span class="article_put_title_wrap_test">标题</span>
+            <span class="article_put_test">标题</span>
           </div>
-          <input placeholder="请输入标题（建议30字以内）" maxlength="40">
+          <div class="article_put_input">
+            <input placeholder="请输入标题（建议30字以内）" :maxlength="TITLE_MAX_INPUT" v-model="content.title">
+            <span class="article_input_text_count">{{ titleNum }}/{{ TITLE_MAX_INPUT }}</span>
+          </div>
         </div>
         <div class="article_put_desc_wrap">
           <div class="article_put_desc">
             <svg-icon icon-name="describe" class-name="desc_svg"></svg-icon>
-            <span class="article_put_title_wrap_test">简介</span>
+            <span class="article_put_test">简介</span>
           </div>
-          <textarea placeholder="请输入简介（建议100字以内）" maxlength="150" />
+          <div class="article_put_input">
+            <textarea placeholder="请输入简介（建议100字以内）" :maxlength="DESC_MAX_INPUT" v-model="content.desc"/>
+            <span class="article_input_text_count desc">{{descNum}}/{{DESC_MAX_INPUT}}</span>
+          </div>
         </div>
-        <QuillEditor theme="snow"/>
+        <div class="article_put_content_wrap">
+          <div class="article_put_content">
+            <svg-icon icon-name="article_main" class-name="article_main_svg"></svg-icon>
+            <span class="article_put_test">主要内容</span>
+          </div>
+          <QuillEditor ref="quillEditor" :modules="modules" toolbar="full" :options="myQuillOptions" v-model:content="content.quillContent"/>
+          <div class="quill_editor_count_wrap">
+            <span class="quill_editor_count">已输入{{ quillNum }}字</span>
+          </div>
+        </div>
       </div>
     </div>
     <div class="image_cut_entry">
@@ -132,6 +160,8 @@ import ImageCut from "@/components/imageCut.vue";
 }
 .article_put_title_wrap,.article_put_desc_wrap,.article_put_cover_wrap{
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
 }
 .article_put_title_wrap input{
   width: 100%;
@@ -139,18 +169,18 @@ import ImageCut from "@/components/imageCut.vue";
   font-size: 20px;
   font-weight: 800;
   padding: 10px 50px 10px 10px;
-  border: 1px solid var(--line_regular);
+  border: 1px solid var(--line_contribute);
   transition: border-color .2s;
 }
 .article_put_title_wrap input::placeholder,.article_put_desc_wrap textarea::placeholder{
   font-weight: 400;
   color:var(--text4);
 }
-.article_put_title_wrap_test{
+.article_put_test{
   font-size: 20px;
   font-weight: 800;
 }
-.article_put_title,.article_put_cover,.article_put_desc{
+.article_put_title,.article_put_cover,.article_put_desc,.article_put_content{
   display: flex;
   height: 30px;
   line-height: 30px;
@@ -162,16 +192,27 @@ import ImageCut from "@/components/imageCut.vue";
   height: 25px;
   margin-right: 7px;
 }
+.article_main_svg,.desc_svg{
+ margin-top: 3px;
+}
+.article_main_svg{
+  width: 27px;
+  height: 27px;
+  margin-right: 7px;
+}
 .article_put_desc_wrap textarea{
   width: 100%;
-  border: 1px solid var(--line_regular);
+  border: 1px solid var(--line_contribute);
   line-height: 26px;
   font-size: 16px;
-  padding: 10px;
+  padding: 10px 50px 10px 10px;
   outline: none;
   resize: none;
   text-align: justify;
   transition: border-color .2s;
+  font-family: inherit;
+  min-height: 120px;
+  //scrollbar-width: 5px;
 }
 .article_put_title_wrap input:hover,.article_put_desc_wrap textarea:hover,
 .article_put_title_wrap input:focus,.article_put_desc_wrap textarea:focus{
@@ -230,4 +271,32 @@ import ImageCut from "@/components/imageCut.vue";
   border: 2px solid var(--normal_blue);
   border-radius: 8px;
 }
+.article_put_input{
+  position: relative;
+}
+.article_input_text_count{
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  color: var(--text3);
+  font-size: 13px;
+  transform: translateY(-50%);
+}
+.article_input_text_count.desc{
+  top:unset;
+  bottom: 0;
+}
+.quill_editor_count_wrap{
+  border: 1px solid var(--line_contribute);
+  border-top: 0;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 15px 10px 15px;
+}
+.quill_editor_count{
+  font-size: 13px;
+  line-height: 20px;
+  color: var(--text3);
+}
 </style>
+

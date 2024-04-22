@@ -15,6 +15,7 @@
     --text_black:#000000;
     --line_light: #F1F2F3;
     --line_regular: #E3E5E7;
+    --line_contribute: #d1d5db;
     --line_thick : #838080;
     --line_error : #FF5765;
     --graph_weak: #C9CCD0;
@@ -940,6 +941,26 @@ input[type="checkbox"]:checked +label  .check_icon{
     position: relative;
 }
 
+.platform_popover::-webkit-scrollbar{
+    width: 6px;
+    height: 6px;
+}
+.platform_popover::-webkit-scrollbar-thumb {
+    cursor: pointer!important;
+    border-radius: 10px;
+    background-color: var(--normal_blue);
+}
+.platform_popover::-webkit-scrollbar-track-piece {
+    background-color: transparent;
+    border-radius: 10px;
+}
+.platform_popover::-webkit-scrollbar-thumb:hover{
+    background-color: #009dff;
+    cursor: pointer!important;
+}
+.platform_popover::-webkit-scrollbar-track{
+    border-radius: 10px;
+}
 .platform_entry{
     margin-left: var(--entry_m);
     margin-right: var(--entry_m);
@@ -957,4 +978,12 @@ input[type="checkbox"]:checked +label  .check_icon{
 
 .platform_entry_main_wrap{
     margin-top: 12px;
+}
+
+/*vue quill editor*/
+.ql-editor{
+    min-height: 300px;
+}
+.ql-container{
+    border-bottom: 0 !important;
 }
