@@ -19,6 +19,19 @@
     --line_thick : #838080;
     --line_error : #FF5765;
     --graph_weak: #C9CCD0;
+
+
+    --Lb0_u: #ECFAFE;
+    --Lb1_u: #DFF6FD;
+    --Lb2_u: #BFEDFA;
+    --Lb3_u: #80DAF6;
+    --Lb4_u: #40C5F1;
+    --Lb5_u: #00AEEC;   /*normal_blue*/
+    --Lb6_u: #008AC5;
+    --Lb7_u: #00699D;
+    --Lb8_u: #004B76;
+    --Lb9_u: #002F4F;
+    --Lb10_u: #001627;
 }
 
 body h1, body h2, body h3, body h4, body h5, body h6, body li, body ul {

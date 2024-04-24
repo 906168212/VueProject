@@ -28,30 +28,30 @@ export class Nav{
 
 
 class Links {
-    constructor(id, name, href,count) {
+    constructor(id, name, href,category) {
         this.id = id;
         this.name = name;
         this.href = href;
-        this.count = count;
+        this.category = category;
     }
 }
 
 export const links = [
-    new Links(0,'动漫','/animation',0),
-    new Links(1,'漫画','/comic',0),
-    new Links(2,'游戏','/game',0),
-    new Links(3,'吃瓜','/melon',0),
-    new Links(4,'热点','/hot',0),
-    new Links(5,'资讯','/news',0),
-    new Links(6,'影视','/movie',0),
-    new Links(7,'美食','/food',0),
-    new Links(8,'旅游','/travel',0),
-    new Links(9,'知识','/knowledge',0),
-    new Links(10,'单机游戏','/dan',0),
-    new Links(11,'生活','/life',0),
-    new Links(12,'工具','/tool',0),
-    new Links(13,'ASMR','/asmr',0),
-    new Links(14,'网址大全','/website',0),
-    new Links(15,'精品','/goods',0)
+    new Links(0,'动漫','/animation',[]),
+    new Links(1,'漫画','/comic',[]),
+    new Links(2,'游戏','/game',['PC游戏','模拟器游戏','至高之神','手机游戏','游戏插件']),
+    new Links(3,'吃瓜','/melon',[]),
+    new Links(4,'热点','/hot',[]),
+    new Links(5,'资讯','/news',[]),
+    new Links(6,'影视','/movie',[]),
+    new Links(7,'美食','/food',[]),
+    new Links(8,'旅游','/travel',[]),
+    new Links(9,'知识','/knowledge',[]),
+    new Links(10,'单机游戏','/dan',[]),
+    new Links(11,'生活','/life',[]),
+    new Links(12,'工具','/tool',[]),
+    new Links(13,'ASMR','/asmr',[]),
+    new Links(14,'网址大全','/website',[]),
+    new Links(15,'精品','/goods',[])
 ]
 
