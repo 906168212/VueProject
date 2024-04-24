@@ -1000,3 +1000,11 @@ input[type="checkbox"]:checked +label  .check_icon{
 .ql-container{
     border-bottom: 0 !important;
 }
+
+/*some common*/
+.mt_10{
+    margin-top: 10px;
+}
+.mt_20{
+    margin-top: 20px;
+}

@@ -180,6 +180,7 @@
     flex-direction: column;
 }
 .more_config_tip{
+    margin-top: 20px;
     display: flex;
     align-items: center;
     line-height: 20px;
@@ -245,7 +246,6 @@
 .column_item_container{
     margin: 20px 0;
     display: grid;
-    grid-template-columns: repeat(10,1fr);
     grid-template-rows: repeat(2,1fr);
     gap: 15px 10px;
 }
@@ -256,9 +256,9 @@
     cursor: pointer;
     position: relative;
 }
-.column_config_tip{
+.column_config_tip,.label_config_tip{
     color: var(--text3);
-    font-size: 13px;
+    font-size: 12px;
     line-height: 18px;
     height: 18px;
     display: flex;
@@ -311,6 +311,84 @@
     background-color: var(--bg_white);
     color: var(--Lb5_u);
 }
-.column_default_tip{
-    margin-top: 10px;
+
+.label_config{
+    margin-top: 40px;
+}
+.label_display_entry{
+    margin-top: 8px;
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+}
+.label_display_entry input{
+    font-size: 14px;
+    width: 132px;
+    height: 32px;
+    line-height: 32px;
+    border: 1px solid var(--line_regular);
+    border-radius: 16px;
+    padding: 0 16px;
+    transition: border-color .2s;
+}
+.label_display_entry input:focus{
+    border-color: var(--normal_blue);
+}
+.label_display_entry input::placeholder{
+    color: var(--text3);
+}
+.label_display_entry span{
+    margin-left: 10px;
+    color: var(--text3);
+    font-size: 12px;
+    line-height: 32px;
+}
+.label_item{
+    margin-top: 12px;
+    color: var(--text-white);
+    line-height: 32px;
+    height: 32px;
+    background: var(--Lb5_u);
+    border: none;
+    border-radius: 20px;
+    padding: 0 16px;
+    margin-right: 20px;
+    transition: all .2s linear;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.label_item:hover{
+    background-color: var(--Lb3_u);
+}
+.label_input_wrap{
+    margin-top: 12px;
+}
+.label_title{
+    line-height: 20px;
+    height: 20px;
+}
+.label_desc{
+    margin-left: 5px;
+    font-size: 12px;
+    color: var(--text3);
+}
+.delete_svg{
+    width: 14px;
+    height: 14px;
+}
+.labelDelete_box{
+    margin-left: 5px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+.labelDelete-enter-from,.labelDelete-leave-to{
+    width: 0;
+}
+.labelDelete-enter-active,.labelDelete-leave-active{
+    transition: width .2s;
+}
+.labelDelete-enter-to,.labelDelete-leave-from{
+    width: 14px;
 }

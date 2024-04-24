@@ -16,6 +16,7 @@ class Content {
 const defaultId = 2
 const defaultColumn = links[defaultId].name
 const defaultCategory = links[defaultId].category[0]
+const LABEL_MAX_NUMBER = 10
 
 class Selected {
   showId = 0
@@ -38,6 +39,9 @@ const moreConfig = ref(false)
 const coverData = ref(null)
 const quillEditor = ref(null)
 const quillCount = ref(0)
+const labelText = ref(null)
+const labels = ref([])
+const labelTouchId = ref(null)
 const modules = [
   {
     name: 'blotFormatter',
@@ -88,8 +92,24 @@ const handleOutSideClick=(event)=>{
     selected.choose = false
   }
 }
+const handleEnterKey=()=>{
+  // 按下回车键时执行的操作
+  if(labelText.value){
+    // 如果输入框中有文本，则创建一个新的标签并添加到 labels 数组中
+    labels.value.push(labelText.value);
+    // 清空内容文本
+    labelText.value = null
+  }
+}
+const handleLabelMouseEnter=(index)=>{
+  labelTouchId.value = index
+}
+const handleLabelMouseLeave=()=>{
+  labelTouchId.value = null
+}
 const titleNum = computed(()=> content.title.length)
 const descNum = computed(()=>content.desc.length)
+const labelNum = computed(()=>labels.value.length)
 onMounted(()=>{
   store.commit('page/setContributePage',0)
   document.addEventListener("click",handleOutSideClick)
@@ -100,6 +120,9 @@ onUnmounted(()=>{
   dialog.value = false
   coverData.value = null
   dialogInit.value = false
+  labelText.value = null
+  labels.value = []
+  labelTouchId.value = null
   Object.assign(content,new Content())
   Object.assign(selected,new Selected())
   document.removeEventListener("click",handleOutSideClick)
@@ -174,8 +197,34 @@ onUnmounted(()=>{
                 <span>当前选择的分类：</span>
                 <span style="color: var(--Lb5_u)">{{selected.column}} / {{selected.category}}</span>
               </div>
-              <div class="column_config_tip column_default_tip">
+              <div class="column_config_tip mt_10">
+                <svg-icon icon-name="info" class-name="info_svg"></svg-icon>
                 <span>非必选，默认选择【{{defaultColumn}} / {{defaultCategory}}】</span>
+              </div>
+            </div>
+            <div class="label_config">
+              <div class="label_title">
+                <span>请添加标签</span>
+                <span class="label_desc">（还可以添加10个标签）</span>
+              </div>
+              <div class="label_display_entry">
+                <div class="label_item" v-for="(item,index) in labels" :key="index"
+                  @mouseenter="handleLabelMouseEnter(index)" @mouseleave="handleLabelMouseLeave">
+                  {{item}}
+                  <transition name="labelDelete">
+                    <div class="labelDelete_box" v-if="labelTouchId===index">
+                      <svg-icon icon-name="delete" class-name="delete_svg"></svg-icon>
+                    </div>
+                  </transition>
+                </div>
+                <div class="label_input_wrap" v-if="labelNum<LABEL_MAX_NUMBER">
+                  <input type="text" placeholder="例如：游戏" v-model="labelText" @keyup.enter="handleEnterKey" maxlength="15">
+                  <span>按回车Enter创建标签</span>
+                </div>
+              </div>
+              <div class="label_config_tip mt_20">
+                <svg-icon icon-name="info" class-name="info_svg"></svg-icon>
+                <span>非必选，默认为选择的专栏类别</span>
               </div>
             </div>
           </div>
