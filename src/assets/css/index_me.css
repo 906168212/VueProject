@@ -32,6 +32,18 @@
     --Lb8_u: #004B76;
     --Lb9_u: #002F4F;
     --Lb10_u: #001627;
+
+    --Pi0_u: #FFF3F6;
+    --Pi1_u: #FFECF1;
+    --Pi2_u: #FFD9E4;
+    --Pi3_u: #FFB3CA;
+    --Pi4_u: #FF8CB0;
+    --Pi5_u: #FF6699;
+    --Pi6_u: #E84B85;
+    --Pi7_u: #D03171;
+    --Pi8_u: #AD1C5B;
+    --Pi9_u: #771141;
+    --Pi10_u: #3F0723;
 }
 
 body h1, body h2, body h3, body h4, body h5, body h6, body li, body ul {
@@ -1007,4 +1019,7 @@ input[type="checkbox"]:checked +label  .check_icon{
 }
 .mt_20{
     margin-top: 20px;
+}
+.overflow_hidden{
+    overflow: hidden;
 }

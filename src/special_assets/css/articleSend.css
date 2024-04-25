@@ -181,6 +181,8 @@
 }
 .more_config_tip{
     margin-top: 20px;
+}
+.more_config_tip_inner{
     display: flex;
     align-items: center;
     line-height: 20px;
@@ -195,7 +197,7 @@
     height: 15px;
     margin-left: 4px;
 }
-.more_config_tip:hover{
+.more_config_tip_inner:hover{
     color: var(--normal_blue);
 }
 .more_config_tip_test{
@@ -234,11 +236,12 @@
 .article_put_upload_wrap button:not(.upload_btn):hover{
     background-color: var(--Lb1_u);
 }
-.article_put_upload_wrap .upload_btn:hover{
+.article_put_upload_wrap .upload_btn:not(.disabled):hover{
     background-color: var(--Lb4_u);
 }
 .more_config_entry{
     margin-bottom: 10px;
+    overflow: hidden;
 }
 .column_config{
     /*margin-bottom: 20px;*/
@@ -331,7 +334,7 @@
     padding: 0 16px;
     transition: border-color .2s;
 }
-.label_display_entry input:focus{
+.label_display_entry input:focus,.label_display_entry input:hover{
     border-color: var(--normal_blue);
 }
 .label_display_entry input::placeholder{
@@ -344,7 +347,7 @@
     line-height: 32px;
 }
 .label_item{
-    margin-top: 12px;
+    margin-top: 13px;
     color: var(--text-white);
     line-height: 32px;
     height: 32px;
@@ -359,7 +362,7 @@
     align-items: center;
 }
 .label_item:hover{
-    background-color: var(--Lb3_u);
+    background-color: var(--Lb4_u);
 }
 .label_input_wrap{
     margin-top: 12px;
@@ -391,4 +394,55 @@
 }
 .labelDelete-enter-to,.labelDelete-leave-from{
     width: 14px;
+}
+.agreement_config{
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+}
+.agreement_allow_wrap{
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--line_contribute);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all .2s;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.agreement_allow_wrap:hover{
+    border-color: var(--Lb5_u);
+}
+.selected_svg{
+    width: 12px;
+    height: 12px;
+}
+.agreement_allow_wrap.selected{
+    border-color: var(--Lb5_u);
+    background-color: var(--Lb5_u);
+    color: var(--text-white);
+}
+.agreement_text{
+    line-height: 16px;
+    font-size: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+.agreement_content{
+    color: var(--Lb5_u);
+    transition: color .2s;
+}
+.agreement_content:hover{
+    color:var(--Pi5_u)
+}
+.upload_btn.disabled{
+    background: var(--bg_regular);
+    border-color: transparent;
+    cursor: not-allowed;
+    color: var(--text2);
+}
+.upload_btn.disabled:hover{
+    background-color: var(--bg-thick);
 }

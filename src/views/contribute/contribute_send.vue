@@ -40,8 +40,10 @@ const coverData = ref(null)
 const quillEditor = ref(null)
 const quillCount = ref(0)
 const labelText = ref(null)
-const labels = ref([])
+const labels = ref([selected.column,selected.category])
 const labelTouchId = ref(null)
+const timer = ref(null)
+const agree = ref(true)
 const modules = [
   {
     name: 'blotFormatter',
@@ -86,6 +88,8 @@ const getSelectedCategory=(index,cindex)=>{
   selected.column = columns[index].name
   selected.category = columns[index].category[cindex]
   selected.choose = false
+  labels.value[0] = selected.column
+  labels.value[1] = selected.category
 }
 const handleOutSideClick=(event)=>{
   if(!event.target.classList.contains('column_click_box') && !event.target.classList.contains('column_item_category')){
@@ -102,10 +106,23 @@ const handleEnterKey=()=>{
   }
 }
 const handleLabelMouseEnter=(index)=>{
-  labelTouchId.value = index
+  timer.value = setTimeout(()=>{
+    if(index!==0 && index!==1)
+      labelTouchId.value = index
+  },100)
 }
 const handleLabelMouseLeave=()=>{
+  clearTimeout(timer.value)
   labelTouchId.value = null
+}
+const deleteLabel=(index)=>{
+  if(index!==0&&index!==1){
+    labels.value.splice(index,1)
+    labelTouchId.value = null
+  }
+}
+const toggleAgree=()=>{
+  agree.value = !agree.value
 }
 const titleNum = computed(()=> content.title.length)
 const descNum = computed(()=>content.desc.length)
@@ -121,8 +138,10 @@ onUnmounted(()=>{
   coverData.value = null
   dialogInit.value = false
   labelText.value = null
-  labels.value = []
+  labels.value = [selected.column,selected.category]
   labelTouchId.value = null
+  timer.value = null
+  agree.value = true
   Object.assign(content,new Content())
   Object.assign(selected,new Selected())
   document.removeEventListener("click",handleOutSideClick)
@@ -182,63 +201,77 @@ onUnmounted(()=>{
           </div>
         </div>
         <div class="article_put_more_config_wrap">
-          <div class="more_config_entry">
-            <div class="column_config">
-              <span>请设置专栏分类</span>
-              <div class="column_item_container">
-                <div v-for="(column,index) in columns" :key="index" class="column_item">
-                  <span class="column_click_box" :class="{selected:selected.id === index}"  @click="getSelectedColumn(index)">{{ column.name }}</span>
-                  <div class="column_item_category" v-if="selected.showId===index && selected.choose">
-                    <div  @click="getSelectedCategory(index,ind)" v-for="(single,ind) in column.category" :key="ind" class="column_category_item">{{single}}</div>
+          <div v-if="moreConfig" class="more_config_entry">
+              <div class="column_config">
+                <span>请设置专栏分类</span>
+                <div class="column_item_container">
+                  <div v-for="(column,index) in columns" :key="index" class="column_item">
+                    <span class="column_click_box" :class="{selected:selected.id === index}"  @click="getSelectedColumn(index)">{{ column.name }}</span>
+                    <div class="column_item_category" v-if="selected.showId===index && selected.choose">
+                      <div  @click="getSelectedCategory(index,ind)" v-for="(single,ind) in column.category" :key="ind" class="column_category_item">{{single}}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="column_config_tip">
-                <span>当前选择的分类：</span>
-                <span style="color: var(--Lb5_u)">{{selected.column}} / {{selected.category}}</span>
-              </div>
-              <div class="column_config_tip mt_10">
-                <svg-icon icon-name="info" class-name="info_svg"></svg-icon>
-                <span>非必选，默认选择【{{defaultColumn}} / {{defaultCategory}}】</span>
-              </div>
-            </div>
-            <div class="label_config">
-              <div class="label_title">
-                <span>请添加标签</span>
-                <span class="label_desc">（还可以添加10个标签）</span>
-              </div>
-              <div class="label_display_entry">
-                <div class="label_item" v-for="(item,index) in labels" :key="index"
-                  @mouseenter="handleLabelMouseEnter(index)" @mouseleave="handleLabelMouseLeave">
-                  {{item}}
-                  <transition name="labelDelete">
-                    <div class="labelDelete_box" v-if="labelTouchId===index">
-                      <svg-icon icon-name="delete" class-name="delete_svg"></svg-icon>
-                    </div>
-                  </transition>
+                <div class="column_config_tip">
+                  <span>当前选择的分类：</span>
+                  <span style="color: var(--Lb5_u)">{{selected.column}} / {{selected.category}}</span>
                 </div>
-                <div class="label_input_wrap" v-if="labelNum<LABEL_MAX_NUMBER">
-                  <input type="text" placeholder="例如：游戏" v-model="labelText" @keyup.enter="handleEnterKey" maxlength="15">
-                  <span>按回车Enter创建标签</span>
+                <div class="column_config_tip mt_10">
+                  <svg-icon icon-name="info" class-name="info_svg"></svg-icon>
+                  <span>非必选，默认选择【{{defaultColumn}} / {{defaultCategory}}】</span>
                 </div>
               </div>
-              <div class="label_config_tip mt_20">
-                <svg-icon icon-name="info" class-name="info_svg"></svg-icon>
-                <span>非必选，默认为选择的专栏类别</span>
+              <div class="label_config">
+                <div class="label_title">
+                  <span>请添加标签</span>
+                  <span class="label_desc">（还可以添加{{ LABEL_MAX_NUMBER - labelNum }}个标签）</span>
+                </div>
+                <div class="label_display_entry">
+                  <div class="label_item" v-for="(item,index) in labels" :key="index"
+                       @mouseenter="handleLabelMouseEnter(index)" @mouseleave="handleLabelMouseLeave" @click="deleteLabel(index)">
+                    {{item}}
+                    <transition name="labelDelete">
+                      <div class="labelDelete_box" v-if="labelTouchId===index">
+                        <svg-icon icon-name="delete" class-name="delete_svg"></svg-icon>
+                      </div>
+                    </transition>
+                  </div>
+                  <div class="label_input_wrap" v-if="labelNum<LABEL_MAX_NUMBER">
+                    <input type="text" placeholder="例如：游戏" v-model="labelText" @keyup.enter="handleEnterKey" maxlength="15">
+                    <span>按回车Enter创建标签</span>
+                  </div>
+                </div>
+                <div class="label_config_tip mt_10">
+                  <svg-icon icon-name="info" class-name="info_svg"></svg-icon>
+                  <span>非必选，默认为选择的专栏类别，且不可删除</span>
+                </div>
+              </div>
+              <div class="agreement_config">
+                <div class="agreement_allow_wrap" @click="toggleAgree" :class="{selected:agree}">
+                  <svg-icon v-if="agree" class-name="selected_svg" icon-name="selected"></svg-icon>
+                </div>
+                <div class="agreement_text">
+                  <span @click="toggleAgree">我已阅读并接受</span>
+                  <span class="agreement_content">《哈哩哈皮文章上传协议》</span>
+                  <span @click="toggleAgree">和</span>
+                  <span class="agreement_content">《哈哩哈皮文章规范》</span>
+                </div>
               </div>
             </div>
+          <div class="more_config_tip" v-if="!moreConfig">
+            <div class="more_config_tip_inner" @click="moreConfig=true">
+              <span>更多设置</span>
+              <svg-icon icon-name="arrow" class-name="arrow_svg"></svg-icon>
+            </div>
+            <div class="more_config_tip_test">
+              <svg-icon icon-name="info" class-name="info_svg"></svg-icon>
+              <span>分类、标签以及上传协议</span>
+            </div>
           </div>
-          <div class="more_config_tip">
-            <span>更多设置</span>
-            <svg-icon icon-name="arrow" class-name="arrow_svg"></svg-icon>
-          </div>
-          <div class="more_config_tip_test">
-            <svg-icon icon-name="info" class-name="info_svg"></svg-icon>
-            <span>分类、标签、定时发布等</span>
-          </div>
+
         </div>
         <div class="article_put_upload_wrap">
-          <button class="upload_btn">提交文章</button>
+          <button class="upload_btn" :class="{disabled:!agree}" :disabled="!agree">提交文章</button>
           <button>存草稿箱</button>
           <button>网页预览</button>
         </div>
