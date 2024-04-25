@@ -159,3 +159,12 @@ export const handleResetSuccessResponse = (responseData,responseError,status)=>{
     }else throw new Error(responseData.message) // 处理失败逻辑
 }
 
+//文章图片上传处理
+export const handleArticleImageUploadSuccessResponse = (responseData,resolve,reject)=>{
+    if (responseData.code === 200){
+        resolve(responseData.data.url)
+        console.log('data:'+responseData.data)
+        console.log('url:'+responseData.data.url)
+    }else throw new Error(responseData.message)
+}
+

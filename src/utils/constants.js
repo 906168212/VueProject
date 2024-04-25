@@ -5,3 +5,4 @@ export const MAX_PASSWORD_LENGTH = 16;
 export const BACK_TIME = 3;
 export const EMAIL_CODE_LENGTH = 6;
 export const OVERLAY_TIME = 0.2 //s
+export const HOST = 'http://localhost:8080'

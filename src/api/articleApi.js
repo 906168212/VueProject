@@ -1,6 +1,6 @@
 import {simpleAxios, tokenAxios} from "@/utils/commonAxiosCreate.js";
 import {
-    handleArticleDisplaySuccessResponse,
+    handleArticleDisplaySuccessResponse, handleArticleImageUploadSuccessResponse,
     handleGetAllArticleSuccessResponse,
     handleRightRegionSuccessResponse
 } from "@/api/responseHandler/allSuccessResponseHandle.js";
@@ -49,6 +49,17 @@ export const getRankingRegionArticle = async (status,article,rid)=>{
         const responseBody = await simpleAxios('article').get('/ranking/region?'+`rid=${rid}`)
         return handleRightRegionSuccessResponse(responseBody.data,status,article)
     }catch (error){
+        log.error(error.message)
+    }
+}
+
+// 文章内图片上传
+export const uploadArticleImage = async (formData,resolve,reject)=>{
+    try {
+        const responseBody = await simpleAxios('article').post('/upload/image',formData)
+        return handleArticleImageUploadSuccessResponse(responseBody,resolve,reject)
+    }catch (error){
+        reject(error.message)
         log.error(error.message)
     }
 }

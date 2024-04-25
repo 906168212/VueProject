@@ -8,6 +8,9 @@ import ImageUploader from 'quill-image-uploader';
 import ImageCut from "@/components/imageCut.vue";
 import PlatformFooter from "@/components/platformFooter.vue";
 import {links} from "@/api/dataInfo.js";
+import {uploadArticleImage} from "@/api/articleApi.js";
+import * as events from "node:events";
+import {HOST} from "@/utils/constants.js";
 class Content {
   title = ''
   desc = ''
@@ -44,6 +47,9 @@ const labels = ref([selected.column,selected.category])
 const labelTouchId = ref(null)
 const timer = ref(null)
 const agree = ref(true)
+const previousPids = ref([])
+const pids = ref([])
+const removePids = ref([])
 const modules = [
   {
     name: 'blotFormatter',
@@ -54,7 +60,16 @@ const modules = [
     name: 'imageUploader',
     module: ImageUploader,
     options: {
-      upload:{}
+      upload: file=>{
+        return new Promise((resolve,reject)=>{
+          // const formData = new FormData();
+          // formData.append('image', file)
+          // uploadArticleImage(formData,resolve,reject)
+          setTimeout(()=>{
+            resolve("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/480px-JavaScript-logo.png")
+          },3500)
+        })
+      }
     }
   }
 ]
@@ -75,8 +90,34 @@ const closeCoverDialog=(payload)=>{
 const getCoverData=(payload)=>{
   coverData.value = payload
 }
-const updateQuillTextCount=(event)=>{
+const getPids=(pids,html)=> {
+  let dom = document.createElement("div")
+  dom.innerHTML = html
+  const imgDom = dom.getElementsByTagName('img');
+  // const url = HOST
+  const url = 'https://upload.wikimedia.org'
+  const pidArr = []
+  for (let i = 0; i < imgDom.length; i++) {
+    const urlParams = new URLSearchParams(imgDom[i])
+    // if(imgDom[i].src.indexOf(url)!==-1 && urlParams.has('pid')){
+    if (imgDom[i].src.indexOf(url) !== -1) {
+      // let pid = urlParams.get('pid')
+      pidArr.push(imgDom[i].src)
+    }
+  }
+  // 找出被删除的pids
+  const deletedPids = previousPids.value.filter(prevPid => !pidArr.includes(prevPid))
+  // 更新上一次的pid列表,slice用于创建浅拷贝，防止过程中pidArr出现改变
+  previousPids.value = pidArr.slice()
+  if (deletedPids.length > 0)
+    removePids.value.push(deletedPids)
+}
+const updateQuillTextCount=()=>{
+  // console.log(quillEditor.value.getHTML())
   quillCount.value =  quillEditor.value.getText().length - 1
+}
+const onEditorChange=()=>{
+  getPids(null,quillEditor.value.getHTML())
 }
 const getSelectedColumn=(index)=>{
   // selected.id = index
@@ -124,6 +165,7 @@ const deleteLabel=(index)=>{
 const toggleAgree=()=>{
   agree.value = !agree.value
 }
+
 const titleNum = computed(()=> content.title.length)
 const descNum = computed(()=>content.desc.length)
 const labelNum = computed(()=>labels.value.length)
@@ -146,6 +188,8 @@ onUnmounted(()=>{
   Object.assign(selected,new Selected())
   document.removeEventListener("click",handleOutSideClick)
 })
+
+// 未完成目标：图片删除，为每个图片添加一个pid
 </script>
 
 <template>
@@ -195,7 +239,7 @@ onUnmounted(()=>{
             <svg-icon icon-name="article_main" class-name="article_main_svg"></svg-icon>
             <span class="article_put_test">主要内容</span>
           </div>
-          <QuillEditor ref="quillEditor" @textChange="updateQuillTextCount($event)"  :modules="modules" toolbar="full" :options="myQuillOptions" v-model:content="content.quillContent"/>
+          <QuillEditor ref="quillEditor" content-type="html" @editorChange="onEditorChange" @textChange="updateQuillTextCount"  :modules="modules" toolbar="full" :options="myQuillOptions" v-model:content="content.quillContent"/>
           <div class="quill_editor_count_wrap">
             <span class="quill_editor_count">已输入{{ quillCount }}字</span>
           </div>
