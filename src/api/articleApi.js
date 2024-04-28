@@ -56,8 +56,8 @@ export const getRankingRegionArticle = async (status,article,rid)=>{
 // 文章内图片上传
 export const uploadArticleImage = async (formData,resolve,reject)=>{
     try {
-        const responseBody = await simpleAxios('article').post('/upload/image',formData)
-        return handleArticleImageUploadSuccessResponse(responseBody,resolve,reject)
+        const responseBody = await simpleAxios('test').post('/upload/images',formData)
+        return handleArticleImageUploadSuccessResponse(responseBody.data,resolve,reject)
     }catch (error){
         reject(error.message)
         log.error(error.message)

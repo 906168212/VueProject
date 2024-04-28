@@ -62,12 +62,14 @@ const modules = [
     options: {
       upload: file=>{
         return new Promise((resolve,reject)=>{
-          // const formData = new FormData();
-          // formData.append('image', file)
-          // uploadArticleImage(formData,resolve,reject)
-          setTimeout(()=>{
-            resolve("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/480px-JavaScript-logo.png")
-          },3500)
+          console.log(file)
+          const formData = new FormData();
+          formData.append('image', file)
+          console.log(formData)
+          uploadArticleImage(formData,resolve,reject)
+          // setTimeout(()=>{
+          //   resolve("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/480px-JavaScript-logo.png")
+          // },3500)
         })
       }
     }
@@ -109,8 +111,12 @@ const getPids=(pids,html)=> {
   const deletedPids = previousPids.value.filter(prevPid => !pidArr.includes(prevPid))
   // 更新上一次的pid列表,slice用于创建浅拷贝，防止过程中pidArr出现改变
   previousPids.value = pidArr.slice()
-  if (deletedPids.length > 0)
-    removePids.value.push(deletedPids)
+  if (deletedPids.length > 0){
+    deletedPids.forEach(item=>{
+      removePids.value.push(item)
+    })
+  }
+
 }
 const updateQuillTextCount=()=>{
   // console.log(quillEditor.value.getHTML())
