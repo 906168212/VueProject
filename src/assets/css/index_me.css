@@ -1020,6 +1020,12 @@ input[type="checkbox"]:checked +label  .check_icon{
 .mt_20{
     margin-top: 20px;
 }
+.mb_10{
+    margin-bottom: 10px;
+}
+.mb_20{
+    margin-bottom: 20px;
+}
 .overflow_hidden{
     overflow: hidden;
 }

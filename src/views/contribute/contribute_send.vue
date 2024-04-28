@@ -11,6 +11,7 @@ import {links} from "@/api/dataInfo.js";
 import {uploadArticleImage} from "@/api/articleApi.js";
 import * as events from "node:events";
 import {HOST} from "@/utils/constants.js";
+import router from "@/router/index.js";
 class Content {
   title = ''
   desc = ''
@@ -172,6 +173,23 @@ const toggleAgree=()=>{
   agree.value = !agree.value
 }
 
+const submit = (event)=>{
+  const value = event.submitter.value
+  if(value==='upload'){}
+  else if(value==='sketch'){}
+  else if(value==='preview'){
+    let routerUrl = router.resolve({
+      path: '/preview',
+      query: {
+        title:content.title,
+        desc:content.desc,
+        quillContent:content.quillContent
+      }
+    })
+    window.open(routerUrl.href,'_blank')
+  }
+}
+
 const titleNum = computed(()=> content.title.length)
 const descNum = computed(()=>content.desc.length)
 const labelNum = computed(()=>labels.value.length)
@@ -321,9 +339,11 @@ onUnmounted(()=>{
 
         </div>
         <div class="article_put_upload_wrap">
-          <button class="upload_btn" :class="{disabled:!agree}" :disabled="!agree">提交文章</button>
-          <button>存草稿箱</button>
-          <button>网页预览</button>
+          <form @submit.prevent="submit">
+            <button value="upload" class="upload_btn" :class="{disabled:!agree}" :disabled="!agree">提交文章</button>
+            <button value="sketch">存草稿箱</button>
+            <button value="preview">网页预览</button>
+          </form>
         </div>
       </div>
       <platform-footer/>

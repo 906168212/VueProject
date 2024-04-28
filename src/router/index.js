@@ -170,6 +170,13 @@ const routes = [
             }
         ],
         meta:{requiresAuth: true}
+    },
+    {
+        path:'/preview',
+        name:'preview',
+        children: [],
+        meta:{requiresAuth: true},
+        component:()=> import('@/views/ArticlePreview.vue')
     }
 ]
 
