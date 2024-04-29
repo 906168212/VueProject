@@ -1,5 +1,5 @@
 <script setup >
-import {computed, onBeforeUnmount, onMounted, onUnmounted, reactive, ref} from "vue";
+import {computed, onMounted, onUnmounted, reactive, ref} from "vue";
 import store from "@/store/index.js";
 import {QuillEditor} from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
@@ -9,19 +9,13 @@ import ImageCut from "@/components/imageCut.vue";
 import PlatformFooter from "@/components/platformFooter.vue";
 import {links} from "@/api/dataInfo.js";
 import {uploadArticleImage} from "@/api/articleApi.js";
-import * as events from "node:events";
-import {HOST} from "@/utils/constants.js";
 import router from "@/router/index.js";
+// class
 class Content {
   title = ''
   desc = ''
   quillContent = ''
 }
-const defaultId = 2
-const defaultColumn = links[defaultId].name
-const defaultCategory = links[defaultId].category[0]
-const LABEL_MAX_NUMBER = 10
-
 class Selected {
   showId = 0
   id = defaultId
@@ -30,8 +24,14 @@ class Selected {
   choose = false
 }
 
+// 常量
+const LABEL_MAX_NUMBER = 10
 const TITLE_MAX_INPUT = 40
 const DESC_MAX_INPUT = 150
+
+const defaultId = 2
+const defaultColumn = links[defaultId].name
+const defaultCategory = links[defaultId].category[0]
 const columns = links;
 
 const content = reactive(new Content())
@@ -39,7 +39,7 @@ const selected = reactive(new Selected())
 
 const dialogInit = ref(false)
 const dialog = ref(false)
-const moreConfig = ref(false)
+const moreConfig = ref(true)
 const coverData = ref(null)
 const quillEditor = ref(null)
 const quillCount = ref(0)
@@ -76,12 +76,6 @@ const modules = [
     }
   }
 ]
-
-const myQuillOptions = reactive({
-  theme:'snow',
-  placeholder:"请输入具体内容"
-})
-
 
 const openCoverDialog = ()=>{
   dialogInit.value = true
@@ -178,18 +172,16 @@ const submit = (event)=>{
   if(value==='upload'){}
   else if(value==='sketch'){}
   else if(value==='preview'){
+    // 将预览信息存入sessionStorage
+    const info = JSON.stringify(content)
+    sessionStorage.setItem('article_preview_info',info)
     let routerUrl = router.resolve({
-      path: '/preview',
-      query: {
-        title:content.title,
-        desc:content.desc,
-        quillContent:content.quillContent
-      }
+      name: 'preview'
     })
     window.open(routerUrl.href,'_blank')
   }
 }
-
+// 计算
 const titleNum = computed(()=> content.title.length)
 const descNum = computed(()=>content.desc.length)
 const labelNum = computed(()=>labels.value.length)
@@ -263,7 +255,7 @@ onUnmounted(()=>{
             <svg-icon icon-name="article_main" class-name="article_main_svg"></svg-icon>
             <span class="article_put_test">主要内容</span>
           </div>
-          <QuillEditor ref="quillEditor" content-type="html" @editorChange="onEditorChange" @textChange="updateQuillTextCount"  :modules="modules" toolbar="full" :options="myQuillOptions" v-model:content="content.quillContent"/>
+          <QuillEditor theme="snow" placeholder="请输入具体内容" ref="quillEditor" content-type="html" @editorChange="onEditorChange" @textChange="updateQuillTextCount"  :modules="modules" toolbar="full"  v-model:content="content.quillContent"/>
           <div class="quill_editor_count_wrap">
             <span class="quill_editor_count">已输入{{ quillCount }}字</span>
           </div>
@@ -314,6 +306,17 @@ onUnmounted(()=>{
                   <span>非必选，默认为选择的专栏类别，且不可删除</span>
                 </div>
               </div>
+              <div class="hyperlink_config mt_40">
+                <span class="config_title_text">请添加相关网盘链接</span>
+                <div class="hyperlink_content mt_20">
+<!--                  <div class="hyperlink_item">-->
+<!--                    <svg-icon icon-name="baidu_cloud" class-name="cloud_svg"></svg-icon>-->
+<!--                    <span style="margin-right: 30px">百度网盘</span>-->
+<!--                    <span>链接：</span>-->
+<!--                    <input type="text">-->
+<!--                  </div>-->
+                </div>
+              </div>
               <div class="agreement_config">
                 <div class="agreement_allow_wrap" @click="toggleAgree" :class="{selected:agree}">
                   <svg-icon v-if="agree" class-name="selected_svg" icon-name="selected"></svg-icon>
@@ -333,7 +336,7 @@ onUnmounted(()=>{
             </div>
             <div class="more_config_tip_test">
               <svg-icon icon-name="info" class-name="info_svg"></svg-icon>
-              <span>分类、标签以及上传协议</span>
+              <span>分类、标签、链接、上传协议等</span>
             </div>
           </div>
 

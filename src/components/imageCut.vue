@@ -173,11 +173,10 @@ onUnmounted(()=>{
   background: var(--bg_white);
   width: var(--cover_cut_popover_w);
   height: var(--cover_cut_popover_h);
-  z-index: 9999;
   position: relative;
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  border-radius: 6px;
 }
 .upload_image_cut_header{
   height: var(--cover_cut_header_h);

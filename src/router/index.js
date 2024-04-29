@@ -174,9 +174,8 @@ const routes = [
     {
         path:'/preview',
         name:'preview',
-        children: [],
         meta:{requiresAuth: true},
-        component:()=> import('@/views/ArticlePreview.vue')
+        component:()=> import('@/views/ArticlePreview.vue'),
     }
 ]
 

@@ -1,35 +1,24 @@
 <script setup>
-
+import SelfDialog from "@/components/selfDialog.vue";
 import ImageCut from "@/components/imageCut.vue";
-import {onUnmounted, ref} from "vue";
-const dialogStatus = ref(false)
-const coverData = ref(null)
+import {ref} from "vue";
+const dialog = ref(false)
 
-const triggerDialog=()=>{
-  dialogStatus.value = !dialogStatus.value
+const openDialog = ()=>{
+  dialog.value = true
 }
-const closeDialog=(payload)=>{
-  dialogStatus.value = payload
+const closeCoverDialog=(payload)=>{
+  dialog.value = payload
 }
-const getCoverData=(payload)=>{
-  coverData.value = payload
-}
-
-onUnmounted(()=>{
-  dialogStatus.value = false
-  coverData.value = null
-})
 </script>
 
 <template>
   <div id="test">
     <div class="test_popover">
-      <transition name="dialog">
-        <image-cut :dialog="dialogStatus" v-if="dialogStatus" @closeDialog="closeDialog" @getBackCoverData="getCoverData"/>
-      </transition>
-    </div>
-    <div style="position:absolute;top:0;width: 100%;display: flex;justify-content: center;padding-top: 600px">
-      <button class="button" @click="triggerDialog">点击切换关闭和开启</button>
+      <button class="button" @click="openDialog">点击对话</button>
+      <self-dialog v-show="dialog">
+        <image-cut class="test_dialog" :dialog="dialog" @closeDialog="closeCoverDialog"></image-cut>
+      </self-dialog>
     </div>
   </div>
 </template>
@@ -48,20 +37,17 @@ onUnmounted(()=>{
   justify-content: center;
 }
 .button{
+  padding: 4px 11px;
+  border: 1px solid var(--Lb5_u);
   border-radius: 4px;
-  border: 1px solid var(--normal_blue);
-  background-color: var(--normal_blue);
-  padding: 4px 10px;
-  color: var(--text-white);
+  color: var(--color_white);
+  background-color: var(--Lb5_u);
+  transition: .2s;
 }
-.dialog-enter-from,.dialog-leave-to{
-  transform: scale(0);
-  opacity: 0;
+.button:hover{
+  background-color: var(--Lb4_u);
 }
-.dialog-enter-active,.dialog-leave-active{
-  transition: all .2s ease-in-out;
-}
-.dialog-enter-to,.dialog-leave-from{
-  transform: scale(1);
+.test_dialog{
+  margin: 100px auto 20px;
 }
 </style>

@@ -249,7 +249,6 @@
 .column_item_container{
     margin: 20px 0;
     display: grid;
-    grid-template-rows: repeat(2,1fr);
     gap: 15px 10px;
 }
 .column_item{
@@ -445,4 +444,21 @@
 }
 .upload_btn.disabled:hover{
     background-color: var(--bg-thick);
+}
+.hyperlink_item{
+    display: flex;
+    align-items: center;
+    line-height: 20px;
+    height:30px
+}
+.cloud_svg{
+    width: 20px;
+    height: 20px;
+    margin-right: 7px;
+}
+.hyperlink_item input{
+    border: 1px solid var(--line_contribute);
+    height: 100%;
+    border-radius: 4px;
+    flex: 1;
 }

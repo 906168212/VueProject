@@ -1,12 +1,11 @@
 <script setup>
 import {onMounted, ref} from "vue";
-import router from "@/router/index.js";
-import {useRoute} from "vue-router";
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-let route = useRoute()
-let title = route.query.title
-let desc = route.query.desc
-const quillContent = route.query.quillContent
+
+const info = JSON.parse(sessionStorage.getItem("article_preview_info"));
+let title = info.title || '默认标题'
+let desc = info.desc || '默认描述'
+let quillContent = info.quillContent
 
 const showTip = ref(true)
 const mainContent = ref(null)
@@ -101,7 +100,7 @@ onMounted(()=>{
 }
 .reproduce_tip{
   margin-top: 40px;
-  padding-bottom: 20px;
+  padding-bottom: 50px;
   color: var(--text3);
   font-size: 13px;
   border-bottom: 1px solid var(--line_regular);

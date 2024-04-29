@@ -3,7 +3,7 @@ import App from './App.vue'
 import 'virtual:svg-icons-register'
 import router from "@/router/index.js";
 import store from "@/store/index.js";
-
+import Dialog from "@/components/selfDialog.vue";
 import SvgIcons from '@/components/svgIcon/index.vue'
 import '@/router/guard.js';
 import '@/assets/css/index.css';
@@ -24,5 +24,5 @@ app.directive('lazy',{
     mounted(target,binding){lazyLoad(target,binding)}
 })
 
-app.use(router).use(store).component('svg-icon',SvgIcons).mount('#app')
+app.use(router).use(store).component('svg-icon',SvgIcons).component('self-dialog',Dialog).mount('#app')
 
