@@ -2,7 +2,10 @@
 import SelfDialog from "@/components/selfDialog.vue";
 import ImageCut from "@/components/imageCut.vue";
 import {ref} from "vue";
+import CommonDialog from "@/components/diyDialog.vue";
+import HaSelect from "@/components/ha-select.vue";
 const dialog = ref(false)
+const title = ref("测试历程")
 
 const openDialog = ()=>{
   dialog.value = true
@@ -10,15 +13,16 @@ const openDialog = ()=>{
 const closeCoverDialog=(payload)=>{
   dialog.value = payload
 }
+const getBackData=(payload)=>{
+
+}
+const content = ['1','2','3','4','5']
 </script>
 
 <template>
   <div id="test">
     <div class="test_popover">
-      <button class="button" @click="openDialog">点击对话</button>
-      <self-dialog v-show="dialog">
-        <image-cut class="test_dialog" :dialog="dialog" @closeDialog="closeCoverDialog"></image-cut>
-      </self-dialog>
+      <ha-select :selected-list="content" :default-selected-id="4"></ha-select>
     </div>
   </div>
 </template>

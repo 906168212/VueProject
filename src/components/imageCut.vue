@@ -102,7 +102,7 @@ onUnmounted(()=>{
           <span class="cover_cut_header_test">上传封面</span>
         </div>
         <div class="right close_btn">
-          <svg-icon icon-name="close_btn" class-name="close_btn_svg" @click="closeDialog"></svg-icon>
+          <svg-icon icon-name="close_btn" class-name="close_btn_svg" @click.stop="closeDialog"></svg-icon>
         </div>
       </div>
       <div class="upload_image_cut_main">
@@ -127,24 +127,24 @@ onUnmounted(()=>{
         <div class="button_left">
           <div class="upload_image_btn" @click="triggerCoverUpload"><span>选择图片</span></div>
           <input ref="cover" type="file" accept="image/*" @change="handleCoverUpload">
-          <div class="upload_image_btn operate_btn" @click="changeScale(1)">
+          <div class="upload_image_btn operate_btn" @click.stop="changeScale(1)">
             <svg-icon class-name="plus_svg" icon-name="plus" ></svg-icon>
           </div>
-          <div class="upload_image_btn operate_btn" @click="changeScale(-1)">
+          <div class="upload_image_btn operate_btn" @click.stop="changeScale(-1)">
             <svg-icon icon-name="minus" class-name="minus_svg" ></svg-icon>
           </div>
-          <div class="upload_image_btn operate_btn" @click="rotateLeft">
+          <div class="upload_image_btn operate_btn" @click.stop="rotateLeft">
             <svg-icon icon-name="left_circle" class-name="left_circle_svg"></svg-icon>
           </div>
-          <div class="upload_image_btn operate_btn" @click="rotateRight">
+          <div class="upload_image_btn operate_btn" @click.stop="rotateRight">
             <svg-icon icon-name="right_circle" class-name="right_circle_svg"></svg-icon>
           </div>
-          <div class="upload_image_btn operate_btn" @click="reload">
+          <div class="upload_image_btn operate_btn" @click.stop="reload">
             <span>重置</span>
           </div>
         </div>
         <div class="button_right">
-          <div class="upload_image_btn ensure_btn" @click="backCoverData">确定</div>
+          <div class="upload_image_btn ensure_btn" @click.stop="backCoverData">确定</div>
         </div>
       </div>
     </div>

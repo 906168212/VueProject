@@ -10,6 +10,7 @@ import PlatformFooter from "@/components/platformFooter.vue";
 import {links} from "@/api/dataInfo.js";
 import {uploadArticleImage} from "@/api/articleApi.js";
 import router from "@/router/index.js";
+import SelfDialog from "@/components/selfDialog.vue";
 // class
 class Content {
   title = ''
@@ -22,6 +23,10 @@ class Selected {
   column = defaultColumn
   category = defaultCategory
   choose = false
+}
+class Dialog {
+  image = false
+  link = false
 }
 
 // 常量
@@ -36,9 +41,9 @@ const columns = links;
 
 const content = reactive(new Content())
 const selected = reactive(new Selected())
+const dialog = reactive(new Dialog())
+const dialogInit = reactive(new Dialog())
 
-const dialogInit = ref(false)
-const dialog = ref(false)
 const moreConfig = ref(true)
 const coverData = ref(null)
 const quillEditor = ref(null)
@@ -76,16 +81,21 @@ const modules = [
     }
   }
 ]
-
-const openCoverDialog = ()=>{
-  dialogInit.value = true
-  dialog.value = true
+const openDialog=(type)=>{
+  dialogInit[type] = true
+  dialog[type] = true
 }
 const closeCoverDialog=(payload)=>{
-  dialog.value = payload
+  dialog.image = payload
+}
+const closeLinkDialog=(payload)=>{
+  dialog.link = payload
 }
 const getCoverData=(payload)=>{
   coverData.value = payload
+}
+const getLinkListData=(payload)=>{
+
 }
 const getPids=(pids,html)=> {
   let dom = document.createElement("div")
@@ -192,9 +202,7 @@ onMounted(()=>{
 onUnmounted(()=>{
   quillCount.value = 0
   quillEditor.value = null
-  dialog.value = false
   coverData.value = null
-  dialogInit.value = false
   labelText.value = null
   labels.value = [selected.column,selected.category]
   labelTouchId.value = null
@@ -202,6 +210,8 @@ onUnmounted(()=>{
   agree.value = true
   Object.assign(content,new Content())
   Object.assign(selected,new Selected())
+  Object.assign(dialog,new Dialog())
+  Object.assign(dialogInit,new Dialog())
   document.removeEventListener("click",handleOutSideClick)
 })
 
@@ -223,11 +233,14 @@ onUnmounted(()=>{
             <svg-icon icon-name="title" class-name="title_svg"></svg-icon>
             <span class="article_put_test">封面</span>
           </div>
-          <div class="article_put_cover_style" @click="openCoverDialog">
+          <div class="article_put_cover_style" @click="openDialog('image')">
             <div class="article_put_cover_svg_wrap" >
               <svg-icon  class-name="contribute_send_large_svg" icon-name="contribute_send"></svg-icon>
             </div>
             <img v-if="coverData" :src="coverData" alt="">
+            <self-dialog v-show="dialog.image">
+              <image-cut class="image_cut_position" :dialog="dialog.image" @closeDialog="closeCoverDialog" @getBackCoverData="getCoverData"></image-cut>
+            </self-dialog>
           </div>
         </div>
         <div class="article_put_title_wrap">
@@ -307,14 +320,35 @@ onUnmounted(()=>{
                 </div>
               </div>
               <div class="hyperlink_config mt_40">
-                <span class="config_title_text">请添加相关网盘链接</span>
+                <span class="config_title_text">请添加相关下载链接</span>
                 <div class="hyperlink_content mt_20">
-<!--                  <div class="hyperlink_item">-->
-<!--                    <svg-icon icon-name="baidu_cloud" class-name="cloud_svg"></svg-icon>-->
-<!--                    <span style="margin-right: 30px">百度网盘</span>-->
-<!--                    <span>链接：</span>-->
-<!--                    <input type="text">-->
-<!--                  </div>-->
+                  <div class="mt_20" @click.prevent="openDialog('link')">
+                    <div class="hyperlink_content_inner">
+                      <svg-icon icon-name="plus" class-name="plus_svg"></svg-icon>
+                    </div>
+                    <diy-dialog title="添加相关下载链接" v-show="dialog.link" @closeDialog="closeLinkDialog" @getBackData="getLinkListData">
+                      <slot>
+                        <div class="hyperlink_put_wrap">
+                          <div class="hyperlink_put_inner">
+                            <div class="hyperlink_item">
+                              <div class="select_cloud">
+                                <span>选择相应网盘</span>
+                                <svg-icon icon-name="arrow" class-name="arrow_svg"></svg-icon>
+                              </div>
+                              链接：
+                              <input type="text" class="hyperlink_item_link" placeholder="输入相关链接">
+                              提取码：
+                              <input type="text" class="hyperlink_code" placeholder="提取码" maxlength="4">
+                            </div>
+                            <div class="hyperlink_put_more mt_20">
+                              <svg-icon icon-name="plus" class-name="plus_svg"></svg-icon>
+                              <span>新增</span>
+                            </div>
+                          </div>
+                        </div>
+                      </slot>
+                    </diy-dialog>
+                  </div>
                 </div>
               </div>
               <div class="agreement_config">
@@ -351,11 +385,7 @@ onUnmounted(()=>{
       </div>
       <platform-footer/>
     </div>
-    <div class="image_cut_entry">
-      <transition name="dialog">
-        <image-cut class="dialog_box" :dialog="dialog" v-if="dialogInit" v-show="dialog" @closeDialog="closeCoverDialog" @getBackCoverData="getCoverData"></image-cut>
-      </transition>
-    </div>
+
   </div>
 </template>
 
