@@ -1,218 +1,56 @@
 <script setup >
-import {computed, onMounted, onUnmounted, reactive, ref} from "vue";
+import {onMounted, onUnmounted, reactive, ref} from "vue";
 import store from "@/store/index.js";
 import {QuillEditor} from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import BlotFormatter from 'quill-blot-formatter'
-import ImageUploader from 'quill-image-uploader';
 import ImageCut from "@/components/imageCut.vue";
 import PlatformFooter from "@/components/platformFooter.vue";
-import {links} from "@/api/dataInfo.js";
-import {uploadArticleImage} from "@/api/articleApi.js";
-import router from "@/router/index.js";
 import SelfDialog from "@/components/selfDialog.vue";
-// class
-class Content {
-  title = ''
-  desc = ''
-  quillContent = ''
-}
-class Selected {
-  showId = 0
-  id = defaultId
-  column = defaultColumn
-  category = defaultCategory
-  choose = false
-}
-class Dialog {
-  image = false
-  link = false
-}
+import HaSelect from "@/components/ha-select.vue";
+import {cloudList} from "@/utils/constants.js";
+import {
+  agree,
+  checkClick,
+  closeCoverDialog,
+  closeLinkDialog,
+  cloudLink, quillEditor,
+  CloudLinkSvgName,
+  columns,
+  defaultCategory,
+  defaultColumn,
+  deleteCloudLinkItem,
+  deleteLabel,
+  DESC_MAX_INPUT,
+  descNum,
+  dialog,
+  getQuillNum,
+  getSelectedColumn,
+  handleEnterKey,
+  LABEL_MAX_NUMBER,
+  labelNum,
+  labelText,
+  modules,
+  onEditorChange,
+  openDialog,
+  quillNumber,
+  riseCloudLink,
+  saveInfo,
+  showCategory,
+  showColumnId,
+  showMoreConfig,
+  submit,
+  sureDialog,
+  sureRegion,
+  TITLE_MAX_INPUT,
+  titleNum,
+  toggleAgree,
+  updateSelectedId, handleLabelMouseEnter, handleLabelMouseLeave, labelTouchId
+} from "@/special_assets/js/contribute/contribute_send.js";
 
-// 常量
-const LABEL_MAX_NUMBER = 10
-const TITLE_MAX_INPUT = 40
-const DESC_MAX_INPUT = 150
 
-const defaultId = 2
-const defaultColumn = links[defaultId].name
-const defaultCategory = links[defaultId].category[0]
-const columns = links;
 
-const content = reactive(new Content())
-const selected = reactive(new Selected())
-const dialog = reactive(new Dialog())
-const dialogInit = reactive(new Dialog())
-
-const moreConfig = ref(true)
-const coverData = ref(null)
-const quillEditor = ref(null)
-const quillCount = ref(0)
-const labelText = ref(null)
-const labels = ref([selected.column,selected.category])
-const labelTouchId = ref(null)
-const timer = ref(null)
-const agree = ref(true)
-const previousPids = ref([])
-const pids = ref([])
-const removePids = ref([])
-const modules = [
-  {
-    name: 'blotFormatter',
-    module: BlotFormatter,
-    options:{}
-  },
-  {
-    name: 'imageUploader',
-    module: ImageUploader,
-    options: {
-      upload: file=>{
-        return new Promise((resolve,reject)=>{
-          console.log(file)
-          const formData = new FormData();
-          formData.append('image', file)
-          console.log(formData)
-          uploadArticleImage(formData,resolve,reject)
-          // setTimeout(()=>{
-          //   resolve("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/480px-JavaScript-logo.png")
-          // },3500)
-        })
-      }
-    }
-  }
-]
-const openDialog=(type)=>{
-  dialogInit[type] = true
-  dialog[type] = true
-}
-const closeCoverDialog=(payload)=>{
-  dialog.image = payload
-}
-const closeLinkDialog=(payload)=>{
-  dialog.link = payload
-}
-const getCoverData=(payload)=>{
-  coverData.value = payload
-}
-const getLinkListData=(payload)=>{
-
-}
-const getPids=(pids,html)=> {
-  let dom = document.createElement("div")
-  dom.innerHTML = html
-  const imgDom = dom.getElementsByTagName('img');
-  // const url = HOST
-  const url = 'https://upload.wikimedia.org'
-  const pidArr = []
-  for (let i = 0; i < imgDom.length; i++) {
-    const urlParams = new URLSearchParams(imgDom[i])
-    // if(imgDom[i].src.indexOf(url)!==-1 && urlParams.has('pid')){
-    if (imgDom[i].src.indexOf(url) !== -1) {
-      // let pid = urlParams.get('pid')
-      pidArr.push(imgDom[i].src)
-    }
-  }
-  // 找出被删除的pids
-  const deletedPids = previousPids.value.filter(prevPid => !pidArr.includes(prevPid))
-  // 更新上一次的pid列表,slice用于创建浅拷贝，防止过程中pidArr出现改变
-  previousPids.value = pidArr.slice()
-  if (deletedPids.length > 0){
-    deletedPids.forEach(item=>{
-      removePids.value.push(item)
-    })
-  }
-
-}
-const updateQuillTextCount=()=>{
-  // console.log(quillEditor.value.getHTML())
-  quillCount.value =  quillEditor.value.getText().length - 1
-}
-const onEditorChange=()=>{
-  getPids(null,quillEditor.value.getHTML())
-}
-const getSelectedColumn=(index)=>{
-  // selected.id = index
-  selected.showId = index
-  selected.choose = true
-}
-const getSelectedCategory=(index,cindex)=>{
-  selected.id = index
-  selected.column = columns[index].name
-  selected.category = columns[index].category[cindex]
-  selected.choose = false
-  labels.value[0] = selected.column
-  labels.value[1] = selected.category
-}
-const handleOutSideClick=(event)=>{
-  if(!event.target.classList.contains('column_click_box') && !event.target.classList.contains('column_item_category')){
-    selected.choose = false
-  }
-}
-const handleEnterKey=()=>{
-  // 按下回车键时执行的操作
-  if(labelText.value){
-    // 如果输入框中有文本，则创建一个新的标签并添加到 labels 数组中
-    labels.value.push(labelText.value);
-    // 清空内容文本
-    labelText.value = null
-  }
-}
-const handleLabelMouseEnter=(index)=>{
-  timer.value = setTimeout(()=>{
-    if(index!==0 && index!==1)
-      labelTouchId.value = index
-  },100)
-}
-const handleLabelMouseLeave=()=>{
-  clearTimeout(timer.value)
-  labelTouchId.value = null
-}
-const deleteLabel=(index)=>{
-  if(index!==0&&index!==1){
-    labels.value.splice(index,1)
-    labelTouchId.value = null
-  }
-}
-const toggleAgree=()=>{
-  agree.value = !agree.value
-}
-
-const submit = (event)=>{
-  const value = event.submitter.value
-  if(value==='upload'){}
-  else if(value==='sketch'){}
-  else if(value==='preview'){
-    // 将预览信息存入sessionStorage
-    const info = JSON.stringify(content)
-    sessionStorage.setItem('article_preview_info',info)
-    let routerUrl = router.resolve({
-      name: 'preview'
-    })
-    window.open(routerUrl.href,'_blank')
-  }
-}
-// 计算
-const titleNum = computed(()=> content.title.length)
-const descNum = computed(()=>content.desc.length)
-const labelNum = computed(()=>labels.value.length)
 onMounted(()=>{
   store.commit('page/setContributePage',0)
-  document.addEventListener("click",handleOutSideClick)
-})
-onUnmounted(()=>{
-  quillCount.value = 0
-  quillEditor.value = null
-  coverData.value = null
-  labelText.value = null
-  labels.value = [selected.column,selected.category]
-  labelTouchId.value = null
-  timer.value = null
-  agree.value = true
-  Object.assign(content,new Content())
-  Object.assign(selected,new Selected())
-  Object.assign(dialog,new Dialog())
-  Object.assign(dialogInit,new Dialog())
-  document.removeEventListener("click",handleOutSideClick)
 })
 
 // 未完成目标：图片删除，为每个图片添加一个pid
@@ -237,9 +75,9 @@ onUnmounted(()=>{
             <div class="article_put_cover_svg_wrap" >
               <svg-icon  class-name="contribute_send_large_svg" icon-name="contribute_send"></svg-icon>
             </div>
-            <img v-if="coverData" :src="coverData" alt="">
+            <img v-if="saveInfo.cover" :src="saveInfo.cover" alt="">
             <self-dialog v-show="dialog.image">
-              <image-cut class="image_cut_position" :dialog="dialog.image" @closeDialog="closeCoverDialog" @getBackCoverData="getCoverData"></image-cut>
+              <image-cut class="image_cut_position" :dialog="dialog.image" @closeDialog="closeCoverDialog" @getBackCoverData="sureDialog('cover',$event)"></image-cut>
             </self-dialog>
           </div>
         </div>
@@ -249,7 +87,7 @@ onUnmounted(()=>{
             <span class="article_put_test">标题</span>
           </div>
           <div class="article_put_input">
-            <input placeholder="请输入标题（建议30字以内）" :maxlength="TITLE_MAX_INPUT" v-model="content.title">
+            <input placeholder="请输入标题（建议30字以内）" :maxlength="TITLE_MAX_INPUT" v-model="saveInfo.content.title">
             <span class="article_input_text_count">{{ titleNum }}/{{ TITLE_MAX_INPUT }}</span>
           </div>
         </div>
@@ -259,7 +97,7 @@ onUnmounted(()=>{
             <span class="article_put_test">简介</span>
           </div>
           <div class="article_put_input">
-            <textarea placeholder="请输入简介（建议100字以内）" :maxlength="DESC_MAX_INPUT" v-model="content.desc"/>
+            <textarea placeholder="请输入简介（建议100字以内）" :maxlength="DESC_MAX_INPUT" v-model="saveInfo.content.desc"/>
             <span class="article_input_text_count desc">{{descNum}}/{{DESC_MAX_INPUT}}</span>
           </div>
         </div>
@@ -268,26 +106,30 @@ onUnmounted(()=>{
             <svg-icon icon-name="article_main" class-name="article_main_svg"></svg-icon>
             <span class="article_put_test">主要内容</span>
           </div>
-          <QuillEditor theme="snow" placeholder="请输入具体内容" ref="quillEditor" content-type="html" @editorChange="onEditorChange" @textChange="updateQuillTextCount"  :modules="modules" toolbar="full"  v-model:content="content.quillContent"/>
+          <QuillEditor theme="snow" placeholder="请输入具体内容" ref="quillEditor" content-type="html" @editorChange="onEditorChange" @textChange="getQuillNum"  :modules="modules" toolbar="full"  v-model:content="saveInfo.content.quillContent"/>
           <div class="quill_editor_count_wrap">
-            <span class="quill_editor_count">已输入{{ quillCount }}字</span>
+            <span class="quill_editor_count">已输入{{ quillNumber }}字</span>
           </div>
         </div>
         <div class="article_put_more_config_wrap">
-          <div v-if="moreConfig" class="more_config_entry">
+          <div v-if="showMoreConfig" class="more_config_entry">
               <div class="column_config">
                 <span>请设置专栏分类</span>
-                <div class="column_item_container">
-                  <div v-for="(column,index) in columns" :key="index" class="column_item">
-                    <span class="column_click_box" :class="{selected:selected.id === index}"  @click="getSelectedColumn(index)">{{ column.name }}</span>
-                    <div class="column_item_category" v-if="selected.showId===index && selected.choose">
-                      <div  @click="getSelectedCategory(index,ind)" v-for="(single,ind) in column.category" :key="ind" class="column_category_item">{{single}}</div>
-                    </div>
+                <div v-oclick="checkClick" class="column_item_container">
+                  <div  v-for="(column,index) in columns" :key="index" class="column_item">
+                    <span  class="column_click_box" :class="{selected:saveInfo.region.rid === index}" @click="getSelectedColumn(index)">{{ column.name }}</span>
+                    <col-transition>
+                      <div class="column_item_category" v-show="showCategory && showColumnId === index">
+                        <div class="column_item_category_inner">
+                          <div v-for="(single,ind) in column.category" :class="{selected:saveInfo.region.cid === ind}" @click="sureRegion(index,ind,column.name,single)" class="column_category_item">{{single}}</div>
+                        </div>
+                      </div>
+                    </col-transition>
                   </div>
                 </div>
                 <div class="column_config_tip">
                   <span>当前选择的分类：</span>
-                  <span style="color: var(--Lb5_u)">{{selected.column}} / {{selected.category}}</span>
+                  <span style="color: var(--Lb5_u)">{{saveInfo.region.column}} / {{saveInfo.region.category}}</span>
                 </div>
                 <div class="column_config_tip mt_10">
                   <svg-icon icon-name="info" class-name="info_svg"></svg-icon>
@@ -300,17 +142,17 @@ onUnmounted(()=>{
                   <span class="label_desc">（还可以添加{{ LABEL_MAX_NUMBER - labelNum }}个标签）</span>
                 </div>
                 <div class="label_display_entry">
-                  <div class="label_item" v-for="(item,index) in labels" :key="index"
+                  <div class="label_item" v-for="(item,index) in saveInfo.labels" :data-index="index"
                        @mouseenter="handleLabelMouseEnter(index)" @mouseleave="handleLabelMouseLeave" @click="deleteLabel(index)">
                     {{item}}
                     <transition name="labelDelete">
-                      <div class="labelDelete_box" v-if="labelTouchId===index">
-                        <svg-icon icon-name="delete" class-name="delete_svg"></svg-icon>
+                      <div class="label_item_svg_box" v-if="labelTouchId===index">
+                        <svg-icon  icon-name="delete" class-name="delete_svg"></svg-icon>
                       </div>
                     </transition>
                   </div>
                   <div class="label_input_wrap" v-if="labelNum<LABEL_MAX_NUMBER">
-                    <input type="text" placeholder="例如：游戏" v-model="labelText" @keyup.enter="handleEnterKey" maxlength="15">
+                    <input type="text" placeholder="例如：游戏" v-model="labelText" @keyup.enter="handleEnterKey" maxlength="12">
                     <span>按回车Enter创建标签</span>
                   </div>
                 </div>
@@ -322,27 +164,53 @@ onUnmounted(()=>{
               <div class="hyperlink_config mt_40">
                 <span class="config_title_text">请添加相关下载链接</span>
                 <div class="hyperlink_content mt_20">
-                  <div class="mt_20" @click.prevent="openDialog('link')">
-                    <div class="hyperlink_content_inner">
+                  <div class="mt_20">
+                    <div class="determine_link">
+                      <div v-for="(item,index) in saveInfo.cloudLinks" class="determine_link_item">
+                        <div class="determine_link_item__cloud">
+                          <svg-icon :icon-name="CloudLinkSvgName(item)" class-name="determine_link_item_svg cloud_svg"></svg-icon>
+                          <span class="cloud_test">{{cloudList[item.cloud]}}</span>
+                        </div>
+                        <split height="20px" background-color="var(--line_contribute)"></split>
+                        <div class="determine_link_item__link">
+                          <svg-icon icon-name="link" class-name="determine_link_item_svg link_svg"></svg-icon>
+                          <span>链接：</span>
+                          <input v-model="item.link" @click.stop="console.log(7)" class="cloud_link_input">
+                        </div>
+                        <split height="20px" background-color="var(--line_contribute)"></split>
+                        <div class="determine_link_item__code">
+                          <svg-icon icon-name="withdraw_code" class-name="determine_link_item_svg withdraw_code_svg"></svg-icon>
+                          <span>提取码：</span>
+                          <input @click.stop="console.log(8)" v-model="item.code" class="cloud_code_input">
+                        </div>
+                        <div class="determine_link_item__delete" @click.stop="deleteCloudLinkItem(index)">
+                          <div class="determine_link_item__delete_inner" style="width: 30px;height: 30px">
+                            <svg-icon class-name="delete_svg" icon-name="delete"></svg-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="hyperlink_content_inner" @click.prevent="openDialog('link')">
                       <svg-icon icon-name="plus" class-name="plus_svg"></svg-icon>
                     </div>
-                    <diy-dialog title="添加相关下载链接" v-show="dialog.link" @closeDialog="closeLinkDialog" @getBackData="getLinkListData">
+                    <diy-dialog title="添加相关下载链接" v-if="dialog.link" @closeDialog="closeLinkDialog" @sureDialog="sureDialog('link',$event)">
                       <slot>
                         <div class="hyperlink_put_wrap">
                           <div class="hyperlink_put_inner">
-                            <div class="hyperlink_item">
-                              <div class="select_cloud">
-                                <span>选择相应网盘</span>
-                                <svg-icon icon-name="arrow" class-name="arrow_svg"></svg-icon>
-                              </div>
-                              链接：
-                              <input type="text" class="hyperlink_item_link" placeholder="输入相关链接">
-                              提取码：
-                              <input type="text" class="hyperlink_code" placeholder="提取码" maxlength="4">
+                            <div class="hyperlink_item" v-for="item in cloudLink">
+                              <ha-select @updateSelectedId="updateSelectedId(item,$event)" class="ha-select-diy" :selected-list="cloudList" placeholder="选择相应网盘"></ha-select>
+                              <span style="margin-left: 20px">链接：</span>
+                              <input v-model="item.link" type="text" class="hyperlink_item_link" placeholder="输入相关链接">
+                              <span>提取码：</span>
+                              <input v-model="item.code" type="text" class="hyperlink_code" placeholder="提取码" maxlength="4">
                             </div>
-                            <div class="hyperlink_put_more mt_20">
+                            <div class="hyperlink_put_more mt_20" @click="riseCloudLink">
                               <svg-icon icon-name="plus" class-name="plus_svg"></svg-icon>
                               <span>新增</span>
+                            </div>
+                            <div class="hyperlink_put_tip">
+                              <svg-icon  icon-name="info" class-name="info_svg"></svg-icon>
+                              <span>若无提取码，则可空余</span>
                             </div>
                           </div>
                         </div>
@@ -363,8 +231,8 @@ onUnmounted(()=>{
                 </div>
               </div>
             </div>
-          <div class="more_config_tip" v-if="!moreConfig">
-            <div class="more_config_tip_inner" @click="moreConfig=true">
+          <div class="more_config_tip" v-if="!showMoreConfig">
+            <div class="more_config_tip_inner" @click="showMoreConfig=true">
               <span>更多设置</span>
               <svg-icon icon-name="arrow" class-name="arrow_svg"></svg-icon>
             </div>

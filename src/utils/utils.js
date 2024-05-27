@@ -198,3 +198,13 @@ export const animationEnd=(animation,action)=>{
     animation[action] = false
 }
 
+export const on=(element,event,handler)=>{
+    if (element && event && handler) {
+        element.addEventListener(event, handler, false);
+    }
+}
+export const off=(element,event,handler)=>{
+    if (element && event && handler) {
+        element.removeEventListener(event, handler, false);
+    }
+}

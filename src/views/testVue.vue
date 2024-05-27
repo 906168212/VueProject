@@ -1,28 +1,12 @@
 <script setup>
-import SelfDialog from "@/components/selfDialog.vue";
-import ImageCut from "@/components/imageCut.vue";
-import {ref} from "vue";
-import CommonDialog from "@/components/diyDialog.vue";
-import HaSelect from "@/components/ha-select.vue";
-const dialog = ref(false)
-const title = ref("测试历程")
 
-const openDialog = ()=>{
-  dialog.value = true
-}
-const closeCoverDialog=(payload)=>{
-  dialog.value = payload
-}
-const getBackData=(payload)=>{
-
-}
-const content = ['1','2','3','4','5']
+import RelatedLinks from "@/components/article/relatedLinks.vue";
 </script>
 
 <template>
   <div id="test">
     <div class="test_popover">
-      <ha-select :selected-list="content" :default-selected-id="4"></ha-select>
+      <related-links/>
     </div>
   </div>
 </template>

@@ -1,20 +1,17 @@
 <script setup>
 import {ref} from "vue";
 
-const data = ref(null)
 const props = defineProps({
   title:{
-    type:String,
-    required:true
+    type:String
   }
 })
-const emits = defineEmits(['closeDialog','getBackData'])
+const emits = defineEmits(['closeDialog','sureDialog'])
 const closeDialog = ()=>{
   emits('closeDialog',false)
 }
-const getBackData = ()=>{
-  emits('getBackData',data.value)
-  emits('closeDialog',false)
+const suerDialog = ()=>{
+  emits('sureDialog',true)
 }
 </script>
 
@@ -31,7 +28,7 @@ const getBackData = ()=>{
         <slot></slot>
         <slot name="dialog_bottom">
           <div class="common_dialog_bottom">
-            <button class="sure_btn" @click.stop="getBackData">确定</button>
+            <button class="sure_btn" @click.stop="suerDialog">确定</button>
           </div>
         </slot>
       </div>
@@ -50,6 +47,9 @@ const getBackData = ()=>{
   background-color: rgba(0, 0, 0, 0.5);
   height: 100%;
   overflow: auto;
+  --popover_width:800px;
+  --popover_m_t:15vh;
+  --popover_m_b:30px;
 }
 .common_dialog_popover{
   position: fixed;
@@ -61,8 +61,8 @@ const getBackData = ()=>{
 }
 .common_dialog_entry{
   position: relative;
-  margin: 15vh auto 30px;
-  width: 800px;
+  margin: var(--popover_m_t) auto var(--popover_m_b);
+  width: var(--popover_width);
   background-color: var(--bg_white);
   border-radius: 4px;
 }

@@ -1,5 +1,6 @@
 <script setup>
-import {onMounted, onUnmounted, ref, watch} from "vue";
+import {computed, onMounted, onUnmounted, reactive, ref, watch} from "vue";
+import {on} from "@/utils/utils.js";
 
 const props = defineProps({
   placeholder:{
@@ -15,6 +16,7 @@ const props = defineProps({
     required:true
   }
 })
+const emits = defineEmits(['updateSelectedId'])
 const displayList = ref(false)
 const select = ref(null)
 const list = ref(null)
@@ -24,7 +26,7 @@ const changeRotate = ()=>{
   displayList.value = !displayList.value
 }
 const checkClick = (e)=>{
-  if(displayList.value && !select.value.contains(e.target) && !list.value.contains(e.target)){
+  if(displayList.value){
     displayList.value = false
   }
 }
@@ -33,19 +35,21 @@ const selectItem = (item,index)=>{
   selectedContent.value = item
   displayList.value = false
 }
+
+
+
+watch(selectedContent,()=>{
+  emits('updateSelectedId',selectedId.value)
+})
 onMounted(()=>{
   if(selectedId.value!==null && selectedId.value < props.selectedList.length){
     selectedContent.value = props.selectedList[selectedId.value]
   }
-  document.addEventListener('click',checkClick)
-})
-onUnmounted(()=>{
-  document.removeEventListener('click',checkClick)
 })
 </script>
 
 <template>
-  <div class="ha-select">
+  <div class="ha-select" v-oclick="checkClick">
     <div ref="select" class="ha-select_entry" @click="changeRotate">
       <input v-model="selectedContent" class="ha-select_input" readonly :placeholder="placeholder">
       <svg-icon icon-name="arrow" class-name="arrow_svg" :class="{rotate:displayList}"></svg-icon>
@@ -121,6 +125,7 @@ onUnmounted(()=>{
   background: var(--bg_white);
   border-radius: 4px;
   overflow: hidden;
+  box-shadow: 0 -1px 0 1px rgba(0, 0, 0, .2);
 }
 .list_item{
   padding: var(--entry_p_tb) var(--entry_p_lr);

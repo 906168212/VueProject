@@ -83,9 +83,27 @@ export const fullTimeRegular=(time)=>{
     return `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`;
 }
 
+export const getCurrentTime=()=>{
+    const date = new Date()
+    const year = date.getFullYear()
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const hours = ('0' + date.getHours()).slice(-2);
+    const minutes = ('0' + date.getMinutes()).slice(-2);
+    const seconds = ('0' + date.getSeconds()).slice(-2);
+    return `${year}年${month}月${day}日 ${hours}:${minutes}:${seconds}`;
+}
+
 // 数量显示规则
 export const numberRegular=(num)=>{
     if(num>=10000 && num < 10000000) return (num / 10000).toFixed(1) + '万';
     else if(num>= 10000000) return (num / 10000000).toFixed(1)+'千万';
     else return num.toString();
+}
+
+// level svg名称填充
+export const levelSvgName=(level)=>{
+    if(level>6) level = 6
+    else if(level<1) level = 1
+    return 'user_level_'+level
 }

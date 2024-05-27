@@ -44,6 +44,42 @@
     --Pi8_u: #AD1C5B;
     --Pi9_u: #771141;
     --Pi10_u: #3F0723;
+
+    --Re0_u: #FEF3F2;
+    --Re1_u: #FEECEA;
+    --Re2_u: #FDD7D4;
+    --Re3_u: #FCAFAA;
+    --Re4_u: #FA857F;
+    --Re5_u: #F85A54;
+    --Re6_u: #E23D3D;
+    --Re7_u: #C9272C;
+    --Re8_u: #9F1922;
+    --Re9_u: #710E18;
+    --Re10_u: #3B060D;
+
+    --Lg0_u: #F7FBEF;
+    --Lg1_u: #F2F9E4;
+    --Lg2_u: #E3F2C8;
+    --Lg3_u: #C7E691;
+    --Lg4_u: #A9D95B;
+    --Lg5_u: #88CC24;
+    --Lg6_u: #66B105;
+    --Lg7_u: #4E8E04;
+    --Lg8_u: #376A03;
+    --Lg9_u: #224702;
+    --Lg10_u: #102301;
+
+    --Gr0_u: #EFFBF3;
+    --Gr1_u: #E4F8EA;
+    --Gr2_u: #CAF1D6;
+    --Gr3_u: #95E4AF;
+    --Gr4_u: #5FD689;
+    --Gr5_u: #2AC864;
+    --Gr6_u: #0EB350;
+    --Gr7_u: #089043;
+    --Gr8_u: #046E35;
+    --Gr9_u: #034926;
+    --Gr10_u: #012414;
 }
 
 body h1, body h2, body h3, body h4, body h5, body h6, body li, body ul {
@@ -1031,6 +1067,18 @@ input[type="checkbox"]:checked +label  .check_icon{
 }
 .mb_20{
     margin-bottom: 20px;
+}
+.mr_15{
+    margin-right: 15px;
+}
+.ml_15{
+    margin-left: 15px;
+}
+.p_lr_5{
+    padding: 0 5px;
+}
+.pointer{
+    cursor: pointer;
 }
 .overflow_hidden{
     overflow: hidden;
