@@ -5,6 +5,7 @@ import ImageUploader from "quill-image-uploader";
 import {uploadArticleImage} from "@/api/articleApi.js";
 import router from "@/router/index.js";
 import {cloudList_Eng} from "@/utils/constants.js";
+import {submitFileToOss} from "@/utils/AliOss.js";
 
 
 const LABEL_MAX_NUMBER = 10
@@ -80,10 +81,12 @@ const modules = [
         module: ImageUploader,
         options: {
             upload: file=>{
-                return new Promise((resolve,reject)=>{
-                    const formData = new FormData();
-                    formData.append('image', file)
-                    uploadArticleImage(formData,resolve,reject)
+                return new Promise(async (resolve, reject) => {
+                    const url = await submitFileToOss(file);
+                    resolve(url)
+                    // const formData = new FormData();
+                    // formData.append('image', file)
+                    // uploadArticleImage(formData,resolve,reject)
                     // setTimeout(()=>{
                     //   resolve("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/480px-JavaScript-logo.png")
                     // },3500)

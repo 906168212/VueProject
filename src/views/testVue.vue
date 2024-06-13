@@ -1,40 +1,16 @@
 <script setup>
 
-import RelatedLinks from "@/components/article/relatedLinks.vue";
-import {getStsToken} from "@/api/stsTokenApi.js";
-import {bucketName, endpoint, region} from "@/utils/constants.js";
 import {ref} from "vue";
-import OSS from "ali-oss";
+import {submitFileToOss} from "@/utils/AliOss.js";
 let credentials = null;
 const picInput = ref(null);
+const picUrl = ref(null);
 const onFileChange = (e) =>{
   picInput.value =  e.target.files[0];
 }
-const isCredentialsExpired = (credentials) =>{
-  if (!credentials) return true;
-  const expireDate = new Date(credentials.expiration)
-  const now = new Date()
-  // 如果有效期不足一分钟，视为过期。
-  return expireDate.getTime() - now.getTime() <= 60000;
-}
 
 const submit = async (event) => {
-  if(isCredentialsExpired(credentials)){
-    credentials = await getStsToken()
-  }
-  const client = new OSS({
-    bucket : bucketName,
-    region : region,
-    accessKeyId : credentials.accessKeyId,
-    accessKeySecret : credentials.accessKeySecret,
-    stsToken: credentials.securityToken,
-    endpoint : endpoint,
-    secure : true
-  })
-  console.log(new Date().getTime())
-  const ObjectName = 'testDir/mac_'+new Date().getTime()+'.'+picInput.value.name.split('.').pop()
-  const result =  await client.put(ObjectName,picInput.value);
-  console.log(result);
+  picUrl.value = await submitFileToOss(picInput.value);
 }
 </script>
 
@@ -44,8 +20,9 @@ const submit = async (event) => {
       <form style="display: flex;flex-direction: column">
         <input type="file" class="mb_20" @change="onFileChange">
         <button v-if="picInput" class="button" value="submitPic" style="margin-bottom: 20px">提交照片</button>
+        <p>预览图片</p>
+        <img class="image_test_box" :src="picUrl" alt="图片测试">
       </form>
-
     </div>
   </div>
 </template>
@@ -76,5 +53,9 @@ const submit = async (event) => {
 }
 .test_dialog{
   margin: 100px auto 20px;
+}
+.image_test_box{
+  width: 200px;
+  height: auto;
 }
 </style>
