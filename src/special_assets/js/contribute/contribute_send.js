@@ -2,7 +2,6 @@ import {links} from "@/api/dataInfo.js";
 import {computed, reactive, ref} from "vue";
 import BlotFormatter from "quill-blot-formatter";
 import ImageUploader from "quill-image-uploader";
-import {uploadArticleImage} from "@/api/articleApi.js";
 import router from "@/router/index.js";
 import {cloudList_Eng} from "@/utils/constants.js";
 import {submitFileToOss} from "@/utils/AliOss.js";
@@ -61,7 +60,7 @@ const pictureUpload = reactive(new PictureUpload())
 
 const timer = ref(null)
 const agree = ref(true)
-const showMoreConfig = ref(true)
+const showMoreConfig = ref(false)
 const quillEditor = ref(null)
 const labelText = ref(null)
 
@@ -83,13 +82,8 @@ const modules = [
             upload: file=>{
                 return new Promise(async (resolve, reject) => {
                     const url = await submitFileToOss(file);
+                    if(url === null) reject("返回的url为空")
                     resolve(url)
-                    // const formData = new FormData();
-                    // formData.append('image', file)
-                    // uploadArticleImage(formData,resolve,reject)
-                    // setTimeout(()=>{
-                    //   resolve("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/480px-JavaScript-logo.png")
-                    // },3500)
                 })
             }
         }
