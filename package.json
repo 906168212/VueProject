@@ -11,6 +11,7 @@
   "dependencies": {
     "@vueup/vue-quill": "^1.2.0",
     "@vueuse/core": "^10.9.0",
+    "ali-oss": "^6.20.0",
     "axios": "^1.6.7",
     "colorthief": "^2.4.0",
     "quill-blot-formatter": "^1.0.5",

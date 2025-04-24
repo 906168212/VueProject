@@ -1,17 +1,10 @@
 //无输入
 
-import {computed} from "vue";
-
 export function InputNone(char){
     return  char.length === 0;
 }
 
-export function createIsBlank(charRefGetter){
-    return computed(()=>{
-        const charRef = charRefGetter();
-        return charRef.length === 0;
-    })
-}
+
 
 
 //空格

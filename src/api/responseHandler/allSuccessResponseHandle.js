@@ -168,3 +168,11 @@ export const handleResetSuccessResponse = (responseData,responseError,status)=>{
 //     }else throw new Error(responseData.message)
 // }
 
+//获取STS临时令牌处理
+export const handleGetStsTokenSuccessResponse = (responseData)=>{
+    if(responseData.code === 200){
+        console.log(responseData.data)
+        return responseData.data
+    }else throw new Error(responseData.message)
+}
+

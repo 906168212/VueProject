@@ -12,3 +12,6 @@ export const cloudList_Eng = ['baidu','uc','quack','ali','mega','torrent','tence
 export const columnList = {
 
 }
+export const bucketName = 'halihapi-image'
+export const region = 'oss-cn-shanghai'
+export const endpoint = 'oss-cn-shanghai.aliyuncs.com'

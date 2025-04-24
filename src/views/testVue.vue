@@ -1,12 +1,28 @@
 <script setup>
 
-import RelatedLinks from "@/components/article/relatedLinks.vue";
+import {ref} from "vue";
+import {submitFileToOss} from "@/utils/AliOss.js";
+let credentials = null;
+const picInput = ref(null);
+const picUrl = ref(null);
+const onFileChange = (e) =>{
+  picInput.value =  e.target.files[0];
+}
+
+const submit = async (event) => {
+  picUrl.value = await submitFileToOss(picInput.value);
+}
 </script>
 
 <template>
   <div id="test">
-    <div class="test_popover">
-      <related-links/>
+    <div class="test_popover" @submit.prevent="submit">
+      <form style="display: flex;flex-direction: column">
+        <input type="file" class="mb_20" @change="onFileChange">
+        <button v-if="picInput" class="button" value="submitPic" style="margin-bottom: 20px">提交照片</button>
+        <p>预览图片</p>
+        <img class="image_test_box" :src="picUrl" alt="图片测试">
+      </form>
     </div>
   </div>
 </template>
@@ -37,5 +53,9 @@ import RelatedLinks from "@/components/article/relatedLinks.vue";
 }
 .test_dialog{
   margin: 100px auto 20px;
+}
+.image_test_box{
+  width: 200px;
+  height: auto;
 }
 </style>
