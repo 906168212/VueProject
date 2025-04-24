@@ -2,9 +2,10 @@ import {computed, reactive, ref} from "vue";
 import {
     emailType, HasBlank, HasLetterAndNumberButSymbolChinese, HasMultipleTypes, HasRepeatingChars,
     InputNone, ValidLength
-} from "../../../utils/regular.js"
+} from "@/utils/regular.js"
 import * as Constants from "../../../utils/constants.js";
-import {sendEmailCode} from "../../../api/sendEmailApi.js"
+import {sendEmailCode} from "@/api/sendEmailApi.js"
+import {submitRegisterForm} from "@/api/RegisterApi.js"
 class Show{
     password = false
     emailCode = false
@@ -18,8 +19,8 @@ class Response {
     failure = ''
 }
 class Show_error{
-    username = ref<null | boolean>(null)
-    password = ref<null | boolean>(null)
+    username = ref(null)
+    password = ref(null)
     email = false
     emailCode = false
     agreement = false
@@ -104,13 +105,13 @@ export const submitForm = async (event)=>{
     const submitValue = event.submitter.value
     if(submitValue === 'send_email'){
         try{
-            await sendEmail_check()  // 异步执行，确保检查完毕
+            await sendEmail_check()  // 确保检查完毕
             await sendEmailCode(registerForm.email,response,show_error,coolDown)
         }catch (error){}
     }else if(submitValue === 'register'){
         try{
-            await register_check()
-            console.log(6666)
+            //await register_check()
+            await submitRegisterForm(registerForm,response,show_error)
         }catch (error){}
     }
 }

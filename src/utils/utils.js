@@ -208,3 +208,8 @@ export const off=(element,event,handler)=>{
         element.removeEventListener(event, handler, false);
     }
 }
+
+// 检查输入为空 /^\s*$/表示匹配空格、换行、空
+export const checkBlank=(value)=>{
+    return /^\s*$/.test(value)
+}

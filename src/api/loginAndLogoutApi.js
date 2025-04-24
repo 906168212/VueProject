@@ -13,8 +13,8 @@ export const doLogin = async (user,response,status)=>{
         });
         return handleLoginSuccessResponse(responseBody.data,user.remember,response,status);
     }catch (error){
-        log.error(error.message)
-        response.failure = error.message;
+        log.error(error.response.data.message)
+        response.failure = error.response.data.message;
         status.response = true;
     }
 }

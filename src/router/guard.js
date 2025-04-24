@@ -5,7 +5,7 @@ import store from "@/store/index.js";
 
 // 如果刷新，from.name为undefined
 // 开启或关闭token验证
-const isTokenVerify = false
+const isTokenVerify = true
 //code： 1-no_token 2-token_invalid
 
 router.beforeEach((to, from, next) => {

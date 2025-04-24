@@ -1,17 +1,20 @@
 import {authJsonAxios} from "@/utils/commonAxiosCreate.js";
 import {handleRegisterSuccessResponse} from "@/api/responseHandler/allSuccessResponseHandle.js";
 
-export async function submitRegisterForm(userData,responseError,status){ // 注册
+export async function submitRegisterForm(userData,response,showError){ // 注册
     try {
         const response = await authJsonAxios.post('/register',{
             username:userData.username,
             password:userData.password,
             mail:userData.email,
-            code:userData.emailCode
+            code:userData.email_code
         });
-        return handleRegisterSuccessResponse(response.data,responseError,status);
+        return handleRegisterSuccessResponse(response.data,response,showError);
     }catch (error){
-        throw error; // 抛出错误以供处理
+        log.error(error.message)
+        console.log(error.message)
+        response.failure = error.message
+        showError.response = true
     }
 }
 

@@ -2,9 +2,10 @@ import {links} from "@/api/dataInfo.js";
 import {computed, reactive, ref} from "vue";
 import BlotFormatter from "quill-blot-formatter";
 import ImageUploader from "quill-image-uploader";
-import {uploadArticleImage} from "@/api/articleApi.js";
+import {uploadArticle, uploadArticleImage} from "@/api/articleApi.js";
 import router from "@/router/index.js";
 import {cloudList_Eng} from "@/utils/constants.js";
+import {checkBlank} from "@/utils/utils.js";
 
 
 const LABEL_MAX_NUMBER = 10
@@ -69,6 +70,29 @@ const quillNumber = ref(0)
 const showColumnId = ref(defaultId)
 const labelTouchId = ref(null)
 
+
+// 自定义图片上传处理
+const imageHandler = async (file)=>{
+    const quill = quillEditor.value.getQuill() // 获取原生 Quill 实例
+    // 1. 插入占位符图片（使用 loading 动图）
+    const range = quill.getSelection();
+    console.log(666)
+    quill.insertEmbed(range.index, 'image', '/src/assets/image/loading.gif'); // 替换为loading 动图路径
+    quill.setSelection(range.index + 1);
+    try{
+        const formData = new FormData();
+        formData.append('image', file);
+        const url = await uploadArticleImage(formData)
+        // 替换真实图片
+        quill.deleteText(range.index, 1)
+        quill.insertEmbed(range.index, 'image', url);
+    }catch (error){
+        console.error('Upload failed:', error);
+    }
+
+}
+
+
 const modules = [
     {
         name: 'blotFormatter',
@@ -79,16 +103,18 @@ const modules = [
         name: 'imageUploader',
         module: ImageUploader,
         options: {
-            upload: file=>{
-                return new Promise((resolve,reject)=>{
-                    const formData = new FormData();
-                    formData.append('image', file)
-                    uploadArticleImage(formData,resolve,reject)
+            upload: file=> imageHandler(file)
+            // {
+
+                // return new Promise((resolve,reject)=>{
+                //     const formData = new FormData();
+                //     formData.append('image', file)
+                //     uploadArticleImage(formData,resolve,reject)
                     // setTimeout(()=>{
                     //   resolve("https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/480px-JavaScript-logo.png")
                     // },3500)
-                })
-            }
+                // })
+            // }
         }
     }
 ]
@@ -224,30 +250,34 @@ const sureRegion=(rid,cid,column,category)=>{
 const checkClick=()=>{
     if(showCategory.value) showCategory.value = false
 }
-const submit = (event)=>{
+const submit = async (event) => {
+    if (checkBlank(saveInfo.content.title)) return log.error("好歹起个标题嘛~")
+    else if (checkBlank(saveInfo.content.desc)) return log.error("简介被吃啦~")
+    else if (checkBlank(quillEditor.value.getText())) return log.error("正文空空呢~（不可只输入空格或换行哦）")
     const value = event.submitter.value
-    if(value==='upload'){}
-    else if(value==='sketch'){}
-    else if(value==='preview'){
+    if (value === 'upload') {
+        await uploadArticle(saveInfo)
+    } else if (value === 'sketch') {
+    } else if (value === 'preview') {
         const checkBlank = /^\s*$/.test(quillEditor.value.getText())
-        if(saveInfo.content.title==='') return log.error("好歹起个标题嘛~")
-        if(saveInfo.content.quillContent==='' || checkBlank) return log.error("正文空空呢~（不可只输入空格或换行哦）")
+        if (saveInfo.content.title === '') return log.error("好歹起个标题嘛~")
+        if (saveInfo.content.quillContent === '' || checkBlank) return log.error("正文空空呢~（不可只输入空格或换行哦）")
         // 将预览信息存入sessionStorage
         const data = {
-            saveInfo:saveInfo,
-            userInfo:{
-                nickname:null,
-                level:0,
-                fans:0,
-                articles:0
+            saveInfo: saveInfo,
+            userInfo: {
+                nickname: null,
+                level: 0,
+                fans: 0,
+                articles: 0
             }
         }
         const info = JSON.stringify(data)
-        sessionStorage.setItem('preview_info',info)
+        sessionStorage.setItem('preview_info', info)
         let routerUrl = router.resolve({
             name: 'preview'
         })
-        window.open(routerUrl.href,'_blank')
+        window.open(routerUrl.href, '_blank')
     }
 }
 const titleNum = computed(()=> saveInfo.content.title.length)

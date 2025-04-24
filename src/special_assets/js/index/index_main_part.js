@@ -12,18 +12,19 @@ import {createCardInfo} from "@/utils/utils.js";
 SwiperCore.use([Autoplay,Pagination,Navigation,Scrollbar])
 
 const column_chart_pagination_text = ref('')
+const test_image = 'https://picsum.photos/613/345.webp'
 
 export const pictureChiefColor = ref(['rgb(123,123,123)'])
 export const swiperImage=[
-    {src:transformTest1,alt:'这是第一个'},
-    {src:transformTest2,alt:'这是第二个'},
-    {src:transformTest3,alt:'这是第三个'},
-    {src:transformTest4,alt:'这是第四个'},
-    {src:transformTest5,alt:'这是第五个'},
-    {src:transformTest6,alt:'这是第六个'},
-    {src:transformTest1,alt:'这是第七个'},
-    {src:transformTest2,alt:'这是第八个'},
-    {src:transformTest3,alt:'这是第九个'}
+    {src:test_image+`?${Math.random()}`,alt:'这是第一个'},
+    {src:test_image+`?${Math.random()}`,alt:'这是第二个'},
+    {src:test_image+`?${Math.random()}`,alt:'这是第三个'},
+    {src:test_image+`?${Math.random()}`,alt:'这是第四个'},
+    {src:test_image+`?${Math.random()}`,alt:'这是第五个'},
+    {src:test_image+`?${Math.random()}`,alt:'这是第六个'},
+    {src:test_image+`?${Math.random()}`,alt:'这是第七个'},
+    {src:test_image+`?${Math.random()}`,alt:'这是第八个'},
+    {src:test_image+`?${Math.random()}`,alt:'这是第九个'}
 ]
 export const noticeSwiper=[
     '必看：站点公告',

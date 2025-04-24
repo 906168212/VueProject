@@ -2,6 +2,12 @@
     margin-top: 150px;
 }
 
+.register_halihapi_svg{
+    color: var(--color_pink);
+    height: 84.38px;
+    width: auto;
+}
+
 
 .email_code_popover{
     border: 1px solid transparent;          /*transparent 用于隐藏border，但预留了位置*/

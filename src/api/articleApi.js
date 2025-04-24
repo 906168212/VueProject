@@ -1,6 +1,6 @@
 import {simpleAxios, tokenAxios} from "@/utils/commonAxiosCreate.js";
 import {
-    handleArticleDisplaySuccessResponse, handleArticleImageUploadSuccessResponse,
+    handleArticleDisplaySuccessResponse,
     handleGetAllArticleSuccessResponse,
     handleRightRegionSuccessResponse
 } from "@/api/responseHandler/allSuccessResponseHandle.js";
@@ -16,6 +16,7 @@ export const getAllUserArticle = async ()=>{
     }
 }
 
+// 获取对应板块的文章
 export const getArticle = async (status,article,rid)=>{
     try {
         // const
@@ -53,13 +54,34 @@ export const getRankingRegionArticle = async (status,article,rid)=>{
     }
 }
 
+
+
 // 文章内图片上传
-export const uploadArticleImage = async (formData,resolve,reject)=>{
+export const uploadArticleImage = async (formData)=>{
+    return new Promise((resolve,reject)=>{
+        simpleAxios('test').post('/upload/images',formData).then(responseBody=>{
+            if (responseBody.data.code === 200){
+                resolve(responseBody.data.data.url)
+            }else
+                reject(responseBody.data.message)
+        })
+    })
+    // try {
+    //     const responseBody = await simpleAxios('test').post('/upload/images',formData)
+    //     return handleArticleImageUploadSuccessResponse(responseBody.data)
+    // }catch (error){
+    //     returnerror.message)
+    //     log.error(error.message)
+    // }
+}
+
+// 文章上传
+export const uploadArticle = async (article)=>{
     try {
-        const responseBody = await simpleAxios('test').post('/upload/images',formData)
-        return handleArticleImageUploadSuccessResponse(responseBody.data,resolve,reject)
+        const token = takeAccessToken().token; // 获取最新的 access_token
+        const responseBody = await tokenAxios('article',token).post('/upload',article)
+        //return handleArticleUploadSuccessResponse(responseBody.data)
     }catch (error){
-        reject(error.message)
         log.error(error.message)
     }
 }
