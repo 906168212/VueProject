@@ -202,6 +202,10 @@ onUnmounted(()=>{
   width: var(--cover_cut_header_close_svg_s);
   height: var(--cover_cut_header_close_svg_s);
   cursor: pointer;
+  transition: all 0.3s;
+}
+.close_btn_svg:hover{
+  transform: rotate(90deg);
 }
 .cover_cut_header_test{
   line-height: var(--cover_cut_header_h);

@@ -6,7 +6,6 @@
     min-height: 64px;
     position: relative;
     margin: 0 auto;
-    max-width: 2560px;
     width: 100%;
     padding: 0 var(--header_padding);
     color: var(--color_white);
@@ -41,7 +40,7 @@
 }
 
 .mini-header__logo{
-    color: #fff;
+    color: var(--color_pink);
     cursor: pointer;
     width: 96px;
     margin-top: -4px;

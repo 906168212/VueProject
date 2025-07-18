@@ -1,32 +1,37 @@
-<script setup>
+<script setup lang="ts">
 
-import {onImageError} from "@/utils/utils.js";
+import {onImageError} from "@/utils/utils";
 import SvgIcon from "@/components/svgIcon/index.vue";
-import {computed, onUnmounted, ref} from "vue";
+import {computed, onUnmounted, shallowRef} from "vue";
+import {cardInfo} from "@/interface/interface";
+import errorImage from "@/assets/image/errorImage.png"
 
-  const props = defineProps({
-    article:{
-      type:Object,
-      required:true
-    },
-    loadStatus:{
-      type:Boolean,
-      required:true,
-      default:false
-    }
-  })
-const pictureLoadStatus = ref(false)
+const props = withDefaults(defineProps<{
+  article:cardInfo,
+  loadStatus:boolean,
+  errorImage:string
+}>(),{
+  errorImage:errorImage
+})
+const pictureLoadStatus = shallowRef(false)
 
 const imageReady = computed(()=>{
-  return props.article.pic || props.article.pic_webp || props.article.pic_avif
+  return props.article.coverSrc;
 })
 
-const ready = computed(()=>{
-  return props.loadStatus && pictureLoadStatus.value
-})
+const ready = computed(()=>
+    props.loadStatus && (pictureLoadStatus.value || !imageReady.value)
+)
+
+const handleImageError = (e:Event)=>{
+  if ((e.target as HTMLImageElement).src!==props.errorImage){
+    (e.target as HTMLImageElement).src = props.errorImage
+  }
+  pictureLoadStatus.value = true
+}
+
 
 onUnmounted(()=>{
-  pictureLoadStatus.value = false
 })
 </script>
 
@@ -59,9 +64,7 @@ onUnmounted(()=>{
         <a class="big_card_image_link">
           <div class="big_card_image_popover">
             <picture class="v-image big_card_image_entry" >
-              <source :srcset="article.pic_avif" type="image/avif">
-              <source :srcset="article.pic_webp" type="image/webp">
-              <img v-if="imageReady" :src="article.pic" :alt="article.alt" @load="pictureLoadStatus=true"  @error="pictureLoadStatus=true;onImageError(article)">
+              <img v-if="imageReady" :src="article.coverSrc" :alt="article.title" loading="lazy" @load="pictureLoadStatus=true"  @error="handleImageError">
             </picture>
           </div>
         </a>
@@ -70,14 +73,14 @@ onUnmounted(()=>{
         <div class="big_card__right_entry">
           <div class="big_card__title">
             <h2 class="big_card__title_test">
-              <a style="font-weight: inherit">{{article.alt}}</a>
+              <a style="font-weight: inherit">{{article.title}}</a>
             </h2>
           </div>
         </div>
         <div class="big_card__right_where">
           <svg-icon icon-name="from" class-name="big_card__from_svg"></svg-icon>
           <h3 class="big_card__from_test">
-            <a>{{article.category}}</a>
+            <a>{{article.category.name}}</a>
           </h3>
         </div>
         <div class="big_card__right_data_box">
@@ -85,15 +88,15 @@ onUnmounted(()=>{
             <div class="big_card__data_margin">
               <svg-icon icon-name="like" class-name="big_card__data_icon"></svg-icon>
 
-              <span class="big_card__data_test">{{article.like}}</span>
+              <span class="big_card__data_test">{{article.stat.like}}</span>
             </div>
             <div class="big_card__data_margin">
               <svg-icon icon-name="review" class-name="big_card__data_icon review"></svg-icon>
-              <span class="big_card__data_test review">{{article.review}}</span>
+              <span class="big_card__data_test review">{{article.stat.review}}</span>
             </div>
             <div class="big_card__data_margin final_data">
               <svg-icon icon-name="visitor" class-name="big_card__data_icon visitor"></svg-icon>
-              <span class="big_card__data_test">{{article.visitor}}</span>
+              <span class="big_card__data_test">{{article.stat.visitor}}</span>
             </div>
           </div>
         </div>

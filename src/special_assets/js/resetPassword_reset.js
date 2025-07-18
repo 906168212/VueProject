@@ -1,6 +1,6 @@
 import {computed, reactive, ref} from "vue";
 import {HasBlank, HasMultipleTypes, HasRepeatingChars, InputNone, ValidLength} from "@/utils/regular.js";
-import * as Constants from "@/utils/constants.js";
+import * as Constants from "@/utils/constants.ts";
 import {handleCommonFailedResponse} from "@/api/responseHandler/commonResponseHandle.js";
 import {resetPassword} from "@/api/resetPasswordApi.js";
 import router from "@/router/index.js";

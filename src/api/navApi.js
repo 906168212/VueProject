@@ -1,5 +1,5 @@
 import {tokenAxios} from "@/utils/commonAxiosCreate.js";
-import {takeAccessToken} from "@/utils/utils.js";
+import {takeAccessToken} from "@/utils/utils.ts";
 import {handleUserNavSuccessResponse} from "@/api/responseHandler/allSuccessResponseHandle.js";
 
 export const getNav = async (Nav)=>{

@@ -6,7 +6,7 @@ import {onMounted, onUnmounted} from "vue";
 import Footer from "@/components/Footer.vue";
 import Overlay from "@/components/Overlay.vue";
 import {Nav} from "@/api/navApi.js";
-import {handleScroll} from "@/utils/utils.js";
+import {handleScroll} from "@/utils/utils.ts";
 import Header_video_banner from "@/components/header/header_video_banner.vue";
 import router from "@/router/index.js";
 

@@ -1,31 +1,35 @@
-<script setup>
-  import {onImageError} from "@/utils/utils.js";
+<script setup lang="ts">
+  import errorImage from "@/assets/image/errorImage.png"
   import SvgIcon from "@/components/svgIcon/index.vue";
-  import {computed, onUnmounted, ref} from "vue";
+  import {computed, onUnmounted,shallowRef} from "vue";
+  import {cardInfo} from "@/interface/interface";
 
-  const props = defineProps({
-    article:{
-      type:Object,
-      required:true
-    },
-    loadStatus:{
-      type:Boolean,
-      required:true,
-      default:false
-    }
+  const props = withDefaults(defineProps<{
+    article:cardInfo,
+    loadStatus:boolean,
+    errorImage:string
+  }>(),{
+    errorImage : errorImage
   })
-  const pictureLoadStatus = ref(false)
+
+  const pictureLoadStatus = shallowRef(false)
 
   const imageReady = computed(()=>{
-    return props.article.pic || props.article.pic_webp || props.article.pic_avif
+    return props.article.coverSrc;
   })
 
-  const ready = computed(()=>{
-    return props.loadStatus && pictureLoadStatus.value
-  })
+  const ready = computed(()=>
+      props.loadStatus && (pictureLoadStatus.value || !imageReady.value)
+  )
+
+  const handleImageError = (e:Event)=>{
+    if ((e.target as HTMLImageElement).src!==props.errorImage){
+      (e.target as HTMLImageElement).src = props.errorImage
+    }
+    pictureLoadStatus.value = true
+  }
 
   onUnmounted(()=>{
-    pictureLoadStatus.value = false
   })
 </script>
 
@@ -45,16 +49,14 @@
       <a class="card_image_link">
         <div class="card_image_popover">
           <picture class="v-image card_picture_entry">
-            <source :srcset="article.pic_avif" type="image/avif">
-            <source :srcset="article.pic_webp" type="image/webp">
-            <img v-if="imageReady" :src="article.pic" :alt="article.alt" @load="pictureLoadStatus=true"  @error="pictureLoadStatus=true;onImageError(article)">
+            <img v-if="imageReady" :src="article.coverSrc" :alt="article.title" loading="lazy" @load="pictureLoadStatus=true"  @error="handleImageError">
           </picture>
         </div>
       </a>
       <div class="card_info_entry">
         <div class="card_info_inner">
-          <h3 class="card_info_title" :title="article.alt">
-            <a>{{article.alt}}</a>
+          <h3 class="card_info_title" :title="article.title">
+            <a>{{article.title}}</a>
           </h3>
           <div class="card_info__button">
             <a class="card_info__author">

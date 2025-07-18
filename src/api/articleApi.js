@@ -4,7 +4,7 @@ import {
     handleGetAllArticleSuccessResponse,
     handleRightRegionSuccessResponse
 } from "@/api/responseHandler/allSuccessResponseHandle.js";
-import {takeAccessToken} from "@/utils/utils.js";
+import {takeAccessToken} from "@/utils/utils.ts";
 
 export const getAllUserArticle = async ()=>{
     try {

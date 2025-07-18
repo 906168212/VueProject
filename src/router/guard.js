@@ -1,12 +1,12 @@
 // 全局前置守卫
 import router from "@/router/index.js";
-import {deleteAccessToken, takeAccessToken} from "@/utils/utils.js";
+import {deleteAccessToken, takeAccessToken} from "@/utils/utils.ts";
 import store from "@/store/index.js";
 
 // 如果刷新，from.name为undefined
 // 开启或关闭token验证
-const isTokenVerify = true
-//code： 1-no_token 2-token_invalid
+const isTokenVerify = false
+//code： false-no_token true-token_invalid
 
 router.beforeEach((to, from, next) => {
     if(to.matched.some(record => record.meta.requiresAuth) && isTokenVerify){  // 需要验证的界面

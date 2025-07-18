@@ -2,12 +2,11 @@ import {cleanError} from "@/api/responseHandler/commonResponseHandle.js";
 import {
     backLogin,
     deleteAccessToken,
-    startCoolDown,
     storeAccessToken,
     toCardInfo,
     toUserCardInfo
-} from "@/utils/utils.js";
-import * as Constants from "@/utils/constants.js";
+} from "@/utils/utils.ts";
+import * as Constants from "@/utils/constants.ts";
 import {askSuccessData, changeToOption} from "@/special_assets/js/resetPassword_askAccount.js";
 import {changeToReset} from "@/special_assets/js/resetPassword_email.js";
 import {qrCodeSrc} from "@/special_assets/js/resetPassword_dataAssist.js";
@@ -100,17 +99,7 @@ export const handleGetAllArticleSuccessResponse=(responseData)=>{
     }
 }
 
-// 邮箱-成功
-export const handleAskCodeSuccessResponse = (responseData,response,showError,coolDown) =>{
-    if(responseData.code === 200){
-        response.failure = ''
-        showError.response = false
-        startCoolDown(coolDown,responseData.data.LimitTimestamp);
-        log.success("邮件已发送，请注意查收")
-    }else {
-        throw new Error(responseData.message) // 抛到最外层处理
-    }
-}
+
 
 //注册-成功
 export const handleRegisterSuccessResponse = (responseData,responseError,status)=>{

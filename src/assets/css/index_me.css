@@ -96,15 +96,12 @@ body h1, body h2, body h3, body h4, body h5, body h6, body li, body ul {
 .form_wrap{
     position: relative;
     display: flex;
-    /*flex: 1 auto;*/
+    flex-direction: column;
+    flex: 1;
     justify-content: center;
+    align-items: center;
 }
-.form_wrap_container{
-    width: 400px;
-    padding: 20px 40px 20px 40px;
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 0.4);
-}
+
 
 .large_logo_entry{
     width: 100%;
@@ -115,11 +112,13 @@ body h1, body h2, body h3, body h4, body h5, body h6, body li, body ul {
 }
 
 .form_entry{
+    position: relative;
     width: 100%;
     font-size: 14px;
 }
 
 .input_popover{
+    min-width: 200px;
     margin-top: 16px;
     position: relative;
     z-index: 3;
@@ -128,7 +127,7 @@ body h1, body h2, body h3, body h4, body h5, body h6, body li, body ul {
     margin-top: 0;
 }
 
-.form_entry .input_popover input,.form_entry .input_popover button{
+.input_popover input,.input_popover button{
     padding: 8px;
     width: 100%;
     line-height: 1.3;
@@ -141,26 +140,26 @@ body h1, body h2, body h3, body h4, body h5, body h6, body li, body ul {
     font-size: inherit;
 }
 
-.form_entry .input_popover input:focus{
+.input_popover input:focus{
     color: var(--text1);
     border-color: var(--normal_blue);
 }
-.form_entry .input_popover input:not(.error):hover:not(:focus){
+.input_popover input:not(.error):hover:not(:focus){
     border-color: var(--line_thick);
 }
-.form_entry .input_popover input.error{
+.input_popover input.error{
     border-color: var(--line_error);
     color: var(--text-error);
 }
 
-.form_entry .error-tips{
+.error-tips{
     color: var(--text-error);
     font-size: 12px;
     display: flex;
     align-items: center;
 }
 
-.form_entry .error-tips:before{
+.error-tips:before{
     content: "";
     width: 16px;
     height: 16px;
@@ -171,7 +170,7 @@ body h1, body h2, body h3, body h4, body h5, body h6, body li, body ul {
     margin-right: 3px;
 }
 
-.form_entry .error-tips-wrap{
+.error-tips-wrap{
     padding-top: 4px;
     height: 18px;
     position: relative;

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {takeAccessToken} from "@/utils/utils.js";
+import {takeAccessToken} from "@/utils/utils.ts";
 
 export const authJsonAxios =  axios.create({
     baseURL: 'http://localhost:8081/api/auth',

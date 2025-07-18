@@ -1,104 +1,189 @@
-<script setup>
-
-import {
-  checkContent, checkContentAndHideTips, coolDown, emailCodeValidation, emailValidation,
-  getAgreement, hideError, hideErrorAndShowEmailCode, hideErrorAndShowTips,
-  isCanSendEmail, isShowAgreementError, passwordValidation, registerForm, resetData,
-  responseValidation, show, show_error, submitForm, tips, toggleToFalse, toggleToTrue, usernameValidation
-} from "@/special_assets/js/register/register_form";
-import {onUnmounted, watch} from "vue";
-import {HasBlank,ValidLength,HasMultipleTypes,HasRepeatingChars,HasLetterAndNumberButSymbolChinese} from "@/utils/regular.js"
-import * as Constants from "@/utils/constants.js";
+<script setup lang="ts">
 import SvgIcon from "@/components/svgIcon/index.vue";
+import {registerFormState} from "@/special_assets/js/register/registerFormState";
+import {handleSendEmail} from "@/api/email/emailResponse";
+import {handleRegister} from "@/api/register/registerResponse";
+import {backLogin} from "@/utils/utils";
+import * as Constants from "@/utils/constants";
+import {onUnmounted, ref} from "vue";
+import FormInput from "@/components/formInput.vue";
+import Wrap_with_halihapiLOGO from "@/components/wrap_with_halihapiLOGO.vue";
+import {MAX_PASSWORD_LENGTH, MAX_USERNAME_LENGTH} from "@/utils/constants";
 
+const {
+  formData, uiState, v$, canSendEmail, resetForm, validateForm
+} = registerFormState()
+
+const timer = ref<NodeJS.Timeout>()
+const userFocus = (fieldName) => {
+  const fieldValidator = v$.value[fieldName]
+  if (fieldValidator) {
+    uiState.activeFields[fieldName] = true
+    v$.value[fieldName].$reset() // 可选：聚焦时重置验证状态
+    if (fieldName === 'email'){
+      uiState.showEmailCode = true
+    }
+  }
+}
+const userBlur = (fieldName) => {
+  const fieldValidator = v$.value[fieldName]
+  if (fieldValidator && typeof fieldValidator.$touch === 'function') {
+    uiState.activeFields[fieldName] = false
+    fieldValidator.$touch()
+  }
+}
+
+const submitForm = async (event) => {
+  const submitValue = event.submitter.value
+  // 1. 触发验证
+  // 2. 验证失败处理
+  try {
+    if (submitValue === 'send_email'){
+      const isEmailValid = await v$.value.email.$validate()
+      const isAgreementValid = await v$.value.agreement.$validate()
+      if (!(isEmailValid && isAgreementValid)){
+        return
+      }
+      const {success , error, data} = await handleSendEmail(formData.email)
+      if (!success) {
+        uiState.response = error || '邮件发送失败'
+        log.error(error || '邮件发送失败')
+        return
+      }else {
+        startCoolDown(data.data.LimitTimestamp)
+        log.success('邮件发送成功，请注意查收')
+      }
+    }else if (submitValue === 'register'){
+      const isAllValid = await v$.value.$validate()
+      if (!isAllValid) {
+        return
+      }
+      const {success , error, data} = await handleRegister(formData)
+      if (!success) {
+        uiState.response = error || '注册失败'
+        log.error(error || '注册失败')
+        return
+      }else {
+        backLogin(Constants.BACK_TIME,'/');
+        log.success('注册成功，'+Constants.BACK_TIME+"S后返回登录页面")
+      }
+    }
+  }catch (error){
+    console.error('操作失败:', error)
+    log.error('请求处理失败，请检查网络')
+  }
+
+}
+
+
+const startCoolDown=(LimitTimestamp:number)=>{ //冷却
+  // 获取当前时间戳
+  const currentTimestamp = Date.now();
+
+  uiState.coolDown = Math.max(0, Math.ceil((LimitTimestamp - currentTimestamp) / 1000));
+  // 设置定时器，每秒更新一次冷却时间
+  timer.value = setInterval(() => {
+    if (uiState.coolDown > 0) {
+      uiState.coolDown--;
+    } else {
+      clearInterval(timer.value);
+    }
+  }, 1000);
+}
 
 onUnmounted(()=>{
-  resetData()
+  if (timer.value) clearInterval(timer.value);
 })
-watch(getAgreement,(agreement)=>{isShowAgreementError(agreement)})
 
 </script>
 
 <template>
   <div class="form_wrap register">
-    <div class="form_wrap_container">
-      <div class="form_wrap_inner">
-        <div class="large_logo_entry">
-          <svg-icon class-name="register_halihapi_svg" icon-name="halihapi"></svg-icon>
-        </div>
+    <wrap_with_halihapi-l-o-g-o>
+      <template #form>
         <form class="form_entry" @submit.prevent="submitForm">
 
           <!-----------账号------------->
-          <div class="input_popover username_popover">
-            <div class="input_flag_wrap">
-              <div class="input_ok" v-show="usernameValidation===''"></div>
-            </div>
-            <label for="username"></label>
-            <input  type="text" id="username" maxlength="20" tabindex="3" placeholder="用户名"
-                    @focus="hideErrorAndShowTips('username')" @blur="checkContentAndHideTips('username',usernameValidation)"  autocomplete="off" v-model="registerForm.username"
-                    :class="{error: show_error.username}">
-            <div class="input_tips username" :class="{slideup:!tips.username}">
-              <div class="input_tips_item" :class="{'ok': !HasBlank(registerForm.username) }">不能包括空格</div>
-              <div class="input_tips_item" :class="{'ok': ValidLength(registerForm.username,Constants.MIN_USERNAME_LENGTH,Constants.MAX_USERNAME_LENGTH) }">长度为10-20个字符</div>
-              <div class="input_tips_item" :class="{'ok': HasLetterAndNumberButSymbolChinese(registerForm.username) }">必须包含字母、数字，不包含特殊字符，中文</div>
-            </div>
-            <div class="error-tips-wrap" :class="{slideup:!show_error.username}">
-              <div class="error-tips" v-show="show_error.username">{{usernameValidation}}</div>
-            </div>
-          </div>
+          <form-input class="username_popover" id="username" type="text" place-holder="用户名" :max-length="MAX_USERNAME_LENGTH.toString()"
+                      @focus="userFocus('username')" @blur="userBlur('username')"
+                      v-model="formData.username" :error="v$.username.$error">
+            <template #ok-flag>
+              <div class="input_flag_wrap">
+                <div class="input_ok" v-show="!v$.username.$invalid"></div>
+              </div>
+            </template>
+            <template #tips>
+              <div class="input_tips username" :class="{slideup:!uiState.activeFields.username}">
+                <div class="input_tips_item" :class="{'ok': !v$.username.noWhiteSpace.$invalid }">不能包括空格</div>
+                <div class="input_tips_item" :class="{'ok': !v$.username.validLength.$invalid }">长度为10-20个字符</div>
+                <div class="input_tips_item" :class="{'ok': !v$.username.validCharacters.$invalid }">必须包含字母、数字，不包含特殊字符，中文</div>
+              </div>
+            </template>
+            <template #dis-error>
+              <div class="error-tips-wrap" :class="{slideup: !v$.username.$error}">
+                <div class="error-tips" v-show="v$.username.$error">{{v$.username.$errors[0]?.$message||''}}</div>
+              </div>
+            </template>
+          </form-input>
           <!-----------密码------------->
-          <div class="input_popover password_popover">
-            <div class="input_flag_wrap">
-              <div class="input_ok" v-show="passwordValidation===''"></div>
-              <div class="eye" :class="{close: !show.password}" title="长按显示密码" @mousedown="toggleToTrue" @mouseup="toggleToFalse"></div>
-            </div>
-            <label for="password"></label>
-            <input id="password" maxlength="16" tabindex="4" placeholder="密码" :type="show.password ? 'text':'password'"
-                   @focus="hideErrorAndShowTips('password')" @blur="checkContentAndHideTips('password',passwordValidation)"
-                   :class="{error:show_error.password}" v-model="registerForm.password">
-            <div class="input_tips password" :class="{slideup:!tips.password}">
-              <div class="input_tips_item" :class="{'ok': !HasBlank(registerForm.password) }">不能包括空格</div>
-              <div class="input_tips_item" :class="{'ok': ValidLength(registerForm.password,Constants.MIN_PASSWORD_LENGTH,Constants.MAX_PASSWORD_LENGTH) }">长度为8-16个字符</div>
-              <div class="input_tips_item" :class="{'ok': HasMultipleTypes(registerForm.password) }">必须包含字母、数字、符号中至少2种</div>
-              <div class="input_tips_item" :class="{'ok': !HasRepeatingChars(registerForm.password) }">请勿输入连续、重复6位以上字母或数字，如abcdefg、1111111、0123456</div>
-            </div>
-            <div class="error-tips-wrap" :class="{slideup:!show_error.password}">
-              <div class="error-tips" v-show="show_error.password">{{passwordValidation}}</div>
-            </div>
-          </div>
+          <form-input class="password_popover" id="password" :type="uiState.showPassword ? 'text':'password'" place-holder="密码"
+                      @focus="userFocus('password')" @blur="userBlur('password')"
+                      v-model="formData.password" :error="v$.password.$error" :max-length="MAX_PASSWORD_LENGTH.toString()">
+            <template #ok-flag>
+              <div class="input_flag_wrap">
+                <div class="input_ok" v-show="!v$.password.$invalid"></div>
+                <div class="eye" :class="{close: !uiState.showPassword}" title="长按显示密码" @mousedown="uiState.showPassword=true" @mouseup="uiState.showPassword=false"></div>
+              </div>
+            </template>
+            <template #tips>
+              <div class="input_tips password" :class="{slideup:!uiState.activeFields.password}">
+                <div class="input_tips_item" :class="{'ok': !v$.password.noWhiteSpace.$invalid }">不能包括空格</div>
+                <div class="input_tips_item" :class="{'ok': !v$.password.validLength.$invalid }">长度为8-16个字符</div>
+                <div class="input_tips_item" :class="{'ok': !v$.password.validCharacters.$invalid }">必须包含字母、数字、符号中至少2种</div>
+                <div class="input_tips_item" :class="{'ok': !v$.password.RepeatingCharsValid.$invalid }">请勿输入连续、重复6位以上字母或数字，如abcdefg、1111111、0123456</div>
+              </div>
+            </template>
+            <template #dis-error>
+              <div class="error-tips-wrap" :class="{slideup:!v$.password.$error}">
+                <div class="error-tips" v-show="v$.password.$error">{{v$.password.$errors[0]?.$message||''}}</div>
+              </div>
+            </template>
+          </form-input>
           <!-----------邮箱------------->
-          <div class="input_popover email_popover">
-            <div class="input_flag_wrap">
-              <div class="input_ok" v-show="emailValidation===''"></div>
-            </div>
-            <label for="email"></label>
-            <input id="email" maxlength="25" tabindex="5" placeholder="电子邮箱" autocomplete="off" v-model="registerForm.email"
-            @focus="hideErrorAndShowEmailCode" @blur="checkContent('email',emailValidation)"
-            :class="{error:show_error.email}">
-            <div class="error-tips-wrap" :class="{slideup:!show_error.email}">
-              <div class="error-tips" v-show="show_error.email">{{emailValidation}}</div>
-            </div>
-          </div>
+          <form-input class="email_popover" id="email" type="text" place-holder="电子邮箱"
+                      @focus="userFocus('email')" @blur="userBlur('email')"
+                      v-model="formData.email" :error="v$.email.$error">
+            <template #ok-flag>
+              <div class="input_flag_wrap">
+                <div class="input_ok" v-show="!v$.email.$invalid"></div>
+              </div>
+            </template>
+            <template #dis-error>
+              <div class="error-tips-wrap" :class="{slideup:!v$.email.$error}">
+                <div class="error-tips" v-show="v$.email.$error">{{v$.email.$errors[0]?.$message||''}}</div>
+              </div>
+            </template>
+          </form-input>
           <!-----------验证------------->
-          <div class="input_popover email_code_popover" v-show="show.emailCode">
+          <div class="input_popover email_code_popover" v-show="uiState.showEmailCode">
             <div class="email_code_popover_container">
               <div class="email_code_popover_bd">
                 <label for="emailCode"></label>
-                <input id="emailCode" placeholder="邮箱验证码" tabindex="6" maxlength="6" autocomplete="off" v-model="registerForm.email_code"
-                @focus="hideError('emailCode')" @blur="checkContent('emailCode',emailCodeValidation)">
+                <input id="emailCode" placeholder="邮箱验证码" tabindex="6" maxlength="6" autocomplete="off" v-model="formData.emailCode"
+                       @focus="userFocus('emailCode')" @blur="userBlur('emailCode')">
               </div>
               <div class="email_code_popover_hd">
-                <button class="email_send_btn" :class="{forbid:!isCanSendEmail}" value="send_email">发送验证码<span v-show="coolDown>0">({{ coolDown + 'S' }})</span></button>
+                <button class="email_send_btn" :class="{forbid:!canSendEmail}" value="send_email">发送验证码<span v-show="uiState.coolDown>0">({{ uiState.coolDown + 'S' }})</span></button>
               </div>
             </div>
-            <div class="error-tips-wrap" :class="{slideup:!show_error.emailCode}">
-              <div class="error-tips" v-show="show_error.emailCode">{{emailCodeValidation}}</div>
+            <div class="error-tips-wrap" :class="{slideup:!v$.emailCode.$error}">
+              <div class="error-tips" v-show="v$.emailCode.$error">{{v$.emailCode.$errors[0]?.$message||''}}</div>
             </div>
           </div>
           <!-----------协议------------->
           <div class="input_popover agreement_popover" style="margin-top: 4px">
-            <input class="diy_checkbox" type="checkbox" id="remember_check_box" v-model="registerForm.agreement">
-            <label for="remember_check_box" class="diy_check_box_style">
+            <input class="diy_checkbox" type="checkbox" id="remember_check_box" v-model="formData.agreement">
+            <label for="remember_check_box" class="diy_check_box_style" @click="v$.agreement.$touch()">
               <img class="check_icon" src="@/assets/svg/check.svg" alt="">
             </label>
             <span>我已阅读并同意
@@ -119,13 +204,13 @@ watch(getAgreement,(agreement)=>{isShowAgreementError(agreement)})
           -->
           <div class="submit_popover">
             <button class="form_btn" value="register">注册</button>
-            <div class="error-tips-wrap" :class="{slideup: !show_error.response && !show_error.agreement}">
-              <div class="error-tips" v-show="show_error.response || show_error.agreement">{{responseValidation}}</div>
+            <div class="error-tips-wrap" :class="{slideup: !v$.agreement.$error}">
+              <div class="error-tips" v-show="v$.agreement.$error">{{v$.agreement.$errors[0]?.$message||''}}</div>
             </div>
           </div>
         </form>
-      </div>
-    </div>
+      </template>
+    </wrap_with_halihapi-l-o-g-o>
   </div>
 </template>
 

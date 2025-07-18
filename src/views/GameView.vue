@@ -1,6 +1,6 @@
-<script setup>
+ <script setup>
 import {computed, onMounted, onUnmounted, reactive, ref} from "vue";
-import {handleScroll} from "@/utils/utils.js";
+import {handleScroll} from "@/utils/utils.ts";
 import {Nav} from "@/api/navApi.js";
 import Overlay from "@/components/Overlay.vue";
 import Index_header from "@/views/index/index_header.vue";

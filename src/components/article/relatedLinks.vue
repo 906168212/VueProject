@@ -1,5 +1,5 @@
 <script setup>
-import {cloudList, cloudList_Eng} from "@/utils/constants.js";
+import {cloudList, cloudList_Eng} from "@/utils/constants.ts";
 import {reactive, ref} from "vue";
 import {useClipboard} from "@vueuse/core";
 

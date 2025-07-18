@@ -3,7 +3,7 @@ import {
     handleLoginSuccessResponse,
     handleLogoutSuccessResponse
 } from "@/api/responseHandler/allSuccessResponseHandle.js";
-import {takeAccessToken} from "@/utils/utils.js";
+import {takeAccessToken} from "@/utils/utils.ts";
 
 export const doLogin = async (user,response,status)=>{
     try{

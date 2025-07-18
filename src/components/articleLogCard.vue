@@ -1,8 +1,9 @@
 <script setup>
 
-import {onImageError} from "@/utils/utils.js";
+import {onImageError} from "@/utils/utils.ts";
 import {cardInfo} from "@/api/dataInfo.js";
 import {onUnmounted, reactive, ref} from "vue";
+import {fullTimeRegular, simpleTimeRegular} from "@/utils/regular.js";
 
 const props = defineProps({
   article:{
@@ -37,13 +38,13 @@ onUnmounted(()=>{
         <picture class="v-image">
           <source :srcset="article.pic_avif" type="image/avif">
           <source :srcset="article.pic_webp" type="image/webp">
-          <img :src="article.pic" :alt="article.alt" @load="image_loaded=true" @error="image_loaded=true;onImageError(article)">
+          <img :src="article.coverSrc" :alt="article.alt" @load="image_loaded=true" @error="image_loaded=true;onImageError(article)">
         </picture>
       </div>
       <div class="article_log_card_info">
-        <div class="info_title">{{article.alt}}</div>
+        <div class="info_title">{{article.title}}</div>
         <div class="info_middle">
-          <div class="middle_date">{{article.pubDate}}</div>
+          <div class="middle_date">{{fullTimeRegular(article.pubDate)}}</div>
           <div class="middle_right">
             <a class="middle_compile">
               <svg-icon icon-name="compiler" class-name="compiler_svg"></svg-icon>
@@ -57,19 +58,19 @@ onUnmounted(()=>{
         <div class="info_stat">
           <div class="info_stat_item" title="浏览量">
             <svg-icon icon-name="visitor" class-name="stat_svg"></svg-icon>
-            <span>{{article.visitor}}</span>
+            <span>{{article.stat.visitor}}</span>
           </div>
           <div class="info_stat_item" title="点赞">
             <svg-icon icon-name="like" class-name="stat_svg"></svg-icon>
-            <span>{{article.like}}</span>
+            <span>{{article.stat.like}}</span>
           </div>
           <div class="info_stat_item" title="收藏">
             <svg-icon icon-name="collect" class-name="stat_svg"></svg-icon>
-            <span>{{article.collect}}</span>
+            <span>{{article.stat.collect}}</span>
           </div>
           <div class="info_stat_item" title="浏览量">
             <svg-icon icon-name="review" class-name="stat_svg"></svg-icon>
-            <span>{{article.review}}</span>
+            <span>{{article.stat.review}}</span>
           </div>
         </div>
       </div>

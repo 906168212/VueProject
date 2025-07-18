@@ -1,5 +1,5 @@
-<script setup >
-import {onMounted, onUnmounted, reactive, ref} from "vue";
+<script setup lang="ts">
+import {onMounted} from "vue";
 import store from "@/store/index.js";
 import {QuillEditor} from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
@@ -7,53 +7,47 @@ import ImageCut from "@/components/imageCut.vue";
 import PlatformFooter from "@/components/platformFooter.vue";
 import SelfDialog from "@/components/selfDialog.vue";
 import HaSelect from "@/components/ha-select.vue";
-import {cloudList} from "@/utils/constants.js";
+import {cloudList} from "@/utils/constants";
 import {
   agree,
+  quillEditor,
   checkClick,
+  closeCloudLinkDialog,
   closeCoverDialog,
-  closeLinkDialog,
-  cloudLink, quillEditor,
-  CloudLinkSvgName,
+  cloudLinkDialog, cloudLinks, CloudLinkSvgName,
   columns,
+  coverDialog,
   defaultCategory,
-  defaultColumn,
-  deleteCloudLinkItem,
+  defaultRegion, deleteCloudLinkItem,
   deleteLabel,
   DESC_MAX_INPUT,
   descNum,
-  dialog,
   getQuillNum,
   getSelectedColumn,
   handleEnterKey,
+  handleLabelMouseEnter,
+  handleLabelMouseLeave, LABEL_MAX_LENGTH,
   LABEL_MAX_NUMBER,
   labelNum,
   labelText,
+  labelTouchId,
   modules,
-  onEditorChange,
-  openDialog,
-  quillNumber,
-  riseCloudLink,
+  quillNumber, riseCloudLink,
   saveInfo,
   showCategory,
   showColumnId,
-  showMoreConfig,
-  submit,
+  showMoreConfig, submit,
   sureDialog,
   sureRegion,
   TITLE_MAX_INPUT,
-  titleNum,
-  toggleAgree,
-  updateSelectedId, handleLabelMouseEnter, handleLabelMouseLeave, labelTouchId
-} from "@/special_assets/js/contribute/contribute_send.js";
-
+  titleNum, updateSelectedId
+} from "@/special_assets/js/contribute/contribute_send";
 
 
 onMounted(()=>{
   store.commit('page/setContributePage',0)
 })
 
-// 未完成目标：图片删除，为每个图片添加一个pid
 </script>
 
 <template>
@@ -71,13 +65,13 @@ onMounted(()=>{
             <svg-icon icon-name="title" class-name="title_svg"></svg-icon>
             <span class="article_put_test">封面</span>
           </div>
-          <div class="article_put_cover_style" @click="openDialog('image')">
+          <div class="article_put_cover_style" @click="coverDialog = true">
             <div class="article_put_cover_svg_wrap" >
               <svg-icon  class-name="contribute_send_large_svg" icon-name="contribute_send"></svg-icon>
             </div>
             <img v-if="saveInfo.cover" :src="saveInfo.cover" alt="">
-            <self-dialog v-show="dialog.image">
-              <image-cut class="image_cut_position" :dialog="dialog.image" @closeDialog="closeCoverDialog" @getBackCoverData="sureDialog('cover',$event)"></image-cut>
+            <self-dialog v-show="coverDialog">
+              <image-cut class="image_cut_position" :dialog="coverDialog" @closeDialog="closeCoverDialog" @getBackCoverData="sureDialog('cover',$event)"></image-cut>
             </self-dialog>
           </div>
         </div>
@@ -106,7 +100,7 @@ onMounted(()=>{
             <svg-icon icon-name="article_main" class-name="article_main_svg"></svg-icon>
             <span class="article_put_test">主要内容</span>
           </div>
-          <QuillEditor theme="snow" placeholder="请输入具体内容" ref="quillEditor" content-type="html" @editorChange="onEditorChange" @textChange="getQuillNum"  :modules="modules" toolbar="full"  v-model:content="saveInfo.content.quillContent"/>
+          <QuillEditor theme="snow" placeholder="请输入具体内容" ref="quillEditor" content-type="html"  @textChange="getQuillNum"  :modules="modules" toolbar="full"  v-model:content="saveInfo.content.quillContent"/>
           <div class="quill_editor_count_wrap">
             <span class="quill_editor_count">已输入{{ quillNumber }}字</span>
           </div>
@@ -129,11 +123,11 @@ onMounted(()=>{
                 </div>
                 <div class="column_config_tip">
                   <span>当前选择的分类：</span>
-                  <span style="color: var(--Lb5_u)">{{saveInfo.region.column}} / {{saveInfo.region.category}}</span>
+                  <span style="color: var(--Lb5_u)">{{saveInfo.region.region}} / {{saveInfo.region.category}}</span>
                 </div>
                 <div class="column_config_tip mt_10">
                   <svg-icon icon-name="info" class-name="info_svg"></svg-icon>
-                  <span>非必选，默认选择【{{defaultColumn}} / {{defaultCategory}}】</span>
+                  <span>非必选，默认选择【{{defaultRegion}} / {{defaultCategory}}】</span>
                 </div>
               </div>
               <div class="label_config">
@@ -152,7 +146,7 @@ onMounted(()=>{
                     </transition>
                   </div>
                   <div class="label_input_wrap" v-if="labelNum<LABEL_MAX_NUMBER">
-                    <input type="text" placeholder="例如：游戏" v-model="labelText" @keyup.enter="handleEnterKey" maxlength="12">
+                    <input type="text" placeholder="例如：游戏" v-model="labelText" @keyup.enter="handleEnterKey" :maxlength="LABEL_MAX_LENGTH">
                     <span>按回车Enter创建标签</span>
                   </div>
                 </div>
@@ -181,7 +175,7 @@ onMounted(()=>{
                         <div class="determine_link_item__code">
                           <svg-icon icon-name="withdraw_code" class-name="determine_link_item_svg withdraw_code_svg"></svg-icon>
                           <span>提取码：</span>
-                          <input @click.stop="console.log(8)" v-model="item.code" class="cloud_code_input">
+                          <input @click.stop="console.log(8)" v-model="item.code" class="cloud_code_input" maxlength="4">
                         </div>
                         <div class="determine_link_item__delete" @click.stop="deleteCloudLinkItem(index)">
                           <div class="determine_link_item__delete_inner" style="width: 30px;height: 30px">
@@ -190,14 +184,14 @@ onMounted(()=>{
                         </div>
                       </div>
                     </div>
-                    <div class="hyperlink_content_inner" @click.prevent="openDialog('link')">
+                    <div class="hyperlink_content_inner" @click.prevent="cloudLinkDialog = true">
                       <svg-icon icon-name="plus" class-name="plus_svg"></svg-icon>
                     </div>
-                    <diy-dialog title="添加相关下载链接" v-if="dialog.link" @closeDialog="closeLinkDialog" @sureDialog="sureDialog('link',$event)">
+                    <diy-dialog title="添加相关下载链接" v-if="cloudLinkDialog" @closeDialog="closeCloudLinkDialog" @sureDialog="sureDialog('link',$event)">
                       <slot>
                         <div class="hyperlink_put_wrap">
                           <div class="hyperlink_put_inner">
-                            <div class="hyperlink_item" v-for="item in cloudLink">
+                            <div class="hyperlink_item" v-for="item in cloudLinks">
                               <ha-select @updateSelectedId="updateSelectedId(item,$event)" class="ha-select-diy" :selected-list="cloudList" placeholder="选择相应网盘"></ha-select>
                               <span style="margin-left: 20px">链接：</span>
                               <input v-model="item.link" type="text" class="hyperlink_item_link" placeholder="输入相关链接">
@@ -220,13 +214,13 @@ onMounted(()=>{
                 </div>
               </div>
               <div class="agreement_config">
-                <div class="agreement_allow_wrap" @click="toggleAgree" :class="{selected:agree}">
+                <div class="agreement_allow_wrap" @click="agree = !agree" :class="{selected:agree}">
                   <svg-icon v-if="agree" class-name="selected_svg" icon-name="selected"></svg-icon>
                 </div>
                 <div class="agreement_text">
-                  <span @click="toggleAgree">我已阅读并接受</span>
+                  <span @click="agree = !agree">我已阅读并接受</span>
                   <span class="agreement_content">《哈哩哈皮文章上传协议》</span>
-                  <span @click="toggleAgree">和</span>
+                  <span @click="agree = !agree">和</span>
                   <span class="agreement_content">《哈哩哈皮文章规范》</span>
                 </div>
               </div>

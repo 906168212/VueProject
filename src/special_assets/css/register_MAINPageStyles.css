@@ -1,7 +1,7 @@
 #RegisterPage{
     height: 100vh;
     min-height: 720px;
-    background: url("@/assets/bg/bg-register.jpg") 50% 50%;
+    background: url("@/assets/bg/bg-welcome.jpg") 50% 50%;
     background-size: cover;
     display: flex;
     flex-direction: column;

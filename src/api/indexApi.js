@@ -1,4 +1,4 @@
-import {takeAccessToken} from "@/utils/utils.js";
+import {takeAccessToken} from "@/utils/utils.ts";
 import {tokenAxios} from "@/utils/commonAxiosCreate.js";
 import {handleUserStatSuccessResponse} from "@/api/responseHandler/allSuccessResponseHandle.js";
 

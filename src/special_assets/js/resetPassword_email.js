@@ -1,6 +1,5 @@
 import {computed, reactive, ref} from "vue";
 import {emailType, InputNone} from "@/utils/regular.js";
-import {sendEmailCode} from "@/api/sendEmailApi.js";
 import {handleCommonFailedResponse} from "@/api/responseHandler/commonResponseHandle.js";
 import router from "@/router/index.js";
 import {resetIdentify, sendResetEmailCode} from "@/api/resetPasswordApi.js";

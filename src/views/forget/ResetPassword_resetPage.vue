@@ -5,7 +5,7 @@ import {
   hideErrorAndShowTIps, passwordValidation, userInfo, status, checkAndShowError,
   repeatPasswordValidation, show, submitAbility, errorValidation, submitForm
 } from "@/special_assets/js/resetPassword_reset.js";
-import * as Constants from "@/utils/constants.js";
+import * as Constants from "@/utils/constants.ts";
 </script>
 
 <template>

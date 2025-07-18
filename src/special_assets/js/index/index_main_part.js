@@ -7,7 +7,7 @@ import transformTest6 from '@/assets/image/transform_test_6.avif';
 import colorthief from 'colorthief';
 import SwiperCore, {Autoplay, Navigation, Pagination, Scrollbar} from "swiper";
 import {onMounted, reactive, ref} from "vue";
-import {createCardInfo} from "@/utils/utils.js";
+import {createCardInfo} from "@/utils/utils.ts";
 
 SwiperCore.use([Autoplay,Pagination,Navigation,Scrollbar])
 

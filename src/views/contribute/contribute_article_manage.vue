@@ -1,11 +1,12 @@
-<script setup>
+<script setup lang="ts">
 
-import {links} from "@/api/dataInfo.js";
+import {links} from "@/api/dataInfo";
 import {computed, onMounted, onUnmounted, reactive, ref} from "vue";
-import store from "@/store/index.js";
-import ArticleLogCard from "@/components/articleLogCard.vue";
-import {getAllUserArticle} from "@/api/articleApi.js";
-import {createCardInfo} from "@/utils/utils.js";
+import store from "@/store/index";
+import ArticleLogCard from "@/components/articleLogCard";
+import {getAllUserArticle} from "@/api/articleApi";
+import {createCardInfo} from "@/utils/utils";
+import {getAllUpdatedArticles} from "@/api/contribute/contributeResponse";
 
 class Deg {
   region=0
@@ -28,8 +29,13 @@ class Queue {
 }
 const deg = reactive(new Deg())
 const show = reactive(new Show())
-const region = links
-const article = reactive({})
+const region = ref(
+    links.map(link=>({
+      name: link.name,
+      count:0
+    })
+))
+const article = ref([])
 const queue = [
   {name:'投稿时间排序',get:null},
   {name:'浏览量排序',get:null},
@@ -44,21 +50,15 @@ const toggleShow=(a)=>{
   show[a] = !show[a]
 }
 
-const getArticleLength = computed(()=> Object.keys(article).length)
+const getArticleLength = computed(()=> article.value.length)
 
-const putArticleCount = (type) =>{
-  region.forEach((item,index)=>{
-    if(item.id === type[index].tid) item.count = type[index].count;
-    else log.error("属性值不匹配")
-  })
-}
+
 
 onUnmounted(()=>{
   selected.value = null
   Object.assign(deg,new Deg())
   Object.assign(selected,new Select())
   Object.assign(show,new Show())
-  Object.assign(region,links)
   Object.assign(queue,new Queue())
   Object.assign(article, {})
 })
@@ -68,9 +68,22 @@ onMounted(async () => {
   // 更改页面
   store.commit('page/setContributePage', 2)
   // 获取所有类型的已发布文章
-  const get = await getAllUserArticle()
-  putArticleCount(get.getType)
-  Object.assign(article,get.getArticle)
+  const {success,data,error} = await getAllUpdatedArticles()
+  if (success) {
+    article.value = data.data
+    // 重置计数
+    region.value .forEach(item => item.count = 0);
+    article.value.forEach(item => {
+      const rid = item.category.id.rid
+      // 在 links 中查找匹配的 id 索引
+      const index = links.findIndex(link => link.id === rid);
+      if (index !== -1) {
+        region.value[index].count += 1;
+      }
+    })
+  }else log.error(error)
+  // putArticleCount(get.getType)
+  // Object.assign(article,get.getArticle)
 })
 
 </script>
@@ -90,7 +103,7 @@ onMounted(async () => {
             <input placeholder="全部分区" readonly type="text" @focus="toggleShow('region')" @blur="toggleShow('region')">
             <svg-icon icon-name="arrow" class-name="arrow_svg" :style="{transform:`rotate(${deg.region}deg)`}"></svg-icon>
             <transition name="region">
-              <div v-show="show.region" class="list_entry">
+              <div v-show="show.region" class="list_entry" style="z-index: 999">
                 <ul class="region_list_option">
                   <li class="region_list_item" :class="{selected:selected.region===null}">
                     <div class="region_list_item_test">全部分区</div>
@@ -108,7 +121,7 @@ onMounted(async () => {
             <input placeholder="投稿时间排序" readonly type="text" @focus="toggleShow('queue')" @blur="toggleShow('queue')">
             <svg-icon icon-name="arrow" class-name="arrow_svg" :style="{transform:`rotate(${deg.queue}deg)`}"></svg-icon>
             <transition name="queue">
-                <div class="list_entry" v-show="show.queue">
+                <div class="list_entry" v-show="show.queue" style="z-index: 999">
                   <ul class="region_list_option">
                     <li class="region_list_item" :class="{selected:selected.queue===index}"  v-for="(option,index) in queue" :key="index">
                       <div class="region_list_item_test" >{{option.name}}</div>

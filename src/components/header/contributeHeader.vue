@@ -1,9 +1,9 @@
 <script setup lang="ts">
 
-import {onAvatarError, onImageError} from "@/utils/utils.js";
+import {onAvatarError, onImageError} from "@/utils/utils";
 import {onUnmounted, ref,reactive} from "vue";
 import AvatarInfo from "@/components/avatarInfo.vue";
-import {mouseEnter_animation,mouseLeave_animation,animationStart,animationEnd} from "@/utils/utils.js";
+import {mouseEnter_animation,mouseLeave_animation,animationStart,animationEnd} from "@/utils/utils";
 
 const userCreateDays = ref(0)
 const timer = ref(null)
@@ -71,7 +71,7 @@ const AvatarLeaveAnimation=()=>{
             </picture>
           </div>
         </a>
-        <transition name="avatarInfo" @before-leave="animationStart(animation,'avatar')" @after-leave="animationEnd(animation,'avatar')">
+        <transition name="avatarInfo" @before-leave="animationStart(animation,'avatar')" @after-leave="animationEnd(animation,'avatar',mouse)">
           <avatar-info v-show="mouse.avatar" :animation="animation" :mouse="mouse"/>
         </transition>
       </div>

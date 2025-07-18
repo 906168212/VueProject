@@ -1,5 +1,8 @@
 <script setup>
   import router from "@/router/index.js";
+  import {ref} from "vue";
+
+
 
   function PushToRegister(){
     router.push('/register')

@@ -1,9 +1,8 @@
-<script setup>
+<script setup lang="ts">
 
 import {computed, onUnmounted, reactive, ref} from "vue";
 import SvgIcon from "@/components/svgIcon/index.vue";
-import {animationEnd, animationStart, mouseEnter_animation, mouseLeave_animation} from "@/utils/utils.js";
-import { Nav} from "@/api/dataInfo.js";
+import {animationEnd, animationStart, mouseEnter_animation, mouseLeave_animation} from "@/utils/utils.ts";
 
 const props = defineProps({
   animation:{
@@ -31,8 +30,6 @@ class AvatarInfo{
 
 const avatarInfo = reactive(new AvatarInfo())
 
-// export const avatarInfo =
-
 const timer = ref(null)
 
 const pointForOneFixed=computed(()=>{
@@ -49,8 +46,16 @@ const otherServiceLeaveAnimation=()=>{
 }
 
 onUnmounted(()=>{
-  timer.value = null
-  Object.assign(avatarInfo,new AvatarInfo())
+  if (timer.value){
+    clearTimeout(timer.value)
+    timer.value = null;
+  }
+  Object.keys(avatarInfo).forEach(key => {
+    delete avatarInfo[key]; // 彻底删除响应式属性
+  });
+  // 清理动画状态
+  props.animation.otherService = false
+  props.mouse.otherService = false
 })
 
 </script>
@@ -60,7 +65,7 @@ onUnmounted(()=>{
     <div class="header_userInfo_entry">
       <div class="avatar-panel-popover">
         <a class="large_avatar"></a>
-        <a class="header_nickname" :class="{nickname_vip_color:avatarInfo.vip_status}">{{avatarInfo.nickName}}</a>
+        <a class="header_nickname" :class="{nickname_vip_color:avatarInfo.vip_status}">{{avatarInfo.nickname}}</a>
         <div class="vip_normal_item">
           <a class="user_level_name">{{avatarInfo.current_level_name}}</a>
           <a class="user_level_content">
@@ -130,8 +135,8 @@ onUnmounted(()=>{
               </div>
               <svg-icon icon-name="arrow" class-name="link-icon--right"></svg-icon>
             </a>
-            <transition name="other_service_animation"  @before-leave="animationStart(animation,'otherService')" @after-leave="animationEnd(animation,'otherService')">
-              <div class="other_service_item_is-right" v-if="mouse.otherService" >
+            <transition name="other_service_animation" mode="out-in"  @before-leave="animationStart(animation,'otherService')" @after-leave="animationEnd(animation,'otherService',mouse)">
+              <div class="other_service_item_is-right" v-show="mouse.otherService" >
                 <div class="sub-links-item">
                   <a class="single-link-item sub-link-item">
                     <div class="link-title">

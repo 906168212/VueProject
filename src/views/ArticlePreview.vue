@@ -3,7 +3,7 @@ import {computed, onMounted, reactive, ref} from "vue";
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 import RelatedLinks from "@/components/article/relatedLinks.vue";
 import {getCurrentTime, levelSvgName, numberRegular} from "@/utils/regular.js";
-import {onAvatarError} from "@/utils/utils.js";
+import {onAvatarError} from "@/utils/utils.ts";
 
 const info = JSON.parse(sessionStorage.getItem("preview_info"));
 let saveInfo = info.saveInfo

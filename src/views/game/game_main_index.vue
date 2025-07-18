@@ -2,22 +2,15 @@
 import {Swiper,SwiperSlide} from "swiper/vue";
 import 'swiper/swiper-bundle.css';
 import {
-  bestArticle, bestList, goodArticle, handleLoaded,
-  pcArticle, pcList, phoneArticle, phoneList, pluginArticle, pluginList, resetData,
-  simulatorArticle, simulatorList, swiper_game, swiperImage, updateArticle
-} from "@/special_assets/js/game_main_index.js";
+  handleLoaded, swiper_game, swiperImage
+} from "@/special_assets/js/game/game_main_index";
 import {onMounted, onUnmounted} from "vue";
 import GridPopover from "@/components/gridPopover.vue";
-import {getArticle} from "@/api/articleApi.js";
-import {pt, rid} from "@/utils/utils.js";
-const props = defineProps({
-  data:{
-    type:Object,
-    required:true
-  }
-})
+
+import {links} from "@/api/dataInfo.js";
+
 onUnmounted(()=>{
-  resetData()
+
 })
 onMounted(()=>{
 
@@ -52,13 +45,8 @@ onMounted(()=>{
       </swiper>
       <div class="swiper-pagination"></div>
     </div>
-    <div></div>
-    <grid-popover  category="文章精选" right="update" :show-image="true" :pt="pt.game"></grid-popover>
-    <grid-popover :category="rid.game.pc.name" :rid="rid.game.pc.value"></grid-popover>
-    <grid-popover :category="rid.game.simulator.name" :rid="rid.game.simulator.value" :show-image="true"></grid-popover>
-    <grid-popover :category="rid.game.best.name" :rid="rid.game.best.value"></grid-popover>
-    <grid-popover :category="rid.game.phone.name" :rid="rid.game.phone.value" :show-image="true"></grid-popover>
-    <grid-popover :category="rid.game.plugin.name" :rid="rid.game.plugin.value"></grid-popover>
+    <grid-popover :rid="2" :show-imag="true"></grid-popover>
+    <grid-popover v-for="index in links[2].category.length" :key="index" :rid="2" :cid="index-1" :show-image="(index-1)%2!==0"></grid-popover>
   </div>
 </template>
 

@@ -1,20 +1,33 @@
 import {createRouter, createWebHistory} from "vue-router";
 const routes = [
     {
-      path: '',
-      redirect: 'login'
+        path: '/',
+        redirect: '/login',
+        name: 'welcome',
+        component: ()=> import('@/views/welcomeView.vue'),
+        children: [
+            {
+                path: 'login',
+                name: 'welcome_login',
+                component:()=>import('@/views/login/login_form.vue'),
+            },
+            {
+                path: 'register',
+                name: 'welcome_register',
+                component:()=>import('@/views/register/register_form.vue'),
+            },
+            {
+
+                path: 'forget',
+                name : 'welcome_forget',
+                component:()=>import('@/views/forget/ResetPassword_AccountPage.vue'),
+                children : {
+
+                }
+            }
+        ]
     },
     {
-        path: '/login',
-        name: 'welcome',
-        component: ()=> import('@/views/LoginView.vue'),
-        children: [],
-    },{
-        path:'/register',
-        name:'register',
-        component:() => import('@/views/RegisterView.vue'),
-        children:[],
-    },{
         path:'/index',
         name:'index',
         component:()=>  import('@/views/IndexView.vue'),

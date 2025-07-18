@@ -1,6 +1,6 @@
 <script setup>
 import {computed, onMounted, onUnmounted, reactive, ref, watch} from "vue";
-import {on} from "@/utils/utils.js";
+import {on} from "@/utils/utils.ts";
 
 const props = defineProps({
   placeholder:{

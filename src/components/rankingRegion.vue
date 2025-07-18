@@ -1,6 +1,6 @@
 <script setup>
 
-import {onImageError} from "@/utils/utils.js";
+import {onImageError} from "@/utils/utils.ts";
 import {computed, onUnmounted, ref} from "vue";
 
 const props = defineProps({

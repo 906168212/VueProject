@@ -1,28 +1,24 @@
 <script setup>
-
+import FormInput from "@/components/formInput.vue";
 import {ref} from "vue";
-import {submitFileToOss} from "@/utils/AliOss.js";
-let credentials = null;
-const picInput = ref(null);
-const picUrl = ref(null);
-const onFileChange = (e) =>{
-  picInput.value =  e.target.files[0];
+import Wrap_with_halihapiLOGO from "@/components/wrap_with_halihapiLOGO.vue";
+
+const username = ref('')
+
+const userBlur = (fieldName) => {
+
+}
+const userFocus = (fieldName) => {
+
 }
 
-const submit = async (event) => {
-  picUrl.value = await submitFileToOss(picInput.value);
-}
 </script>
 
 <template>
   <div id="test">
-    <div class="test_popover" @submit.prevent="submit">
-      <form style="display: flex;flex-direction: column">
-        <input type="file" class="mb_20" @change="onFileChange">
-        <button v-if="picInput" class="button" value="submitPic" style="margin-bottom: 20px">提交照片</button>
-        <p>预览图片</p>
-        <img class="image_test_box" :src="picUrl" alt="图片测试">
-      </form>
+    <div class="test_popover">
+      <wrap_with_halihapi-l-o-g-o/>
+
     </div>
   </div>
 </template>

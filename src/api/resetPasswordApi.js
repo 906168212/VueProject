@@ -1,6 +1,6 @@
 import {authFormAxios, authJsonAxios, qRCodeAxios, resetPasswordJsonAxios} from "@/utils/commonAxiosCreate.js";
 import {
-    handleAskAccountSuccessResponse, handleAskCodeSuccessResponse, handleDataAssistedVerifySuccessResponse,
+    handleAskAccountSuccessResponse, handleDataAssistedVerifySuccessResponse,
     handleResetIdentifySuccessResponse, handleResetSuccessResponse
 } from "@/api/responseHandler/allSuccessResponseHandle.js";
 import {qrCodeSrc} from "@/special_assets/js/resetPassword_dataAssist.js";

@@ -1,6 +1,6 @@
 import {getStsToken} from "@/api/stsTokenApi.js";
 import OSS from "ali-oss";
-import {bucketName, endpoint, region} from "@/utils/constants.js";
+import {bucketName, endpoint, region} from "@/utils/constants.ts";
 
 const isCredentialsExpired =  (credentials) =>{
     if (typeof credentials != 'object') return true;

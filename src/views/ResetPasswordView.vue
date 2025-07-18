@@ -8,7 +8,7 @@ import '@/utils/forbidBack.js'
 
 <template>
   <div id="resetPasswordPage">
-    <VideoBg/>
+    <VideoBg video-src="src/assets/video/bg-video.mp4"/>
     <LoginAndRegisterHeader/>
     <div id="main-wraper" class="main-wrap" style="margin: 0;">
       <router-view  v-slot="{ Component }">

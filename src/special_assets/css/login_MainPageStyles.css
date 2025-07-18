@@ -1,5 +1,5 @@
 #loginPage{
-    background: url("@/assets/bg/bg-register.jpg") 50% 50%;
+    /*background: url("@/assets/bg/bg-welcome.jpg") 50% 50%;*/
     background-size: cover;
     display: flex;
     flex-direction: column;
@@ -8,6 +8,20 @@
     margin: 0 auto;
     max-width: 2560px;
     background-color: var(--bg_white);
+}
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+    opacity: 0;
+    /*display: none;*/
+    transform: translateY(-20px);
+}
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+    will-change: transform, opacity;
+    transition:
+            opacity 0.3s cubic-bezier(.55,0,.1,1),
+            transform 0.3s cubic-bezier(.55,0,.1,1); /* 明确指定过渡属性 */
 }
 
 
